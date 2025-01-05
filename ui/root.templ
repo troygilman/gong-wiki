@@ -1,0 +1,19 @@
+package ui
+
+import "github.com/troygilman0/gong"
+
+type RootView struct{}
+
+templ (view RootView) Head() {
+	<head>
+		<meta charset="utf-8"/>
+		<title>Gong</title>
+		<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+		<link href="/public/index.css" rel="stylesheet"/>
+	</head>
+}
+
+templ (view RootView) View() {
+	<div class="flex bg-red-500">Hello World</div>
+	@gong.Outlet()
+}
