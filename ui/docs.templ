@@ -1,0 +1,24 @@
+package ui
+
+import (
+	"context"
+	"github.com/troygilman0/gong"
+	"io"
+)
+
+type DocsView struct {
+	Content map[string]string
+}
+
+templ (view DocsView) View() {
+	{{
+	item := gong.GetRequest(ctx).PathValue("item")
+	content := view.Content[item]
+	}}
+	<div class="prose p-4">
+		@templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+			_, err := io.WriteString(w, content)
+			return err
+		})
+	</div>
+}
