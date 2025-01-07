@@ -18,14 +18,17 @@ templ (view RootView) Head() {
 
 templ (view RootView) View() {
 	<script>
-        document.body.addEventListener('htmx:afterSwap', function(event) {
+        document.body.addEventListener('htmx:beforeSwap', function(event) {
             Prism.highlightAllUnder(event.detail.target);
         });
     </script>
 	<div class="flex flex-col h-full bg-base-100">
 		<div class="navbar bg-base-100 border-b drop-shadow-sm">
 			<div class="flex-1">
-				<a class="btn btn-ghost text-xl">Gong</a>
+				<div class="flex flex-row  place-items-center gap-2 pl-4">
+					<image src="/public/logo.png" class="size-12"></image>
+					<div class="text-2xl font-bold">Gong</div>
+				</div>
 			</div>
 			<div class="flex-none">
 				<button class="btn btn-square btn-ghost">
@@ -46,7 +49,7 @@ templ (view RootView) View() {
 			</div>
 		</div>
 		<div class="flex grow flex-row min-h-0">
-			<div class="flex flex-col w-fit h-full border-r">
+			<div class="flex flex-col w-fit h-full">
 				<ul class="menu rounded-box w-64 p-4">
 					<li>
 						<details open>
@@ -89,7 +92,7 @@ templ (view RootView) View() {
 					</li>
 				</ul>
 			</div>
-			<div class="flex grow h-full min-w-0 overflow-scroll">
+			<div class="flex grow h-full min-w-0 overflow-y-scroll justify-center">
 				@gong.Outlet()
 			</div>
 		</div>

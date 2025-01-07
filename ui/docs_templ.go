@@ -42,7 +42,7 @@ func (view DocsView) View() templ.Component {
 
 		item := gong.GetRequest(ctx).PathValue("item")
 		content := view.Content[item]
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"prose p-4 max-w-max\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-row\"><div class=\"prose p-4\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -53,7 +53,7 @@ func (view DocsView) View() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
