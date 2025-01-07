@@ -7,13 +7,13 @@ import (
 	"strings"
 )
 
-type DocsView struct {
+type DocumentView struct {
 	DocManager DocumentManager
 }
 
-templ (view DocsView) View() {
+templ (view DocumentView) View() {
 	{{
-	path := strings.TrimPrefix(gong.GetRequest(ctx).URL.Path, "/")
+	path := strings.TrimPrefix(gong.GetRequest(ctx).URL.Path, "/docs/")
 	document := view.DocManager.documents[path]
 	}}
 	<div class="flex flex-row">

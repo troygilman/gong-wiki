@@ -77,15 +77,15 @@ func (view RootView) View() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = docLink("Introduction", "/getting-started/introduction").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = docLink("Introduction", "/docs/getting-started/introduction").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = docLink("Installation", "/getting-started/installation").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = docLink("Installation", "/docs/getting-started/installation").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = docLink("Basic Usage", "/getting-started/basic-usage").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = docLink("Basic Usage", "/docs/getting-started/basic-usage").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
