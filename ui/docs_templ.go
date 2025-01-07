@@ -12,10 +12,11 @@ import (
 	"context"
 	"github.com/troygilman0/gong"
 	"io"
+	"strings"
 )
 
 type DocsView struct {
-	Content map[string]string
+	DocManager DocumentManager
 }
 
 func (view DocsView) View() templ.Component {
@@ -40,14 +41,14 @@ func (view DocsView) View() templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 
-		item := gong.GetRequest(ctx).PathValue("item")
-		content := view.Content[item]
+		path := strings.TrimPrefix(gong.GetRequest(ctx).URL.Path, "/")
+		document := view.DocManager.documents[path]
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-row\"><div class=\"prose p-4\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		templ_7745c5c3_Err = templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-			_, err := io.WriteString(w, content)
+			_, err := io.WriteString(w, document.html)
 			return err
 		}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {

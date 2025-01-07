@@ -4,21 +4,22 @@ import (
 	"context"
 	"github.com/troygilman0/gong"
 	"io"
+	"strings"
 )
 
 type DocsView struct {
-	Content map[string]string
+	DocManager DocumentManager
 }
 
 templ (view DocsView) View() {
 	{{
-	item := gong.GetRequest(ctx).PathValue("item")
-	content := view.Content[item]
+	path := strings.TrimPrefix(gong.GetRequest(ctx).URL.Path, "/")
+	document := view.DocManager.documents[path]
 	}}
 	<div class="flex flex-row">
 		<div class="prose p-4">
 			@templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-				_, err := io.WriteString(w, content)
+				_, err := io.WriteString(w, document.html)
 				return err
 			})
 		</div>
