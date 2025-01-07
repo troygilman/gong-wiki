@@ -1850,13 +1850,22 @@ html {
   width: 1.25rem;
 }
 
-.w-56 {
-  width: 14rem;
+.w-64 {
+  width: 16rem;
 }
 
 .w-fit {
   width: -moz-fit-content;
   width: fit-content;
+}
+
+.min-w-0 {
+  min-width: 0px;
+}
+
+.max-w-max {
+  max-width: -moz-max-content;
+  max-width: max-content;
 }
 
 .flex-1 {
@@ -1877,6 +1886,10 @@ html {
 
 .flex-col {
   flex-direction: column;
+}
+
+.overflow-scroll {
+  overflow: scroll;
 }
 
 .rounded-box {

@@ -10,10 +10,18 @@ templ (view RootView) Head() {
 		<title>Gong</title>
 		<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
 		<link href="/public/index.css" rel="stylesheet"/>
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" rel="stylesheet"/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-go.min.js"></script>
 	</head>
 }
 
 templ (view RootView) View() {
+	<script>
+        document.body.addEventListener('htmx:afterSwap', function(event) {
+            Prism.highlightAllUnder(event.detail.target);
+        });
+    </script>
 	<div class="flex flex-col h-full bg-base-100">
 		<div class="navbar bg-base-100 border-b drop-shadow-sm">
 			<div class="flex-1">
@@ -39,13 +47,20 @@ templ (view RootView) View() {
 		</div>
 		<div class="flex grow flex-row min-h-0">
 			<div class="flex flex-col w-fit h-full border-r">
-				<ul class="menu rounded-box w-56 p-4">
+				<ul class="menu rounded-box w-64 p-4">
 					<li>
 						<details open>
-							<summary>Docs</summary>
+							<summary>Getting Started</summary>
 							<ul>
 								<li>
-									@gong.Link("/docs/installation") {
+									@gong.Link("/getting-started/introduction") {
+										<a>
+											Introduction
+										</a>
+									}
+								</li>
+								<li>
+									@gong.Link("/getting-started/installation") {
 										<a>
 											Installation
 										</a>
@@ -74,7 +89,9 @@ templ (view RootView) View() {
 					</li>
 				</ul>
 			</div>
-			@gong.Outlet()
+			<div class="flex grow h-full min-w-0 overflow-scroll">
+				@gong.Outlet()
+			</div>
 		</div>
 	</div>
 }

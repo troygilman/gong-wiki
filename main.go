@@ -19,7 +19,8 @@ var contentFS embed.FS
 
 func main() {
 	content := compileMarkdownFS(contentFS, map[string]string{
-		"content/docs/installation.md": "installation",
+		"content/getting-started/introduction.md": "introduction",
+		"content/getting-started/installation.md": "installation",
 	})
 
 	mux := http.NewServeMux()
@@ -29,7 +30,7 @@ func main() {
 	g := gong.New(mux)
 
 	g.Route("/", ui.RootView{}, func(r gong.Route) {
-		r.Route("docs/{item}", ui.DocsView{
+		r.Route("getting-started/{item}", ui.DocsView{
 			Content: content,
 		}, nil)
 	})
