@@ -143,15 +143,15 @@ func docLink(label string, link string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("{ active: window.location.pathname === `%s` }", link))
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("{ active: false, pathname: '%s' }", link))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/root.templ`, Line: 81, Col: 79}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/root.templ`, Line: 81, Col: 67}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" @click=\"active = true; $dispatch(&#39;link-clear-active&#39;)\" @link-clear-active.outside=\"active = false\" :class=\"active &amp;&amp; &#39;active&#39;\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-init=\"active = pathname === window.location.pathname\" @htmx:after-swap.window=\"active = pathname === window.location.pathname\" :class=\"active &amp;&amp; &#39;active&#39;\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

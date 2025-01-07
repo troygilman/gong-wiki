@@ -78,9 +78,9 @@ templ docLink(label string, link string) {
 	@gong.Link(link) {
 		<li>
 			<a
-				x-data={ fmt.Sprintf("{ active: window.location.pathname === `%s` }", link) }
-				@click="active = true; $dispatch('link-clear-active')"
-				@link-clear-active.outside="active = false"
+				x-data={ fmt.Sprintf("{ active: false, pathname: '%s' }", link) }
+				x-init="active = pathname === window.location.pathname"
+				@htmx:after-swap.window="active = pathname === window.location.pathname"
 				:class="active && 'active'"
 			>
 				{ label }
