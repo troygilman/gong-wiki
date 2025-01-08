@@ -109,7 +109,7 @@ func (view RootView) View() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></details></li></ul></div><div class=\"flex grow h-full min-w-0 overflow-y-scroll justify-center\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul></details></li></ul></div><div id=\"outlet-container\" class=\"flex grow h-full min-w-0 overflow-y-scroll justify-center\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -127,8 +127,8 @@ func (view RootView) View() templ.Component {
 
 func initScript() templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_initScript_136d`,
-		Function: `function __templ_initScript_136d(){let addCopyButtons = () => {
+		Name: `__templ_initScript_e9de`,
+		Function: `function __templ_initScript_e9de(){let addCopyButtons = () => {
         // Add copy buttons to code blocks
         document.querySelectorAll('pre').forEach(block => {
             // Create the copy button
@@ -160,10 +160,11 @@ func initScript() templ.ComponentScript {
     document.body.addEventListener('htmx:afterSwap', function(event) {
         Prism.highlightAllUnder(event.detail.target);
         addCopyButtons();
+        document.getElementById("outlet-container").scrollTop = 0;
     });
 }`,
-		Call:       templ.SafeScript(`__templ_initScript_136d`),
-		CallInline: templ.SafeScriptInline(`__templ_initScript_136d`),
+		Call:       templ.SafeScript(`__templ_initScript_e9de`),
+		CallInline: templ.SafeScriptInline(`__templ_initScript_e9de`),
 	}
 }
 
@@ -207,7 +208,7 @@ func docLink(label string, link string) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("{ active: false, pathname: '%s' }", link))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/root.templ`, Line: 112, Col: 67}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/root.templ`, Line: 113, Col: 67}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -220,7 +221,7 @@ func docLink(label string, link string) templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/root.templ`, Line: 117, Col: 11}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/root.templ`, Line: 118, Col: 11}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {

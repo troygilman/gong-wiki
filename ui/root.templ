@@ -62,7 +62,7 @@ templ (view RootView) View() {
 					</li>
 				</ul>
 			</div>
-			<div class="flex grow h-full min-w-0 overflow-y-scroll justify-center">
+			<div id="outlet-container" class="flex grow h-full min-w-0 overflow-y-scroll justify-center">
 				@gong.Outlet()
 			</div>
 		</div>
@@ -102,6 +102,7 @@ script initScript() {
     document.body.addEventListener('htmx:afterSwap', function(event) {
         Prism.highlightAllUnder(event.detail.target);
         addCopyButtons();
+        document.getElementById("outlet-container").scrollTop = 0;
     });
 }
 
