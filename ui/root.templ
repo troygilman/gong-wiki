@@ -16,17 +16,13 @@ templ (view RootView) Head() {
 		<link rel="icon" type="image/x-icon" href="/public/icon.png"/>
 		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" rel="stylesheet"/>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js" data-manual></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-go.min.js"></script>
 	</head>
 }
 
 templ (view RootView) View() {
-	<script>
-        document.body.addEventListener('htmx:afterSwap', function(event) {
-            Prism.highlightAllUnder(event.detail.target);
-        });
-    </script>
+	@initScript()
 	<div class="flex flex-col h-full bg-base-100" x-data>
 		<div class="navbar bg-base-100 border-b drop-shadow-sm px-4">
 			<div class="flex-1">
@@ -71,6 +67,42 @@ templ (view RootView) View() {
 			</div>
 		</div>
 	</div>
+}
+
+script initScript() {
+    let addCopyButtons = () => {
+        // Add copy buttons to code blocks
+        document.querySelectorAll('pre').forEach(block => {
+            // Create the copy button
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.innerHTML = 'Copy';
+
+            // Add button to the code block
+            block.appendChild(button);
+
+            button.addEventListener('click', async () => {
+                const code = block.querySelector('code');
+                try {
+                    await navigator.clipboard.writeText(code.innerText);
+                    button.innerHTML = 'Copied!';
+                    setTimeout(() => {
+                        button.innerHTML = 'Copy';
+                    }, 1000);
+                } catch (err) {
+                    console.error('Failed to copy: ', err);
+                }
+            });
+        });
+	}
+	document.addEventListener('DOMContentLoaded', function() {
+        Prism.highlightAll();
+        addCopyButtons();
+    });
+    document.body.addEventListener('htmx:afterSwap', function(event) {
+        Prism.highlightAllUnder(event.detail.target);
+        addCopyButtons();
+    });
 }
 
 templ docLink(label string, link string) {

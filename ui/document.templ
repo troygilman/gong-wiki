@@ -18,26 +18,41 @@ templ (view DocumentView) View() {
 	if err != nil {
 		panic(err)
 	}
+	prevDocument, _ := view.DocManager.getByPosition(document.metadata.Position - 1)
 	nextDocument, _ := view.DocManager.getByPosition(document.metadata.Position + 1)
 	}}
 	<div class="flex flex-col p-4 gap-4">
-		<div class="prose">
+		<div class="prose pb-4">
 			@templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 				_, err := io.WriteString(w, document.html)
 				return err
 			})
 		</div>
-		if nextDocument != nil {
-			<div class="flex flex-row justify-end">
-				@gong.Link("/docs/"+nextDocument.path, gong.LinkWithClosest()) {
-					<div class="btn btn-lg flex-col place-items-end">
-						<div>Next</div>
-						<div class="text-primary font-bold">
-							{ nextDocument.metadata.Label }
+		<div class="flex flex-row justify-between">
+			<div>
+				if prevDocument != nil {
+					@gong.Link("/docs/"+prevDocument.path, gong.LinkWithClosest()) {
+						<div class="btn btn-lg flex-col place-items-start">
+							<div>Previous</div>
+							<div class="text-primary font-bold">
+								{ prevDocument.metadata.Label }
+							</div>
 						</div>
-					</div>
+					}
 				}
 			</div>
-		}
+			<div>
+				if nextDocument != nil {
+					@gong.Link("/docs/"+nextDocument.path, gong.LinkWithClosest()) {
+						<div class="btn btn-lg flex-col place-items-end">
+							<div>Next</div>
+							<div class="text-primary font-bold">
+								{ nextDocument.metadata.Label }
+							</div>
+						</div>
+					}
+				}
+			</div>
+		</div>
 	</div>
 }

@@ -36,7 +36,7 @@ func (view RootView) Head() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<head><meta charset=\"utf-8\"><title>Gong</title><script src=\"https://unpkg.com/htmx.org@2.0.4\" integrity=\"sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+\" crossorigin=\"anonymous\"></script><link href=\"/public/index.css\" rel=\"stylesheet\"><link rel=\"icon\" type=\"image/x-icon\" href=\"/public/icon.png\"><script defer src=\"https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js\"></script><link href=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css\" rel=\"stylesheet\"><script src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js\"></script><script src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-go.min.js\"></script></head>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<head><meta charset=\"utf-8\"><title>Gong</title><script src=\"https://unpkg.com/htmx.org@2.0.4\" integrity=\"sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+\" crossorigin=\"anonymous\"></script><link href=\"/public/index.css\" rel=\"stylesheet\"><link rel=\"icon\" type=\"image/x-icon\" href=\"/public/icon.png\"><script defer src=\"https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js\"></script><link href=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css\" rel=\"stylesheet\"><script src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js\" data-manual></script><script src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-go.min.js\"></script></head>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -65,7 +65,11 @@ func (view RootView) View() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script>\n        document.body.addEventListener('htmx:afterSwap', function(event) {\n            Prism.highlightAllUnder(event.detail.target);\n        });\n    </script><div class=\"flex flex-col h-full bg-base-100\" x-data><div class=\"navbar bg-base-100 border-b drop-shadow-sm px-4\"><div class=\"flex-1\"><div class=\"flex flex-row  place-items-center gap-2\"><image src=\"/public/icon.png\" class=\"size-12\"></image><div class=\"text-2xl font-bold\">Gong</div></div></div><div class=\"flex-none\"><a class=\"btn btn-square btn-ghost\" href=\"https://github.com/troygilman0/gong\">")
+		templ_7745c5c3_Err = initScript().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col h-full bg-base-100\" x-data><div class=\"navbar bg-base-100 border-b drop-shadow-sm px-4\"><div class=\"flex-1\"><div class=\"flex flex-row  place-items-center gap-2\"><image src=\"/public/icon.png\" class=\"size-12\"></image><div class=\"text-2xl font-bold\">Gong</div></div></div><div class=\"flex-none\"><a class=\"btn btn-square btn-ghost\" href=\"https://github.com/troygilman0/gong\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -121,6 +125,48 @@ func (view RootView) View() templ.Component {
 	})
 }
 
+func initScript() templ.ComponentScript {
+	return templ.ComponentScript{
+		Name: `__templ_initScript_136d`,
+		Function: `function __templ_initScript_136d(){let addCopyButtons = () => {
+        // Add copy buttons to code blocks
+        document.querySelectorAll('pre').forEach(block => {
+            // Create the copy button
+            const button = document.createElement('button');
+            button.className = 'copy-button';
+            button.innerHTML = 'Copy';
+
+            // Add button to the code block
+            block.appendChild(button);
+
+            button.addEventListener('click', async () => {
+                const code = block.querySelector('code');
+                try {
+                    await navigator.clipboard.writeText(code.innerText);
+                    button.innerHTML = 'Copied!';
+                    setTimeout(() => {
+                        button.innerHTML = 'Copy';
+                    }, 1000);
+                } catch (err) {
+                    console.error('Failed to copy: ', err);
+                }
+            });
+        });
+	}
+	document.addEventListener('DOMContentLoaded', function() {
+        Prism.highlightAll();
+        addCopyButtons();
+    });
+    document.body.addEventListener('htmx:afterSwap', function(event) {
+        Prism.highlightAllUnder(event.detail.target);
+        addCopyButtons();
+    });
+}`,
+		Call:       templ.SafeScript(`__templ_initScript_136d`),
+		CallInline: templ.SafeScriptInline(`__templ_initScript_136d`),
+	}
+}
+
 func docLink(label string, link string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -161,7 +207,7 @@ func docLink(label string, link string) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("{ active: false, pathname: '%s' }", link))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/root.templ`, Line: 80, Col: 67}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/root.templ`, Line: 112, Col: 67}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -174,7 +220,7 @@ func docLink(label string, link string) templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/root.templ`, Line: 85, Col: 11}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/root.templ`, Line: 117, Col: 11}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
