@@ -14,14 +14,30 @@ type DocumentView struct {
 templ (view DocumentView) View() {
 	{{
 	path := strings.TrimPrefix(gong.GetRequest(ctx).URL.Path, "/docs/")
-	document := view.DocManager.documents[path]
+	document, err := view.DocManager.getByPath(path)
+	if err != nil {
+		panic(err)
+	}
+	nextDocument, _ := view.DocManager.getByPosition(document.metadata.Position + 1)
 	}}
-	<div class="flex flex-row">
-		<div class="prose p-4">
+	<div class="flex flex-col p-4 gap-4">
+		<div class="prose">
 			@templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 				_, err := io.WriteString(w, document.html)
 				return err
 			})
 		</div>
+		if nextDocument != nil {
+			<div class="flex flex-row justify-end">
+				@gong.Link("/docs/"+nextDocument.path, gong.LinkWithClosest()) {
+					<div class="btn btn-lg flex-col place-items-end">
+						<div>Next</div>
+						<div class="text-primary font-bold">
+							{ nextDocument.metadata.Label }
+						</div>
+					</div>
+				}
+			</div>
+		}
 	</div>
 }

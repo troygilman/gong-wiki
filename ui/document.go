@@ -3,6 +3,7 @@ package ui
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io/fs"
 	"path/filepath"
 	"strings"
@@ -17,14 +18,14 @@ type document struct {
 }
 
 type DocumentManager struct {
-	documents     map[string]document
-	documentOrder map[int]string
+	documents     map[string]*document
+	documentOrder map[int]*document
 }
 
 func NewDocumentManager(fileSystem fs.FS) (DocumentManager, error) {
 	dm := DocumentManager{
-		documents:     make(map[string]document),
-		documentOrder: make(map[int]string),
+		documents:     make(map[string]*document),
+		documentOrder: make(map[int]*document),
 	}
 
 	if err := fs.WalkDir(fileSystem, ".", func(path string, d fs.DirEntry, err error) error {
@@ -55,13 +56,13 @@ func NewDocumentManager(fileSystem fs.FS) (DocumentManager, error) {
 			return err
 		}
 
-		document := document{
+		document := &document{
 			path:     strings.TrimSuffix(path, filepath.Ext(path)),
 			html:     html,
 			metadata: metadata,
 		}
 		dm.documents[document.path] = document
-		dm.documentOrder[metadata.Position] = document.path
+		dm.documentOrder[metadata.Position] = document
 		return nil
 	}); err != nil {
 		return dm, err
@@ -70,8 +71,25 @@ func NewDocumentManager(fileSystem fs.FS) (DocumentManager, error) {
 	return dm, nil
 }
 
+func (dm DocumentManager) getByPosition(position int) (*document, error) {
+	document, ok := dm.documentOrder[position]
+	if !ok {
+		return nil, errors.New("document does not exist")
+	}
+	return document, nil
+}
+
+func (dm DocumentManager) getByPath(path string) (*document, error) {
+	document, ok := dm.documents[path]
+	if !ok {
+		return nil, errors.New("document does not exist")
+	}
+	return document, nil
+}
+
 type documentMetadata struct {
-	Position int `json:"position"`
+	Label    string `json:"label"`
+	Position int    `json:"position"`
 }
 
 func compileMarkdownToHTML(source []byte) (string, error) {

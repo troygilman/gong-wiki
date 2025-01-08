@@ -1,5 +1,5 @@
 ---
-{ "position": 2 }
+{ "label": "Installation", "position": 2 }
 ---
 
 # Installation

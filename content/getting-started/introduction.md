@@ -1,5 +1,5 @@
 ---
-{ "position": 1 }
+{ "label": "Introduction", "position": 1 }
 ---
 
 # Introduction
