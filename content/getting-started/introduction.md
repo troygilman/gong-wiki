@@ -37,11 +37,11 @@ templ (view usersView) Action() {
 
 templ (view usersView) View() {
 	<div>
-		@gong.Form(gong.FormWithSwap(gong.SwapBeforeEnd)) {
+		@gong.Form().WithSwap(gong.SwapBeforeEnd) {
 			<input name="name" type="text"/>
 			<button type="submit">Add</button>
 		}
-		@gong.Target(gong.TargetWithTrigger(gong.TriggerLoad))
+		@gong.Target().WithTrigger(gong.TriggerLoad)
 	</div>
 }
 ```
