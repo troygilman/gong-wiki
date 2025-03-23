@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
-	"github.com/troygilman0/gong"
+	"github.com/troygilman/gong"
 )
 
 type RootView struct{}

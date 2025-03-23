@@ -5,8 +5,8 @@ import (
 	"io/fs"
 	"net/http"
 
-	"github.com/troygilman0/gong"
-	"github.com/troygilman0/gong-wiki/ui"
+	"github.com/troygilman/gong"
+	"github.com/troygilman/gong-wiki/ui"
 )
 
 //go:embed public
