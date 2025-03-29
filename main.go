@@ -32,8 +32,9 @@ func main() {
 
 	g := gong.New(mux)
 
-	g.Route("/docs", ui.RootView{}, func(r gong.Route) {
-		r.Route("/", ui.DocumentView{
+	g.Route("/", ui.RootView{}, func(r gong.Route) {
+		r.Route("home", ui.HomeView{}, nil)
+		r.Route("docs/", ui.DocumentView{
 			DocManager: docManager,
 		}, nil)
 	})

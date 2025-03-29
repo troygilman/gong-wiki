@@ -28,7 +28,9 @@ templ (view RootView) View() {
 			<div class="flex-1">
 				<div class="flex flex-row  place-items-center gap-2">
 					<image src="/public/icon.png" class="size-12"></image>
-					<div class="text-2xl font-bold">Gong</div>
+					@gong.Link("/home") {
+						<div class="text-2xl font-bold cursor-pointer">Gong</div>
+					}
 				</div>
 			</div>
 			<div class="flex-none">
@@ -63,7 +65,7 @@ templ (view RootView) View() {
 				</ul>
 			</div>
 			<div id="outlet-container" class="flex grow h-full min-w-0 overflow-y-scroll justify-center">
-				@gong.Outlet()
+				@gong.Outlet().WithClass("w-full h-full")
 			</div>
 		</div>
 	</div>
