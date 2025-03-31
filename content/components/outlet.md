@@ -1,5 +1,5 @@
 ---
-{ "label": "Outlet", "position": 5 }
+{ "label": "Outlet", "position": 6 }
 ---
 
 # Outlet

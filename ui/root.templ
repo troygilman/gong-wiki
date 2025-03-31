@@ -28,7 +28,7 @@ templ (view RootView) View() {
 			<div class="flex-1">
 				<div class="flex flex-row  place-items-center gap-2">
 					<image src="/public/icon.png" class="size-12"></image>
-					@gong.Link("/home") {
+					@gong.Link("/docs/") {
 						<div class="text-2xl font-bold cursor-pointer">Gong</div>
 					}
 				</div>
@@ -48,6 +48,7 @@ templ (view RootView) View() {
 							<ul>
 								@docLink("Introduction", "/docs/getting-started/introduction")
 								@docLink("Installation", "/docs/getting-started/installation")
+								@docLink("Tutorial", "/docs/getting-started/tutorial")
 							</ul>
 						</details>
 					</li>

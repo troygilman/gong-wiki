@@ -16,14 +16,17 @@ templ (view DocumentView) View() {
 	path := strings.TrimPrefix(gong.GetRequest(ctx).URL.Path, "/docs/")
 	document, err := view.DocManager.getByPath(path)
 	if err != nil {
-		panic(err)
+		document, err = view.DocManager.getByPath("getting-started/introduction")
+		if err != nil {
+			panic(err)
+		}
 	}
 	prevDocument, _ := view.DocManager.getByPosition(document.metadata.Position - 1)
 	nextDocument, _ := view.DocManager.getByPosition(document.metadata.Position + 1)
 	}}
 	<div class="flex flex-col p-4 gap-4 place-items-center">
-		<div>
-			<div class="prose pb-4">
+		<div class="max-w-screen-lg">
+			<div class="prose max-w-full pb-4">
 				@templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 					_, err := io.WriteString(w, document.html)
 					return err

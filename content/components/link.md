@@ -1,5 +1,5 @@
 ---
-{ "label": "Link", "position": 6 }
+{ "label": "Link", "position": 7 }
 ---
 
 # Link
