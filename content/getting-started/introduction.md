@@ -13,35 +13,35 @@ Gong is a lightweight framework for building responsive web applications using G
 - **Server-Side Rendering**: Deliver optimized performance and SEO with SSR
 
 ```go
-type usersView struct {
-	db       *userDatabase
+type UsersComponent struct {
+	db       UserDatabase
 }
 
-templ (view usersView) Action() {
-	switch gong.GetRequest(ctx).Method {
-		case http.MethodGet:
-			{{
-			users := view.db.ReadAll()
-			}}
-			for _, name := range users {
-				<div>{ name }</div>
-			}
-		case http.MethodPost:
-			{{
-			name := gong.GetParam(ctx, "name")
-			view.db.Create(name)
-			}}
-			<div>{ name }</div>
-	}
-}
-
-templ (view usersView) View() {
+templ (component UsersComponent) View() {
+	{{
+		users := component.db.ReadAll()
+	}}
 	<div>
-		@gong.Form().WithSwap(gong.SwapBeforeEnd) {
+		@gong.NewForm().WithSwap(gong.SwapBeforeEnd) {
 			<input name="name" type="text"/>
 			<button type="submit">Add</button>
 		}
-		@gong.Target().WithTrigger(gong.TriggerLoad)
+		@gong.NewTarget() {
+			for _, name := range users {
+				<div>{ name }</div>
+			}
+		}
 	</div>
+}
+
+templ (component UsersComponent) Action() {
+	switch gong.GetRequest(ctx).Method {
+		case http.MethodPost:
+			{{
+			name := gong.GetParam(ctx, "name")
+			component.db.Create(name)
+			}}
+			<div>{ name }</div>
+	}
 }
 ```

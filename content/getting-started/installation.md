@@ -25,5 +25,5 @@ Templ is the HTML templating language at the core of Gong's components based des
 Gong can be added to an existing go project by running the following command.
 
 ```bash
-go get github.com/troygilman0/gong
+go get github.com/troygilman/gong@latest
 ```
