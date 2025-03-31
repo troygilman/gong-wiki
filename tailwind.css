@@ -1,6 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss" source(none);
+@source "./ui/*.templ";
+@plugin "@tailwindcss/typography";
+@plugin "daisyui";
 
 pre {
     position: relative;

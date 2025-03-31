@@ -24,7 +24,7 @@ templ (view RootView) Head() {
 templ (view RootView) View() {
 	@initScript()
 	<div class="flex flex-col h-full bg-base-100" x-data>
-		<div class="navbar bg-base-100 border-b drop-shadow-sm px-4">
+		<div class="navbar bg-base-100 drop-shadow px-4">
 			<div class="flex-1">
 				<div class="flex flex-row  place-items-center gap-2">
 					<image src="/public/icon.png" class="size-12"></image>
@@ -126,7 +126,7 @@ templ docLink(label string, link string) {
 				x-data={ fmt.Sprintf("{ active: false, pathname: '%s' }", link) }
 				x-init="active = pathname === window.location.pathname"
 				@htmx:after-swap.window="active = pathname === window.location.pathname"
-				:class="active && 'active'"
+				:class="active && 'menu-active'"
 			>
 				{ label }
 			</a>

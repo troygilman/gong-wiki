@@ -1,3 +1,4 @@
 tmp
 **/*_templ.go
 .DS_Store
+node_modules

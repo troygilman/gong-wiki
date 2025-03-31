@@ -33,10 +33,12 @@ templ (view DocumentView) View() {
 				<div>
 					if prevDocument != nil {
 						@gong.NewLink("/docs/" + prevDocument.path).WithClosestOutlet() {
-							<div class="btn btn-lg flex-col place-items-start">
-								<div class="text-sm">Previous</div>
-								<div class="text-primary font-bold">
-									{ prevDocument.metadata.Label }
+							<div class="btn btn-lg btn-soft">
+								<div class="flex flex-col place-items-start">
+									<div class="text-sm">Previous</div>
+									<div class="text-primary font-bold">
+										{ prevDocument.metadata.Label }
+									</div>
 								</div>
 							</div>
 						}
@@ -45,10 +47,12 @@ templ (view DocumentView) View() {
 				<div>
 					if nextDocument != nil {
 						@gong.NewLink("/docs/" + nextDocument.path).WithClosestOutlet() {
-							<div class="btn btn-lg flex-col place-items-end">
-								<div class="text-sm">Next</div>
-								<div class="text-primary font-bold">
-									{ nextDocument.metadata.Label }
+							<div class="btn btn-lg btn-soft">
+								<div class="flex flex-col place-items-end">
+									<div class="text-sm">Next</div>
+									<div class="text-primary font-bold">
+										{ nextDocument.metadata.Label }
+									</div>
 								</div>
 							</div>
 						}
