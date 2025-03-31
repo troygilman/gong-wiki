@@ -13,7 +13,7 @@ type DocumentView struct {
 
 templ (view DocumentView) View() {
 	{{
-	path := strings.TrimPrefix(gong.GetRequest(ctx).URL.Path, "/docs/")
+	path := strings.TrimPrefix(gong.Request(ctx).URL.Path, "/docs/")
 	document, err := view.DocManager.getByPath(path)
 	if err != nil {
 		document, err = view.DocManager.getByPath("getting-started/introduction")

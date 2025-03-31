@@ -36,7 +36,7 @@ templ (component UsersComponent) View() {
 
 templ (component UsersComponent) Action() {
 	{{
-	name := gong.GetParam(ctx, "name")
+	name := gong.FormValue(ctx, "name")
 	component.db.Create(name)
 	}}
 	<div>{ name }</div>
