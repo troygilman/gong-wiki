@@ -35,13 +35,10 @@ templ (component UsersComponent) View() {
 }
 
 templ (component UsersComponent) Action() {
-	switch gong.GetRequest(ctx).Method {
-		case http.MethodPost:
-			{{
-			name := gong.GetParam(ctx, "name")
-			component.db.Create(name)
-			}}
-			<div>{ name }</div>
-	}
+	{{
+	name := gong.GetParam(ctx, "name")
+	component.db.Create(name)
+	}}
+	<div>{ name }</div>
 }
 ```
