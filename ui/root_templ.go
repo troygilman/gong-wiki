@@ -91,7 +91,7 @@ func (view RootView) View() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = gong.Link("/docs/").Render(templ.WithChildren(ctx, templ_7745c5c3_Var3), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = gong.NewLink("/docs/").Render(templ.WithChildren(ctx, templ_7745c5c3_Var3), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -143,7 +143,7 @@ func (view RootView) View() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = gong.Outlet().WithClass("w-full h-full").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = gong.NewOutlet().WithClass("w-full h-full").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -263,7 +263,7 @@ func docLink(label string, link string) templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = gong.Link(link).Render(templ.WithChildren(ctx, templ_7745c5c3_Var5), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = gong.NewLink(link).Render(templ.WithChildren(ctx, templ_7745c5c3_Var5), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

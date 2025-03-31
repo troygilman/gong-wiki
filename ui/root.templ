@@ -28,7 +28,7 @@ templ (view RootView) View() {
 			<div class="flex-1">
 				<div class="flex flex-row  place-items-center gap-2">
 					<image src="/public/icon.png" class="size-12"></image>
-					@gong.Link("/docs/") {
+					@gong.NewLink("/docs/") {
 						<div class="text-2xl font-bold cursor-pointer">Gong</div>
 					}
 				</div>
@@ -66,7 +66,7 @@ templ (view RootView) View() {
 				</ul>
 			</div>
 			<div id="outlet-container" class="flex grow h-full min-w-0 overflow-y-scroll justify-center">
-				@gong.Outlet().WithClass("w-full h-full")
+				@gong.NewOutlet().WithClass("w-full h-full")
 			</div>
 		</div>
 	</div>
@@ -110,7 +110,7 @@ script initScript() {
 }
 
 templ docLink(label string, link string) {
-	@gong.Link(link) {
+	@gong.NewLink(link) {
 		<li>
 			<a
 				x-data={ fmt.Sprintf("{ active: false, pathname: '%s' }", link) }
