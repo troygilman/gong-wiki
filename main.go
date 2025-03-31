@@ -30,13 +30,13 @@ func main() {
 
 	mux.Handle("/public/", http.StripPrefix("/", http.FileServer(http.FS(publicFS))))
 
-	g := gong.New(mux)
-
-	g.Route("/", ui.RootView{}, func(r gong.Route) {
-		r.Route("docs/", ui.DocumentView{
-			DocManager: docManager,
-		}, nil)
-	})
+	g := gong.New(mux).Routes(
+		gong.NewRoute("/", ui.RootView{}).WithRoutes(
+			gong.NewRoute("docs/", ui.DocumentView{
+				DocManager: docManager,
+			}),
+		),
+	)
 
 	http.ListenAndServe(":8080", g)
 }
