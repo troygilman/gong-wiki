@@ -16,10 +16,7 @@ templ (view DocumentView) View() {
 	path := strings.TrimPrefix(gong.Request(ctx).URL.Path, "/docs/")
 	document, err := view.DocManager.getByPath(path)
 	if err != nil {
-		document, err = view.DocManager.getByPath("getting-started/introduction")
-		if err != nil {
-			panic(err)
-		}
+		return gong.Redirect(ctx, "/docs/getting-started/introduction")
 	}
 	prevDocument, _ := view.DocManager.getByPosition(document.metadata.Position - 1)
 	nextDocument, _ := view.DocManager.getByPosition(document.metadata.Position + 1)
