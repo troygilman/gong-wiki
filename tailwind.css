@@ -3,6 +3,7 @@
 @plugin "@tailwindcss/typography";
 @plugin "daisyui" {
     themes: light;
+    exclude: rootscrollgutter;
 }
 
 pre {
