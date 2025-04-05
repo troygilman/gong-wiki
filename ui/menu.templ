@@ -6,7 +6,7 @@ import (
 )
 
 templ Menu() {
-	<ul class="menu rounded-box w-64 p-4">
+	<ul class="menu rounded-box w-full">
 		@MenuGroup("Getting Started", []MenuItemProps{
 			{
 				label: "Introduction",
@@ -41,7 +41,7 @@ templ Menu() {
 templ MenuGroup(title string, itemProps []MenuItemProps) {
 	<li>
 		<details open>
-			<summary>{ title }</summary>
+			<summary class="text-nowrap">{ title }</summary>
 			<ul>
 				for _, p := range itemProps {
 					@MenuItem(p)
