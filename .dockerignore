@@ -4,3 +4,4 @@
 **/.DS_Store
 fly.toml
 node_modules
+public/index.css

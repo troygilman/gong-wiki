@@ -11,6 +11,13 @@ COPY . .
 RUN templ generate
 RUN go build -v -o /run-app .
 
+FROM node:23.0.0-bookworm
+
+WORKDIR /usr/src/app
+COPY . .
+
+RUN yarn install
+RUN npx tailwindcss -i ./tailwind.css -o ./public/index.css
 
 FROM debian:bookworm
 
