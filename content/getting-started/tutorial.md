@@ -30,7 +30,7 @@ templ generate
 
 This will generate a file named `simple_templ.go` in the same directory as our templ file.
 
-Now we can define a Route that uses our `SimpleComponent`. You will notice that a Route requires a path and a View. This means that at a minimum, our components must implement the View interface. We can implement additional Gong interfaces to give our components more dynamic behavior, but we will come back to that later.
+Now we can define a Route that uses our `SimpleComponent`. You will notice that a Route requires a path and a View. This means that, at a minimum, our components must implement the View interface. We can implement additional Gong interfaces to give our components more dynamic behavior, but we will come back to that later.
 
 ```go
 import (

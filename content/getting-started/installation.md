@@ -8,7 +8,7 @@
 
 ### go
 
-Gong requires go v1.22 or greater.
+Gong requires go v1.22 or higher.
 
 ### templ
 
