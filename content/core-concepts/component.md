@@ -4,14 +4,15 @@
 
 # Component
 
-Gong's server-side component based design allows for modular UI architectures that previously would only be possible with a front-end solution. The component pattern can be used accross your application to structurally package UI and reactivity in one elegant solution.
+Gong's server-side component-based design enables modular UI architectures that traditionally required front-end frameworks. The component pattern allows you to package UI elements and their reactivity together in one elegant solution across your application.
 
 ## Interfaces
 
-In practice, a Component is a golang type that implements a set of Gong defined interfaces. Gong provides the following interfaces for customizing your components.
+A Component in Gong is a Go type that implements one or more Gong-defined interfaces. Gong provides the following interfaces for customizing your components:
 
 ### View
-The View defines the initial `templ.Component` that is rendered when a user views your application. It is the only interface that is required for all components. This is were the bulk of your UI will be defined.
+
+The View interface defines the initial `templ.Component` that renders when a user accesses your application. It is the only required interface for all components and is where most of your UI will be defined.
 
 ```go
 type View interface {
@@ -21,7 +22,7 @@ type View interface {
 
 ### Action
 
-The Action defines how a component should handle user requests. Actions are typically used to update server-side state and replace the existing Target's content. The Action can also be used for lazy-loading data.
+The Action interface defines how a component handles user interactions. Actions typically update server-side state and replace existing Target content. Actions can also be used for lazy-loading data.
 
 ```go
 type Action interface {
@@ -31,7 +32,7 @@ type Action interface {
 
 ### Loader
 
-The Loader defines a data loading operation. This is typically used for expensive operations that return crucial data for your component. You might want to consider using a Loader if your component is a nested component.
+The Loader interface defines data loading operations. This is useful for expensive operations that fetch crucial data for your component, particularly important for nested components.
 
 ```go
 type Loader interface {
@@ -39,11 +40,11 @@ type Loader interface {
 }
 ```
 
-The Loader can be called elsewhere in the component by calling `gong.LoaderData[Type](ctx)`. Gong will try to cast the data returned by the Loader to the `Type` provided. Gong will panic if the types are not compatible. Do not call the Loader function directly from your component.
+You can access loader data elsewhere in your component by calling `gong.LoaderData[Type](ctx)`. Gong will attempt to cast the data returned by the Loader to the specified `Type` and will panic if the types are incompatible. Never call the Loader function directly from your component.
 
 ### Head
 
-The Head can define your own HTML `<head>` tag that will replace Gong's default `<head>` tag.
+The Head interface allows you to define a custom HTML `<head>` tag that replaces Gong's default `<head>` tag.
 
 ```go
 type Head interface {
@@ -51,10 +52,12 @@ type Head interface {
 }
 ```
 
-If you do this, make sure to add this script tag which loads the HTMX library onto the client.
+When implementing a custom Head, ensure you include this script tag to load the HTMX library:
 
 ```html
 <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
 ```
 
 ## Nested Components
+
+Components can be nested within other components to create complex UI hierarchies. This approach promotes code reuse and maintainable architecture.

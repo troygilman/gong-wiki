@@ -4,13 +4,13 @@
 
 # Tutorial
 
-All Gong web apps are built using a combination of Components and Routes. A Component defines an HTML view and a set of back-end actions. A Route defines the path based heirarchy of your components.
+All Gong web apps are built using a combination of Components and Routes. A Component defines an HTML view and a set of back-end actions, while a Route defines the path-based hierarchy of your components.
 
 ## A Simple Component
 
-Lets start with a simple component which renders a bit of static HTML in the browser.
+Let's start with a simple component which renders static HTML in the browser.
 
-Create a file named `simple.templ` and add the following templ code.
+Create a file named `simple.templ` and add the following templ code:
 
 ```go
 type SimpleComponent struct {}
@@ -22,15 +22,15 @@ templ (component SimpleComponent) View() {
 }
 ```
 
-Run the templ command line compiler to generate native golang code from our templ file.
+Run the templ command line compiler to generate native Go code from your templ file:
 
 ```bash
 templ generate
 ```
 
-This will generate a file named `simple_templ.go` in the same directory as our templ file.
+This generates a file named `simple_templ.go` in the same directory as your templ file.
 
-Now we can define a Route that uses our `SimpleComponent`. You will notice that a Route requires a path and a View. This means that, at a minimum, our components must implement the View interface. We can implement additional Gong interfaces to give our components more dynamic behavior, but we will come back to that later.
+Now define a Route that uses your `SimpleComponent`. A Route requires a path and a View. At a minimum, components must implement the View interface, though additional Gong interfaces can be implemented for more dynamic behavior.
 
 ```go
 import (
@@ -49,21 +49,19 @@ func main() {
 }
 ```
 
-This main function will set up an http server on port `8080` which serves all requests using our `SimpleComponent`. Run the server using the following command.
+This main function sets up an HTTP server on port `8080` that serves all requests using your `SimpleComponent`. Run the server:
 
 ```bash
 go run .
 ```
 
-You should now see the words "Hello World" rendered when you navigate to `localhost:8080`.
-
-Great job making it this far. Next, we will be adding some interactivity to our app. Get excited!
+You should now see "Hello World" when you navigate to `localhost:8080`.
 
 ## Adding an Action
 
-Our app is pretty boring at the moment. Lets allow the user to submit a request to the server which will print "Hello Universe" to the console output.
+Let's add interactivity by allowing users to submit a request that prints "Hello Universe" to the server's console output.
 
-To get this behavior, we can add a `Form` with a button inside. Lets use the `NewForm` function to acheive this.
+Add a `Form` with a button to your component:
 
 ```go
 templ (component SimpleComponent) View() {
@@ -76,7 +74,7 @@ templ (component SimpleComponent) View() {
 }
 ```
 
-Next, we need to implement the `Action` interface on our SimpleComponent. Our action will simply print "Hello Universe" to the servers console. Note that we are using templ's `{{ }}` syntax to define raw golang code that will be executed when rendering the component.
+Next, implement the `Action` interface on your SimpleComponent:
 
 ```go
 templ (component SimpleComponent) Action() {
@@ -86,17 +84,17 @@ templ (component SimpleComponent) Action() {
 }
 ```
 
-Try this out by compiling the templ files and running your app. You should now see the text "Hello Universe" printed to the server's console output when you click the button.
+After compiling and running your app, clicking the button will print "Hello Universe" to the server's console.
 
-But how does this work?
+### How Actions Work
 
-When a user clicks the button, the `Form` will send a special AJAX request to the server and Gong will route the request to our SimpleComponent's `Action` method. A request issued by a component's `Form` will always be received by that same components `Action`.
+When a user clicks the button, the `Form` sends an AJAX request to the server, and Gong routes this request to the SimpleComponent's `Action` method. A request issued by a component's `Form` is always received by that same component's `Action`.
 
-## Swapping Content
+## Dynamic Content Swapping
 
-It's time to spice things up. Lets have the text "Hello World" change to "Hello Universe" when the user clicks on the button.
+Now, let's make the text change from "Hello World" to "Hello Universe" when the user clicks the button.
 
-To get this behavior, we can wrap our text with a `Target`. Lets use the `NewTarget` function to achieve this. We will also need to add the `WithSwap(gong.SwapInnerHTML)` configuration to our `Form` so that HTMX knows how to handle the servers response.
+Wrap your text with a `Target` and configure the `Form` with a swap behavior:
 
 ```go
 templ (component SimpleComponent) View() {
@@ -111,7 +109,7 @@ templ (component SimpleComponent) View() {
 }
 ```
 
-Next, we need to update the `Action` to render the text "Hello Universe". We can put it right below the print statement.
+Update the `Action` to render the new text:
 
 ```go
 templ (component SimpleComponent) Action() {
@@ -122,6 +120,6 @@ templ (component SimpleComponent) Action() {
 }
 ```
 
-Now, When the user clicks the button and the request is sent to the server, the `Action` will respond to the request with the HTML text "Hello Universe". Finally, the client will take the HTML from the response and swap it in for the `Target`'s inner HTML content.
+Now when the user clicks the button, the server responds with "Hello Universe", and the client swaps this content into the `Target` element.
 
-There you go! Now you know the basics of building reactive web apps with Gong. Using this simple pattern, you can build some pretty amazing things.
+This completes the basics of building reactive web apps with Gong. Using this pattern of Components, Routes, Forms, and Targets, you can create dynamic, interactive web applications.
