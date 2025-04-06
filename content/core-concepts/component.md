@@ -1,5 +1,5 @@
 ---
-{ "label": "Component", "position": 4 }
+{ "label": "Component", "position": 5 }
 ---
 
 # Component
