@@ -1,8 +1,8 @@
 ---
-{ "label": "Component", "position": 5 }
+{ "label": "Components", "position": 5 }
 ---
 
-# Component
+# Components
 
 Gong's server-side component-based design enables modular UI architectures that traditionally required front-end frameworks. The component pattern allows you to package UI elements and their reactivity together in one elegant solution across your application.
 
