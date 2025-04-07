@@ -1,5 +1,5 @@
 ---
-{ "label": "Routing", "position": 6 }
+{ "label": "Routing", "position": 5 }
 ---
 
 # Routing
@@ -32,7 +32,7 @@ In this example:
 - "/users" renders the `listComponent`
 - "/user/{name}" renders the `userComponent` with a dynamic parameter
 
-## Outlets
+### Outlets
 
 Outlets define where child route components are rendered:
 
@@ -88,20 +88,3 @@ gong.NewRoute("user/{name}", userComponent)
 // Access parameter in your component
 name := gong.FormValue(ctx, "name")
 ```
-
-## Best Practices
-
-1. **Route Organization**
-   - Group related routes using nested routing
-   - Use meaningful path segments
-   - Keep route hierarchies shallow when possible
-
-2. **Component Structure**
-   - Place outlets strategically within components
-   - Use appropriate link targets for optimal user experience
-   - Consider component hierarchy when designing routes
-
-3. **Performance**
-   - Use `WithClosestOutlet()` for nested navigation to minimize DOM updates
-   - Keep route components focused and lightweight
-   - Leverage HTMX's partial updates for better performance
