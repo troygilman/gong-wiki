@@ -26,15 +26,20 @@ func main() {
 		panic(err)
 	}
 
+	// COMPONENTS
+	rootComponent := gong.NewComponent(ui.RootView{})
+	docComponent := gong.NewComponent(ui.DocumentView{
+		DocManager: docManager,
+	})
+
+	// ROUTES
 	mux := http.NewServeMux()
 
 	mux.Handle("/public/", http.StripPrefix("/", http.FileServer(http.FS(publicFS))))
 
 	g := gong.New(mux).Routes(
-		gong.NewRoute("/", ui.RootView{}).WithRoutes(
-			gong.NewRoute("docs/", ui.DocumentView{
-				DocManager: docManager,
-			}),
+		gong.NewRoute("/", rootComponent).WithRoutes(
+			gong.NewRoute("docs/", docComponent),
 		),
 	)
 

@@ -39,8 +39,10 @@ import (
 )
 
 func main() {
+	simpleComponent := gong.NewComponent(SimpleComponent{})
+
 	g := gong.New(http.NewServeMux()).Routes(
-		gong.NewRoute("/", SimpleComponent{}),
+		gong.NewRoute("/", simpleComponent),
 	)
 
 	if err := http.ListenAndServe(":8080", g); err != nil {
