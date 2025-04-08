@@ -6,6 +6,10 @@
     exclude: rootscrollgutter;
 }
 
+.text-scale {
+    @apply text-2xl md:text-base lg:text-sm;
+}
+
 pre {
     position: relative;
 }
