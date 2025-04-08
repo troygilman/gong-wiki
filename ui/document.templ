@@ -23,7 +23,7 @@ templ (view DocumentView) View() {
 	}}
 	<div class="flex flex-col p-4 gap-4 place-items-center">
 		<div class="max-w-screen-lg">
-			<div class="prose max-w-full pb-8">
+			<div class="prose max-w-full pb-8 text-lg lg:text-sm">
 				@templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 					_, err := io.WriteString(w, document.html)
 					return err
