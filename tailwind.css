@@ -7,7 +7,7 @@
 }
 
 .text-scale {
-    @apply text-2xl md:text-base lg:text-sm;
+    @apply text-2xl lg:text-base xl:text-sm;
 }
 
 pre {
