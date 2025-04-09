@@ -11,7 +11,7 @@
 }
 
 .btn-scale {
-    @apply btn-lg lg:btn-md;
+    @apply btn-xl lg:btn-md;
 }
 
 pre {
