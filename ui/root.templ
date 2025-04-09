@@ -36,8 +36,8 @@ templ drawerSide() {
 				<div class="navbar px-4">
 					@gong.NewLink("/") {
 						<div class="flex flex-row place-items-center gap-2 cursor-pointer">
-							<image src="/public/icon.png" class="size-12"></image>
-							<div class="text-2xl font-bold">Gong</div>
+							<image src="/public/icon.png" class="size-16 lg:size-12"></image>
+							<div class="text-4xl lg:text-2xl font-bold">Gong</div>
 						</div>
 					}
 				</div>
@@ -52,12 +52,12 @@ templ drawerContent() {
 		<div class="flex flex-col max-h-screen">
 			<div class="navbar flex justify-between">
 				<div>
-					<label for="my-drawer" class="btn btn-square btn-ghost drawer-button lg:hidden">
-						@sidebarIcon("inline-block w-6 h-6")
+					<label for="my-drawer" class="btn btn-square btn-ghost btn-scale p-1 drawer-button lg:hidden">
+						@sidebarIcon("inline-block w-full h-full")
 					</label>
 				</div>
-				<a class="btn btn-square btn-ghost" href="https://github.com/troygilman/gong">
-					@githubIcon("inline-block w-6 h-6")
+				<a class="btn btn-square btn-ghost btn-scale p-1" href="https://github.com/troygilman/gong">
+					@githubIcon("inline-block w-full h-full")
 				</a>
 			</div>
 			<div id="outlet-container" class="flex grow w-full min-h-0 overflow-y-scroll justify-center">
