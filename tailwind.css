@@ -35,12 +35,12 @@ pre {
 }
 
 html {
-    height: 100%;
+    height: 100vh;
     width: 100%;
     position: fixed;
     overflow: hidden;
 }
 
 body {
-    height: 100%;
+    height: 100vh;
 }
