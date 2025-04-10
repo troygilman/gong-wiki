@@ -7,7 +7,7 @@
 }
 
 .text-scale {
-    @apply text-3xl lg:text-sm;
+    @apply text-3xl lg:text-base;
 }
 
 .btn-scale {
