@@ -7,11 +7,11 @@
 }
 
 .text-scale {
-    @apply text-2xl lg:text-sm;
+    @apply text-3xl lg:text-sm;
 }
 
 .btn-scale {
-    @apply btn-xl lg:btn-md;
+    @apply btn-xl lg:btn-lg;
 }
 
 pre {
