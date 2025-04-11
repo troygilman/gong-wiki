@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/troygilman/gong"
+	"github.com/troygilman/gong-wiki/document"
 	"github.com/troygilman/gong-wiki/ui"
 )
 
@@ -21,7 +22,7 @@ func main() {
 		panic(err)
 	}
 
-	docManager, err := ui.NewDocumentManager(contentFS)
+	docManager, err := document.NewDocumentManager(contentFS)
 	if err != nil {
 		panic(err)
 	}

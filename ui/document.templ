@@ -3,41 +3,42 @@ package ui
 import (
 	"context"
 	"github.com/troygilman/gong"
+	"github.com/troygilman/gong-wiki/document"
 	"io"
 	"strings"
 )
 
 type DocumentView struct {
-	DocManager DocumentManager
+	DocManager document.DocumentManager
 }
 
 templ (view DocumentView) View() {
 	{{
 	path := strings.TrimPrefix(gong.Request(ctx).URL.Path, "/docs/")
-	document, err := view.DocManager.getByPath(path)
+	document, err := view.DocManager.GetByPath(path)
 	if err != nil {
 		return gong.Redirect(ctx, "/docs/getting-started/introduction")
 	}
-	prevDocument, _ := view.DocManager.getByPosition(document.metadata.Position - 1)
-	nextDocument, _ := view.DocManager.getByPosition(document.metadata.Position + 1)
+	prevDoc, prevDocErr := view.DocManager.GetByPosition(document.Metadata().Position - 1)
+	nextDoc, nextDocErr := view.DocManager.GetByPosition(document.Metadata().Position + 1)
 	}}
 	<div class="flex flex-col p-4 gap-4 place-items-center w-full">
 		<div class="max-w-screen-lg w-full">
 			<div class="prose max-w-full pb-8 text-scale">
 				@templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-					_, err := io.WriteString(w, document.html)
+					_, err := io.WriteString(w, document.Html())
 					return err
 				})
 			</div>
 			<div class="flex flex-row w-full justify-between">
 				<div>
-					if prevDocument != nil {
-						@gong.NewLink("/docs/" + prevDocument.path).WithClosestOutlet() {
+					if prevDocErr == nil {
+						@gong.NewLink("/docs/" + prevDoc.Path()).WithClosestOutlet() {
 							<div class="btn btn-scale btn-soft">
 								<div class="flex flex-col place-items-start">
 									<div class="text-sm">Previous</div>
 									<div class="text-primary font-bold">
-										{ prevDocument.metadata.Label }
+										{ prevDoc.Metadata().Label }
 									</div>
 								</div>
 							</div>
@@ -45,13 +46,13 @@ templ (view DocumentView) View() {
 					}
 				</div>
 				<div>
-					if nextDocument != nil {
-						@gong.NewLink("/docs/" + nextDocument.path).WithClosestOutlet() {
+					if nextDocErr == nil {
+						@gong.NewLink("/docs/" + nextDoc.Path()).WithClosestOutlet() {
 							<div class="btn btn-scale btn-soft">
 								<div class="flex flex-col place-items-end">
 									<div class="text-sm">Next</div>
 									<div class="text-primary font-bold">
-										{ nextDocument.metadata.Label }
+										{ nextDoc.Metadata().Label }
 									</div>
 								</div>
 							</div>
