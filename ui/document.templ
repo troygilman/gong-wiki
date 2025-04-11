@@ -25,6 +25,11 @@ templ (view DocumentView) View() {
 	<div class="flex flex-col p-4 gap-4 place-items-center w-full">
 		<div class="max-w-screen-lg w-full">
 			<div class="prose max-w-full pb-8 text-scale">
+				<ul>
+					for _, child := range document.Node().Children() {
+						@documentNode(child)
+					}
+				</ul>
 				@templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 					_, err := io.WriteString(w, document.Html())
 					return err
@@ -62,4 +67,20 @@ templ (view DocumentView) View() {
 			</div>
 		</div>
 	</div>
+}
+
+templ documentNode(node *document.Node) {
+	{{
+		children := node.Children()
+	}}
+	<li>
+		{ node.Title() }
+		if len(children) > 0 {
+			<ul>
+				for _, child := range node.Children() {
+					@documentNode(child)
+				}
+			</ul>
+		}
+	</li>
 }

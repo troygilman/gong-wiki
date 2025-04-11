@@ -7,16 +7,15 @@ import (
 )
 
 type DocumentManager struct {
-	documents     map[string]Document
-	documentOrder map[int]Document
+	documents     map[string]*Document
+	documentOrder map[int]*Document
 	headers       map[string]string
 }
 
 func NewDocumentManager(fileSystem fs.FS) (DocumentManager, error) {
 	dm := DocumentManager{
-		documents:     make(map[string]Document),
-		documentOrder: make(map[int]Document),
-		headers:       make(map[string]string),
+		documents:     make(map[string]*Document),
+		documentOrder: make(map[int]*Document),
 	}
 
 	parser := NewParser()
@@ -52,18 +51,18 @@ func NewDocumentManager(fileSystem fs.FS) (DocumentManager, error) {
 	return dm, nil
 }
 
-func (dm DocumentManager) GetByPosition(position int) (doc Document, err error) {
+func (dm DocumentManager) GetByPosition(position int) (*Document, error) {
 	document, ok := dm.documentOrder[position]
 	if !ok {
-		return doc, errors.New("document does not exist")
+		return nil, errors.New("document does not exist")
 	}
 	return document, nil
 }
 
-func (dm DocumentManager) GetByPath(path string) (doc Document, err error) {
+func (dm DocumentManager) GetByPath(path string) (*Document, error) {
 	document, ok := dm.documents[path]
 	if !ok {
-		return doc, errors.New("document does not exist")
+		return nil, errors.New("document does not exist")
 	}
 	return document, nil
 }

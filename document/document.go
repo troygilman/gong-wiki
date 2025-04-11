@@ -19,12 +19,45 @@ func (d Document) Metadata() DocumentMetadata {
 	return d.metadata
 }
 
+func (d Document) Node() *Node {
+	return d.node
+}
+
 type DocumentMetadata struct {
 	Label    string `json:"label"`
 	Position int    `json:"position"`
 }
 
 type Node struct {
+	title    string
 	id       string
+	level    int
+	parent   *Node
 	children []*Node
 }
+
+func (node Node) Title() string {
+	return node.title
+}
+
+func (node Node) ID() string {
+	return node.id
+}
+
+func (node Node) Children() []*Node {
+	children := make([]*Node, len(node.children))
+	for i, child := range node.children {
+		children[i] = child
+	}
+	return children
+}
+
+// func (node Node) Children() iter.Seq[*Node] {
+// 	return func(yield func(*Node) bool) {
+// 		for _, child := range node.children {
+// 			if !yield(child) {
+// 				return
+// 			}
+// 		}
+// 	}
+// }

@@ -28,6 +28,7 @@ gong.NewRoute("/", homeComponent).WithRoutes(
 ```
 
 In this example:
+
 - The root route ("/") renders the `homeComponent`
 - "/users" renders the `listComponent`
 - "/user/{name}" renders the `userComponent` with a dynamic parameter
@@ -51,6 +52,7 @@ templ (view homeView) View() {
 ```
 
 Key features:
+
 - Automatically render child routes based on the current path
 - Can be targeted by links for partial page updates
 
@@ -71,6 +73,7 @@ gong.NewLink("/users").WithClosestOutlet() {
 ```
 
 The `Link` component:
+
 - Uses HTMX for client-side navigation
 - By default, looks for an outlet in the current component
 - With `WithClosestOutlet()`, targets the closest parent outlet

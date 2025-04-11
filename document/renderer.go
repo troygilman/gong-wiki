@@ -2,6 +2,7 @@ package document
 
 import (
 	"io"
+	"log"
 
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/ast"
@@ -13,31 +14,33 @@ type Renderer struct {
 	node *Node
 }
 
-func NewRenderer() Renderer {
-	return Renderer{Renderer: goldmark.DefaultRenderer()}
+func NewRenderer() *Renderer {
+	return &Renderer{Renderer: goldmark.DefaultRenderer()}
 }
 
 func (renderer Renderer) Node() *Node {
 	return renderer.node
 }
 
-func (renderer Renderer) Render(w io.Writer, source []byte, astNode ast.Node) error {
+func (renderer *Renderer) Render(w io.Writer, source []byte, astNode ast.Node) error {
 	renderer.node = &Node{}
-	renderer.searchNode(astNode.FirstChild(), renderer.node)
+	renderer.searchNode(astNode.FirstChild(), renderer.node, "")
 	return renderer.Renderer.Render(w, source, astNode)
 }
 
-func (renderer Renderer) searchNode(astNode ast.Node, parent *Node) {
+func (renderer Renderer) searchNode(astNode ast.Node, parent *Node, prefix string) {
 	if astNode == nil {
 		return
 	}
 
 	if id, ok := astNode.AttributeString("id"); ok {
-		node := &Node{}
-		node.id = string(id.([]byte))
+		node := &Node{
+			id: string(id.([]byte)),
+		}
+		log.Println(prefix + node.id)
 		parent.children = append(parent.children, node)
-		renderer.searchNode(astNode.FirstChild(), node)
+		renderer.searchNode(astNode.FirstChild(), node, " ")
 	}
 
-	renderer.searchNode(astNode.NextSibling(), parent)
+	renderer.searchNode(astNode.NextSibling(), parent, "")
 }
