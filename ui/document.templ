@@ -61,7 +61,7 @@ templ (view DocumentView) View() {
 				</div>
 			</div>
 		</div>
-		<div class="prose text-scale hidden lg:flex min-w-64">
+		<div class="prose text-scale hidden lg:flex max-w-64 min-w-64">
 			<ul class="list-none list-outside px-2">
 				for _, child := range document.Node().Children() {
 					@documentNode(child)
