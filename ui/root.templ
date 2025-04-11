@@ -21,10 +21,12 @@ templ (view RootView) Head() {
 
 templ (view RootView) View() {
 	@initScript()
-	<div class="drawer lg:drawer-open w-full h-full bg-base-100" x-data>
-		<input id="my-drawer" type="checkbox" class="drawer-toggle"/>
-		@drawerSide()
-		@drawerContent()
+	<div class="flex justify-center w-full h-full">
+		<div class="drawer lg:drawer-open w-full h-full bg-base-100 max-w-7xl" x-data>
+			<input id="my-drawer" type="checkbox" class="drawer-toggle"/>
+			@drawerSide()
+			@drawerContent()
+		</div>
 	</div>
 }
 

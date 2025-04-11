@@ -24,42 +24,40 @@ templ (view DocumentView) View() {
 	}}
 	<div class="flex flex-row w-full h-full">
 		<div class="flex flex-col p-4 gap-4 place-items-center grow min-w-0 overflow-y-scroll">
-			<div class="max-w-screen-lg w-full">
-				<div class="prose max-w-full pb-8 text-scale">
-					@templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-						_, err := io.WriteString(w, document.Html())
-						return err
-					})
+			<div class="prose max-w-full pb-8 text-scale">
+				@templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+					_, err := io.WriteString(w, document.Html())
+					return err
+				})
+			</div>
+			<div class="flex flex-row w-full justify-between">
+				<div>
+					if prevDocErr == nil {
+						@gong.NewLink("/docs/" + prevDoc.Path()).WithClosestOutlet() {
+							<div class="btn btn-scale btn-soft">
+								<div class="flex flex-col place-items-start">
+									<div class="text-sm">Previous</div>
+									<div class="text-primary font-bold">
+										{ prevDoc.Metadata().Label }
+									</div>
+								</div>
+							</div>
+						}
+					}
 				</div>
-				<div class="flex flex-row w-full justify-between">
-					<div>
-						if prevDocErr == nil {
-							@gong.NewLink("/docs/" + prevDoc.Path()).WithClosestOutlet() {
-								<div class="btn btn-scale btn-soft">
-									<div class="flex flex-col place-items-start">
-										<div class="text-sm">Previous</div>
-										<div class="text-primary font-bold">
-											{ prevDoc.Metadata().Label }
-										</div>
+				<div>
+					if nextDocErr == nil {
+						@gong.NewLink("/docs/" + nextDoc.Path()).WithClosestOutlet() {
+							<div class="btn btn-scale btn-soft">
+								<div class="flex flex-col place-items-end">
+									<div class="text-sm">Next</div>
+									<div class="text-primary font-bold">
+										{ nextDoc.Metadata().Label }
 									</div>
 								</div>
-							}
+							</div>
 						}
-					</div>
-					<div>
-						if nextDocErr == nil {
-							@gong.NewLink("/docs/" + nextDoc.Path()).WithClosestOutlet() {
-								<div class="btn btn-scale btn-soft">
-									<div class="flex flex-col place-items-end">
-										<div class="text-sm">Next</div>
-										<div class="text-primary font-bold">
-											{ nextDoc.Metadata().Label }
-										</div>
-									</div>
-								</div>
-							}
-						}
-					</div>
+					}
 				</div>
 			</div>
 		</div>
