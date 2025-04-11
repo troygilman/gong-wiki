@@ -22,8 +22,8 @@ templ (view DocumentView) View() {
 	prevDoc, prevDocErr := view.DocManager.GetByPosition(document.Metadata().Position - 1)
 	nextDoc, nextDocErr := view.DocManager.GetByPosition(document.Metadata().Position + 1)
 	}}
-	<div class="flex flex-row w-full h-full">
-		<div class="flex flex-col p-4 gap-4 place-items-center grow min-w-0 overflow-y-scroll">
+	<div class="flex flex-row w-full h-full p-4">
+		<div class="flex flex-col gap-4 place-items-center grow min-w-0 overflow-y-scroll pr-4">
 			<div class="prose max-w-full pb-8 text-scale">
 				@templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 					_, err := io.WriteString(w, document.Html())
@@ -61,7 +61,7 @@ templ (view DocumentView) View() {
 				</div>
 			</div>
 		</div>
-		<div class="prose text-scale p-4 hidden lg:flex">
+		<div class="prose text-scale hidden lg:flex min-w-64 pl-4">
 			<ul class="list-none list-outside p-0">
 				for _, child := range document.Node().Children() {
 					@documentNode(child)
