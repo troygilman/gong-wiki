@@ -44,6 +44,10 @@ func (node Node) ID() string {
 	return node.id
 }
 
+func (node Node) Level() int {
+	return node.level
+}
+
 func (node Node) Children() []*Node {
 	children := make([]*Node, len(node.children))
 	for i, child := range node.children {

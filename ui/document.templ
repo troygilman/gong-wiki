@@ -22,49 +22,53 @@ templ (view DocumentView) View() {
 	prevDoc, prevDocErr := view.DocManager.GetByPosition(document.Metadata().Position - 1)
 	nextDoc, nextDocErr := view.DocManager.GetByPosition(document.Metadata().Position + 1)
 	}}
-	<div class="flex flex-col p-4 gap-4 place-items-center w-full">
-		<div class="max-w-screen-lg w-full">
-			<div class="prose max-w-full pb-8 text-scale">
-				<ul>
-					for _, child := range document.Node().Children() {
-						@documentNode(child)
-					}
-				</ul>
-				@templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-					_, err := io.WriteString(w, document.Html())
-					return err
-				})
-			</div>
-			<div class="flex flex-row w-full justify-between">
-				<div>
-					if prevDocErr == nil {
-						@gong.NewLink("/docs/" + prevDoc.Path()).WithClosestOutlet() {
-							<div class="btn btn-scale btn-soft">
-								<div class="flex flex-col place-items-start">
-									<div class="text-sm">Previous</div>
-									<div class="text-primary font-bold">
-										{ prevDoc.Metadata().Label }
+	<div class="flex flex-row w-full h-full">
+		<div class="flex flex-col p-4 gap-4 place-items-center grow min-w-0 overflow-y-scroll">
+			<div class="max-w-screen-lg w-full">
+				<div class="prose max-w-full pb-8 text-scale">
+					@templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+						_, err := io.WriteString(w, document.Html())
+						return err
+					})
+				</div>
+				<div class="flex flex-row w-full justify-between">
+					<div>
+						if prevDocErr == nil {
+							@gong.NewLink("/docs/" + prevDoc.Path()).WithClosestOutlet() {
+								<div class="btn btn-scale btn-soft">
+									<div class="flex flex-col place-items-start">
+										<div class="text-sm">Previous</div>
+										<div class="text-primary font-bold">
+											{ prevDoc.Metadata().Label }
+										</div>
 									</div>
 								</div>
-							</div>
+							}
 						}
-					}
-				</div>
-				<div>
-					if nextDocErr == nil {
-						@gong.NewLink("/docs/" + nextDoc.Path()).WithClosestOutlet() {
-							<div class="btn btn-scale btn-soft">
-								<div class="flex flex-col place-items-end">
-									<div class="text-sm">Next</div>
-									<div class="text-primary font-bold">
-										{ nextDoc.Metadata().Label }
+					</div>
+					<div>
+						if nextDocErr == nil {
+							@gong.NewLink("/docs/" + nextDoc.Path()).WithClosestOutlet() {
+								<div class="btn btn-scale btn-soft">
+									<div class="flex flex-col place-items-end">
+										<div class="text-sm">Next</div>
+										<div class="text-primary font-bold">
+											{ nextDoc.Metadata().Label }
+										</div>
 									</div>
 								</div>
-							</div>
+							}
 						}
-					}
+					</div>
 				</div>
 			</div>
+		</div>
+		<div class="prose text-scale p-4">
+			<ul class="list-none list-outside p-0">
+				for _, child := range document.Node().Children() {
+					@documentNode(child)
+				}
+			</ul>
 		</div>
 	</div>
 }
@@ -74,9 +78,11 @@ templ documentNode(node *document.Node) {
 		children := node.Children()
 	}}
 	<li>
-		{ node.Title() }
+		<a class="no-underline hover:text-current/60" href={ templ.URL("#" + node.ID()) }>
+			{ node.Title() }
+		</a>
 		if len(children) > 0 {
-			<ul>
+			<ul class="list-none list-outside">
 				for _, child := range node.Children() {
 					@documentNode(child)
 				}
