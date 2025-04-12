@@ -55,9 +55,32 @@ type Head interface {
 When implementing a custom Head, ensure you include this script tag to load the HTMX library:
 
 ```html
-<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+<script
+    src="https://unpkg.com/htmx.org@2.0.4"
+    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+    crossorigin="anonymous"
+></script>
 ```
 
 ## Nested Components
 
 Components can be nested within other components to create complex UI hierarchies. This approach promotes code reuse and maintainable architecture.
+
+```go
+type ParentComponent struct {
+	ChildComponent gong.Component
+}
+
+func NewParentComponent(child gong.Component) gong.Component {
+	return gong.NewComponent(ParentComponent{
+		ChildComponent: child,
+	})
+}
+
+templ (parentComponent ParentComponent) View() {
+	<div>
+		Parent Component
+		@parentComponent.ChildComponent
+	</div>
+}
+```
