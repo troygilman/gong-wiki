@@ -42,6 +42,7 @@ func main() {
 		gong.NewRoute("/", rootComponent).WithRoutes(
 			gong.NewRoute("docs/", docComponent),
 		),
+		ui.ExampleRoute(),
 	)
 
 	http.ListenAndServe(":8080", g)

@@ -84,3 +84,5 @@ templ (parentComponent ParentComponent) View() {
 	</div>
 }
 ```
+
+See the example running [here](/example/nested-components).
