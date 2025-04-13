@@ -2,7 +2,9 @@ package ui
 
 import (
 	"github.com/troygilman/gong"
+	"github.com/troygilman/gong/example/click_to_edit"
 	"github.com/troygilman/gong/example/nested_components"
+	"github.com/troygilman/gong/example/tabs"
 )
 
 type Example struct {
@@ -13,7 +15,15 @@ type Example struct {
 var examples = []Example{
 	{
 		path:  "/nested-components",
-		route: nested_components.Routes(),
+		route: nested_components.Route(),
+	},
+	{
+		path:  "/click-to-edit",
+		route: click_to_edit.Route(),
+	},
+	{
+		path:  "/tabs",
+		route: tabs.Route(),
 	},
 }
 
