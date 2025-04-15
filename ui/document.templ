@@ -33,7 +33,7 @@ templ (view DocumentView) View() {
 			<div class="flex flex-row w-full justify-between">
 				<div>
 					if prevDocErr == nil {
-						@gong.NewLink("/docs/" + prevDoc.Path()).WithClosestOutlet() {
+						@gong.NewLink("/docs/" + prevDoc.Path()) {
 							<div class="btn btn-scale btn-soft">
 								<div class="flex flex-col place-items-start">
 									<div class="text-sm">Previous</div>
@@ -47,7 +47,7 @@ templ (view DocumentView) View() {
 				</div>
 				<div>
 					if nextDocErr == nil {
-						@gong.NewLink("/docs/" + nextDoc.Path()).WithClosestOutlet() {
+						@gong.NewLink("/docs/" + nextDoc.Path()) {
 							<div class="btn btn-scale btn-soft">
 								<div class="flex flex-col place-items-end">
 									<div class="text-sm">Next</div>

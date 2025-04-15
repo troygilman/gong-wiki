@@ -18,6 +18,10 @@ pre {
     position: relative;
 }
 
+.gong-outlet {
+    @apply w-full h-full;
+}
+
 .copy-button {
     position: absolute;
     top: 10px;

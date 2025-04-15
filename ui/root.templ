@@ -51,7 +51,7 @@ templ drawerSide() {
 
 templ drawerContent() {
 	<div class="drawer-content overflow-y-hidden">
-		<div class="flex flex-col h-full">
+		<div class="flex flex-col w-full h-full">
 			<div class="navbar flex justify-between">
 				<div>
 					<label for="my-drawer" class="btn btn-square btn-ghost btn-scale p-1 drawer-button lg:hidden">
@@ -62,8 +62,8 @@ templ drawerContent() {
 					@githubIcon("inline-block w-full h-full")
 				</a>
 			</div>
-			<div id="outlet-container" class="flex grow w-full min-h-0 justify-center">
-				@gong.NewOutlet().WithClass("w-full h-full")
+			<div id="outlet-container" class="flex grow w-full max-w-full min-h-0 justify-center">
+				@gong.NewOutlet()
 			</div>
 		</div>
 	</div>
@@ -102,6 +102,11 @@ templ initScript() {
     });
     document.body.addEventListener('htmx:afterSwap', function(event) {
         Prism.highlightAllUnder(event.detail.target);
+        addCopyButtons();
+        document.getElementById("outlet-container").scrollTop = 0;
+    });
+    document.body.addEventListener('htmx:oobAfterSwap', function(event) {
+        Prism.highlightAllUnder(document.body);
         addCopyButtons();
         document.getElementById("outlet-container").scrollTop = 0;
     });

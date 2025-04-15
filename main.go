@@ -39,8 +39,8 @@ func main() {
 	mux.Handle("/public/", http.StripPrefix("/", http.FileServer(http.FS(publicFS))))
 
 	g := gong.New(mux).Routes(
-		gong.NewRoute("/", rootComponent).WithRoutes(
-			gong.NewRoute("docs/", docComponent),
+		gong.NewRoute("/docs", rootComponent).WithRoutes(
+			gong.NewRoute("/", docComponent),
 		),
 		ui.ExampleRoute(),
 	)
