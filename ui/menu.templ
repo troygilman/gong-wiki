@@ -1,6 +1,9 @@
 package ui
 
-import "github.com/troygilman/gong"
+import (
+	"github.com/troygilman/gong"
+	"strings"
+)
 
 type MenuComponent struct {
 	props []MenuGroupProps
@@ -47,13 +50,19 @@ templ MenuGroup(props MenuGroupProps, path string) {
 }
 
 templ MenuItem(props MenuItemProps, active bool) {
-	@gong.NewLink(props.Link).WithSwap(gong.SwapInnerHTML) {
+	@gong.NewLink(props.Link).
+		WithID(buildMenuLinkID(props.Link)).
+		WithSwap(gong.SwapInnerHTML) {
 		<li>
 			<a class={ templ.KV("menu-active", active) }>
 				{ props.Label }
 			</a>
 		</li>
 	}
+}
+
+func buildMenuLinkID(path string) string {
+	return "link" + strings.ReplaceAll(path, "/", "-")
 }
 
 type MenuGroupProps struct {

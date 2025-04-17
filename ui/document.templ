@@ -35,7 +35,7 @@ templ (c DocumentComponent) View() {
 			<div class="flex flex-row w-full justify-between">
 				<div>
 					if prevDocErr == nil {
-						@gong.NewLink("/docs" + prevDoc.Path()) {
+						<div hx-on:click={ templ.JSFuncCall("htmx.trigger", "#"+buildMenuLinkID("/docs"+prevDoc.Path()), "click") }>
 							<div class="btn btn-scale btn-soft">
 								<div class="flex flex-col place-items-start">
 									<div class="text-sm">Previous</div>
@@ -44,12 +44,12 @@ templ (c DocumentComponent) View() {
 									</div>
 								</div>
 							</div>
-						}
+						</div>
 					}
 				</div>
 				<div>
 					if nextDocErr == nil {
-						@gong.NewLink("/docs" + nextDoc.Path()) {
+						<div hx-on:click={ templ.JSFuncCall("htmx.trigger", "#"+buildMenuLinkID("/docs"+nextDoc.Path()), "click") }>
 							<div class="btn btn-scale btn-soft">
 								<div class="flex flex-col place-items-end">
 									<div class="text-sm">Next</div>
@@ -58,7 +58,7 @@ templ (c DocumentComponent) View() {
 									</div>
 								</div>
 							</div>
-						}
+						</div>
 					}
 				</div>
 			</div>
