@@ -5,35 +5,37 @@ import (
 	"github.com/troygilman/gong"
 	"github.com/troygilman/gong-wiki/document"
 	"io"
-	"strings"
 )
 
-type DocumentView struct {
-	DocManager document.DocumentManager
+type DocumentComponent struct {
+	manager document.Manager
+	doc     *document.Document
 }
 
-templ (view DocumentView) View() {
+func NewDocumentComponent(manager document.Manager, doc *document.Document) gong.Component {
+	return gong.NewComponent(DocumentComponent{
+		manager: manager,
+		doc:     doc,
+	})
+}
+
+templ (c DocumentComponent) View() {
 	{{
-	path := strings.TrimPrefix(gong.Request(ctx).URL.Path, "/docs/")
-	document, err := view.DocManager.GetByPath(path)
-	if err != nil {
-		return gong.Redirect(ctx, "/docs/getting-started/introduction")
-	}
-	prevDoc, prevDocErr := view.DocManager.GetByPosition(document.Metadata().Position - 1)
-	nextDoc, nextDocErr := view.DocManager.GetByPosition(document.Metadata().Position + 1)
+	prevDoc, prevDocErr := c.manager.GetByPosition(c.doc.Metadata().Position - 1)
+	nextDoc, nextDocErr := c.manager.GetByPosition(c.doc.Metadata().Position + 1)
 	}}
 	<div class="flex flex-row w-full h-full">
 		<div class="flex flex-col gap-4 place-items-center grow min-w-0 overflow-y-scroll px-4 py-2 max-w-7xl">
 			<div class="prose max-w-full pb-8 text-scale">
 				@templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-					_, err := io.WriteString(w, document.Html())
+					_, err := io.WriteString(w, c.doc.Html())
 					return err
 				})
 			</div>
 			<div class="flex flex-row w-full justify-between">
 				<div>
 					if prevDocErr == nil {
-						@gong.NewLink("/docs/" + prevDoc.Path()) {
+						@gong.NewLink("/docs" + prevDoc.Path()) {
 							<div class="btn btn-scale btn-soft">
 								<div class="flex flex-col place-items-start">
 									<div class="text-sm">Previous</div>
@@ -47,7 +49,7 @@ templ (view DocumentView) View() {
 				</div>
 				<div>
 					if nextDocErr == nil {
-						@gong.NewLink("/docs/" + nextDoc.Path()) {
+						@gong.NewLink("/docs" + nextDoc.Path()) {
 							<div class="btn btn-scale btn-soft">
 								<div class="flex flex-col place-items-end">
 									<div class="text-sm">Next</div>
@@ -63,7 +65,7 @@ templ (view DocumentView) View() {
 		</div>
 		<div class="prose text-scale hidden lg:flex max-w-64 min-w-64">
 			<ul class="list-none list-outside px-2">
-				for _, child := range document.Node().Children() {
+				for _, child := range c.doc.Node().Children() {
 					@documentNode(child)
 				}
 			</ul>

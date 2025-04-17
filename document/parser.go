@@ -46,7 +46,7 @@ func (p Parser) Parse(path string, source []byte) (*Document, error) {
 	}
 
 	doc := &Document{
-		path:     strings.TrimSuffix(path, filepath.Ext(path)),
+		path:     "/" + strings.TrimSuffix(path, filepath.Ext(path)),
 		html:     html,
 		metadata: metadata,
 		node:     node,

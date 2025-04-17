@@ -1,68 +1,67 @@
 package ui
 
-import (
-	"fmt"
-	"github.com/troygilman/gong"
-)
+import "github.com/troygilman/gong"
 
-templ Menu() {
+type MenuComponent struct {
+	props []MenuGroupProps
+}
+
+func NewMenuComponent(props []MenuGroupProps) gong.Component {
+	return gong.NewComponent(MenuComponent{
+		props: props,
+	})
+}
+
+templ (c MenuComponent) View() {
+	@gong.NewTarget() {
+		@Menu(c.props)
+	}
+}
+
+templ (c MenuComponent) Action() {
+	@Menu(c.props)
+}
+
+templ Menu(props []MenuGroupProps) {
+	{{
+		path := gong.ChildRoute(ctx).FullPath()
+	}}
 	<ul class="menu rounded-box w-full text-scale">
-		@MenuGroup("Getting Started", []MenuItemProps{
-			{
-				label: "Introduction",
-				link:  "/docs/getting-started/introduction",
-			},
-			{
-				label: "Installation",
-				link:  "/docs/getting-started/installation",
-			},
-			{
-				label: "Tutorial",
-				link:  "/docs/getting-started/tutorial",
-			},
-		})
-		@MenuGroup("Core Concepts", []MenuItemProps{
-			{
-				label: "Components",
-				link:  "/docs/core-concepts/components",
-			},
-			{
-				label: "Routing",
-				link:  "/docs/core-concepts/routing",
-			},
-		})
+		for _, group := range props {
+			@MenuGroup(group, path)
+		}
 	</ul>
 }
 
-templ MenuGroup(title string, itemProps []MenuItemProps) {
+templ MenuGroup(props MenuGroupProps, path string) {
 	<li>
 		<details open>
-			<summary class="text-nowrap">{ title }</summary>
+			<summary class="text-nowrap">{ props.Label }</summary>
 			<ul>
-				for _, p := range itemProps {
-					@MenuItem(p)
+				for _, item := range props.Items {
+					@MenuItem(item, item.Link == path)
 				}
 			</ul>
 		</details>
 	</li>
 }
 
-type MenuItemProps struct {
-	label string
-	link  string
-}
-
-templ MenuItem(props MenuItemProps) {
-	@gong.NewLink(props.link) {
+templ MenuItem(props MenuItemProps, active bool) {
+	@gong.NewLink(props.Link).WithSwap(gong.SwapInnerHTML) {
 		<li>
-			<a
-				x-data={ fmt.Sprintf("{ active: false, pathname: '%s' }", props.link) }
-				x-init="active = pathname === window.location.pathname"
-				@htmx:after-swap.window="active = pathname === window.location.pathname"
-				:class="active && 'menu-active'"
-			>
-				{ props.label }
+			<a class={ templ.KV("menu-active", active) }>
+				{ props.Label }
 			</a>
 		</li>
 	}
+}
+
+type MenuGroupProps struct {
+	Label string
+	Items []MenuItemProps
+}
+
+type MenuItemProps struct {
+	Label string
+	Link  string
 }

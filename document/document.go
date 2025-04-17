@@ -55,13 +55,3 @@ func (node Node) Children() []*Node {
 	}
 	return children
 }
-
-// func (node Node) Children() iter.Seq[*Node] {
-// 	return func(yield func(*Node) bool) {
-// 		for _, child := range node.children {
-// 			if !yield(child) {
-// 				return
-// 			}
-// 		}
-// 	}
-// }

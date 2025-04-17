@@ -22,15 +22,46 @@ func main() {
 		panic(err)
 	}
 
-	docManager, err := document.NewDocumentManager(contentFS)
+	docManager, err := document.NewManager(contentFS)
 	if err != nil {
 		panic(err)
 	}
 
 	// COMPONENTS
-	rootComponent := gong.NewComponent(ui.RootView{})
-	docComponent := gong.NewComponent(ui.DocumentView{
-		DocManager: docManager,
+	menuComponent := ui.NewMenuComponent([]ui.MenuGroupProps{
+		{
+			Label: "Getting Started",
+			Items: []ui.MenuItemProps{
+				{
+					Label: "Introduction",
+					Link:  "/docs/getting-started/introduction",
+				},
+				{
+					Label: "Installation",
+					Link:  "/docs/getting-started/installation",
+				},
+				{
+					Label: "Tutorial",
+					Link:  "/docs/getting-started/tutorial",
+				},
+			},
+		},
+		{
+			Label: "Core Concepts",
+			Items: []ui.MenuItemProps{
+				{
+					Label: "Components",
+					Link:  "/docs/core-concepts/components",
+				},
+				{
+					Label: "Routing",
+					Link:  "/docs/core-concepts/routing",
+				},
+			},
+		},
+	})
+	rootComponent := gong.NewComponent(ui.RootView{
+		Menu: menuComponent,
 	})
 
 	// ROUTES
@@ -38,12 +69,23 @@ func main() {
 
 	mux.Handle("/public/", http.StripPrefix("/", http.FileServer(http.FS(publicFS))))
 
+	docRoutes := []gong.RouteBuilder{}
+	for _, path := range docManager.AllPaths() {
+		docRoutes = append(docRoutes, newDocumentRoute(docManager, path))
+	}
+
 	g := gong.New(mux).Routes(
-		gong.NewRoute("/docs", rootComponent).WithRoutes(
-			gong.NewRoute("/", docComponent),
-		),
+		gong.NewRoute("/docs", rootComponent).WithRoutes(docRoutes...),
 		ui.ExampleRoute(),
 	)
 
 	http.ListenAndServe(":8080", g)
+}
+
+func newDocumentRoute(manager document.Manager, path string) gong.RouteBuilder {
+	doc, err := manager.GetByPath(path)
+	if err != nil {
+		panic(err)
+	}
+	return gong.NewRoute(path, ui.NewDocumentComponent(manager, doc))
 }

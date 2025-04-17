@@ -2,7 +2,9 @@ package ui
 
 import "github.com/troygilman/gong"
 
-type RootView struct{}
+type RootView struct {
+	Menu gong.Component
+}
 
 templ (view RootView) Head() {
 	<head>
@@ -24,13 +26,13 @@ templ (view RootView) View() {
 	<div class="flex justify-center w-full h-full">
 		<div class="drawer lg:drawer-open w-fit h-full bg-base-100" x-data>
 			<input id="my-drawer" type="checkbox" class="drawer-toggle"/>
-			@drawerSide()
+			@view.drawerSide()
 			@drawerContent()
 		</div>
 	</div>
 }
 
-templ drawerSide() {
+templ (view RootView) drawerSide() {
 	<div class="drawer-side z-50">
 		<label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
 		<div class="bg-base-100 min-h-screen min-w-64 max-w-64">
@@ -43,7 +45,7 @@ templ drawerSide() {
 						</div>
 					}
 				</div>
-				@Menu()
+				@view.Menu
 			</div>
 		</div>
 	</div>

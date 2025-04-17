@@ -6,14 +6,13 @@ import (
 	"path/filepath"
 )
 
-type DocumentManager struct {
+type Manager struct {
 	documents     map[string]*Document
 	documentOrder map[int]*Document
-	headers       map[string]string
 }
 
-func NewDocumentManager(fileSystem fs.FS) (DocumentManager, error) {
-	dm := DocumentManager{
+func NewManager(fileSystem fs.FS) (Manager, error) {
+	dm := Manager{
 		documents:     make(map[string]*Document),
 		documentOrder: make(map[int]*Document),
 	}
@@ -51,16 +50,24 @@ func NewDocumentManager(fileSystem fs.FS) (DocumentManager, error) {
 	return dm, nil
 }
 
-func (dm DocumentManager) GetByPosition(position int) (*Document, error) {
-	document, ok := dm.documentOrder[position]
+func (m Manager) AllPaths() []string {
+	paths := make([]string, 0, len(m.documents))
+	for path := range m.documents {
+		paths = append(paths, path)
+	}
+	return paths
+}
+
+func (m Manager) GetByPosition(position int) (*Document, error) {
+	document, ok := m.documentOrder[position]
 	if !ok {
 		return nil, errors.New("document does not exist")
 	}
 	return document, nil
 }
 
-func (dm DocumentManager) GetByPath(path string) (*Document, error) {
-	document, ok := dm.documents[path]
+func (m Manager) GetByPath(path string) (*Document, error) {
+	document, ok := m.documents[path]
 	if !ok {
 		return nil, errors.New("document does not exist")
 	}
