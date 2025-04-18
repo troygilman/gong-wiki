@@ -65,7 +65,7 @@ templ (c DocumentComponent) View() {
 		</div>
 		<div class="prose text-scale hidden lg:flex max-w-64 min-w-64">
 			<ul class="list-none list-outside px-2">
-				for _, child := range c.doc.Node().Children() {
+				for _, child := range c.doc.Node().Children()[0].Children() {
 					@documentNode(child)
 				}
 			</ul>
