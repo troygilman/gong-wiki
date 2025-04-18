@@ -76,7 +76,7 @@ func (p Parser) parseMarkdown(source []byte) (html string, node *Node, err error
 					buf.Write(text.Segment.Value(reader.Source()))
 				}
 			}
-			headingText := strings.ToLower(buf.String())
+			headingText := buf.String()
 
 			// Get heading id
 			idAttr, ok := astNode.AttributeString("id")

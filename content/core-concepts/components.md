@@ -4,8 +4,6 @@
 
 # Components
 
-Gong's server-side component-based design enables modular UI architectures that traditionally required front-end frameworks. The component pattern allows you to package UI elements and their reactivity together in one elegant solution across your application.
-
 ## Introduction
 
 Components are the building blocks of Gong applications. They encapsulate the UI and its behavior, making it easier to manage and reuse code. By using components, developers can create modular, maintainable, and scalable applications.
@@ -57,16 +55,16 @@ type Action interface {
 ```go
 type ButtonComponent struct {}
 
-templ (component ButtonComponent) View() {
-	<button>
-		Click Me
-	</button>
-}
-
 templ (component ButtonComponent) Action() {
 	{{
 		fmt.Println("Button clicked!")
 	}}
+}
+
+templ (component ButtonComponent) View() {
+	@gong.NewButton() {
+		Click Me
+	}
 }
 ```
 
@@ -85,44 +83,70 @@ type Loader interface {
 ```go
 type DataLoader struct {}
 
-templ (loader DataLoader) Loader(ctx context.Context) any {
-	return fetchDataFromDB()
+func (loader DataLoader) Loader(ctx context.Context) any {
+	return fetchNameFromDB(ctx)
+}
+
+templ (loader DataLoader) View() {
+	<div>
+		gong.LoaderData[string](ctx)
+	</div>
 }
 ```
 
 You can access loader data elsewhere in your component by calling `gong.LoaderData[Type](ctx)`. Gong will attempt to cast the data returned by the Loader to the specified `Type` and will panic if the types are incompatible. Never call the Loader function directly from your component.
 
-### Head
+### Index
 
-The Head interface allows you to define a custom HTML `<head>` tag that replaces Gong's default `<head>` tag.
+The Index interface allows you to:
+
+- define a custom `<head>` element that replaces Gong's default head element
+- define attributes to be attached to the `<html>` element
 
 ```go
-type Head interface {
+type Index interface {
 	Head() templ.Component
+	HtmlAttrs() templ.Attributes
 }
 ```
 
 **Example:**
 
 ```go
-type CustomHead struct {}
+type CustomIndex struct {}
 
-templ (head CustomHead) Head() {
+templ (index CustomIndex) Head() {
 	<head>
 		<title>Custom Page</title>
 	</head>
+}
+
+func (index CustomIndex) HtmlAttrs() templ.Attributes {
+	return templ.Attributes{
+		"data-theme": "light",
+	}
 }
 ```
 
 When implementing a custom Head, ensure you include this script tag to load the HTMX library:
 
 ```html
-<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+<script
+    src="https://unpkg.com/htmx.org@2.0.4"
+    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+    crossorigin="anonymous"
+></script>
 ```
+
+The Index will only be used if it is implemented by the Component in the root level Route.
 
 ## Nested Components
 
 Components can be nested within other components to create complex UI hierarchies. This approach promotes code reuse and maintainable architecture.
+
+### Configuring
+
+In order to properly configure a nested component, the child component must be set as a publicly accessable field within the parent component.
 
 ```go
 type ParentComponent struct {
@@ -134,7 +158,13 @@ func NewParentComponent(child gong.Component) gong.Component {
 		ChildComponent: child,
 	})
 }
+```
 
+### Rendering
+
+To render the child component, simply use it within your templ functions like any other `templ.Component`.
+
+```go
 templ (parentComponent ParentComponent) View() {
 	<div>
 		Parent Component
@@ -143,4 +173,32 @@ templ (parentComponent ParentComponent) View() {
 }
 ```
 
-See the example running [here](/example/nested-components).
+#### WithLoaderData()
+
+To render a child component with data from the parent, use the `WithLoaderData(any)` function.
+If the child component uses `gong.LoaderData[Type](ctx)` then the parent defined data will be used.
+
+```go
+templ (parentComponent ParentComponent) View() {
+	<div>
+		Parent Component
+		@parentComponent.ChildComponent.WithLoaderData("Hello Child")
+	</div>
+}
+```
+
+#### WithLoaderFunc()
+
+To render a child component with a loader function from the parent, use the `WithLoaderFunc(LoaderFunc)` function.
+If the child component uses `gong.LoaderData[Type](ctx)` then the parent defined loader will be used.
+
+```go
+templ (parentComponent ParentComponent) View() {
+	<div>
+		Parent Component
+		@parentComponent.ChildComponent.WithLoaderFunc(func(ctx context.Context) any {
+			return "Hello Child"
+		})
+	</div>
+}
+```
