@@ -29,11 +29,21 @@ templ Menu(props []MenuGroupProps) {
 	{{
 		path := gong.ChildRoute(ctx).FullPath()
 	}}
-	<ul class="menu rounded-box w-full text-scale">
-		for _, group := range props {
-			@MenuGroup(group, path)
-		}
-	</ul>
+	<div class="flex flex-col">
+		<div class="navbar px-4">
+			@gong.NewLink("/").WithSwap(gong.SwapInnerHTML) {
+				<div class="flex flex-row place-items-center gap-2 cursor-pointer">
+					<image src="/public/icon.png" class="size-18 lg:size-14"></image>
+					<div class="text-4xl lg:text-2xl font-bold">Gong</div>
+				</div>
+			}
+		</div>
+		<ul class="menu rounded-box w-full text-scale">
+			for _, group := range props {
+				@MenuGroup(group, path)
+			}
+		</ul>
+	</div>
 }
 
 templ MenuGroup(props MenuGroupProps, path string) {

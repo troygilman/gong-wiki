@@ -36,17 +36,7 @@ templ (view RootView) drawerSide() {
 	<div class="drawer-side z-50">
 		<label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
 		<div class="bg-base-100 min-h-screen min-w-64 max-w-64">
-			<div class="flex flex-col">
-				<div class="navbar px-4">
-					@gong.NewLink("/") {
-						<div class="flex flex-row place-items-center gap-2 cursor-pointer">
-							<image src="/public/icon.png" class="size-18 lg:size-14"></image>
-							<div class="text-4xl lg:text-2xl font-bold">Gong</div>
-						</div>
-					}
-				</div>
-				@view.Menu
-			</div>
+			@view.Menu
 		</div>
 	</div>
 }
