@@ -6,6 +6,16 @@
 
 Gong's server-side component-based design enables modular UI architectures that traditionally required front-end frameworks. The component pattern allows you to package UI elements and their reactivity together in one elegant solution across your application.
 
+## Introduction
+
+Components are the building blocks of Gong applications. They encapsulate the UI and its behavior, making it easier to manage and reuse code. By using components, developers can create modular, maintainable, and scalable applications.
+
+### Why Use Components?
+
+- **Modularity:** Break down complex UIs into smaller, manageable pieces.
+- **Reusability:** Share components across different parts of the application.
+- **Maintainability:** Simplify debugging and updates by isolating functionality.
+
 ## Interfaces
 
 A Component in Gong is a Go type that implements one or more Gong-defined interfaces. Gong provides the following interfaces for customizing your components:
@@ -20,6 +30,18 @@ type View interface {
 }
 ```
 
+**Example:**
+
+```go
+type SimpleView struct {}
+
+templ (view SimpleView) View() {
+	<div>
+		Hello, Gong!
+	</div>
+}
+```
+
 ### Action
 
 The Action interface defines how a component handles user interactions. Actions typically update server-side state and replace existing Target content. Actions can also be used for lazy-loading data.
@@ -27,6 +49,24 @@ The Action interface defines how a component handles user interactions. Actions 
 ```go
 type Action interface {
 	Action() templ.Component
+}
+```
+
+**Example:**
+
+```go
+type ButtonComponent struct {}
+
+templ (component ButtonComponent) View() {
+	<button>
+		Click Me
+	</button>
+}
+
+templ (component ButtonComponent) Action() {
+	{{
+		fmt.Println("Button clicked!")
+	}}
 }
 ```
 
@@ -40,6 +80,16 @@ type Loader interface {
 }
 ```
 
+**Example:**
+
+```go
+type DataLoader struct {}
+
+templ (loader DataLoader) Loader(ctx context.Context) any {
+	return fetchDataFromDB()
+}
+```
+
 You can access loader data elsewhere in your component by calling `gong.LoaderData[Type](ctx)`. Gong will attempt to cast the data returned by the Loader to the specified `Type` and will panic if the types are incompatible. Never call the Loader function directly from your component.
 
 ### Head
@@ -49,6 +99,18 @@ The Head interface allows you to define a custom HTML `<head>` tag that replaces
 ```go
 type Head interface {
 	Head() templ.Component
+}
+```
+
+**Example:**
+
+```go
+type CustomHead struct {}
+
+templ (head CustomHead) Head() {
+	<head>
+		<title>Custom Page</title>
+	</head>
 }
 ```
 
