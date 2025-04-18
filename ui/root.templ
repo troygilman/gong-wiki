@@ -8,7 +8,7 @@ type RootView struct {
 
 func (view RootView) HtmlAttrs() templ.Attributes {
 	return templ.Attributes{
-		"data-theme": "light",
+		"data-theme": "dim",
 	}
 }
 
@@ -18,10 +18,9 @@ templ (view RootView) Head() {
 		<title>Gong</title>
 		<link href="/public/index.css" rel="stylesheet"/>
 		<link rel="icon" type="image/png" href="/public/icon.png"/>
+		<link href="/public/prism.css" rel="stylesheet"/>
 		<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" rel="stylesheet"/>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js" data-manual></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-go.min.js"></script>
+		<script src="/public/prism.js" data-manual></script>
 	</head>
 }
 
@@ -51,11 +50,11 @@ templ drawerContent() {
 			<div class="navbar flex justify-between">
 				<div>
 					<label for="my-drawer" class="btn btn-square btn-ghost btn-scale p-1 drawer-button lg:hidden">
-						@sidebarIcon("inline-block w-full h-full")
+						@sidebarIcon("inline-block w-full h-full fill-base-content")
 					</label>
 				</div>
 				<a class="btn btn-square btn-ghost btn-scale p-1" href="https://github.com/troygilman/gong">
-					@githubIcon("inline-block w-full h-full")
+					@githubIcon("inline-block w-full h-full fill-base-content")
 				</a>
 			</div>
 			<div id="outlet-container" class="flex grow w-full max-w-full min-h-0 justify-center">
