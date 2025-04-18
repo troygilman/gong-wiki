@@ -117,11 +117,7 @@ templ (head CustomHead) Head() {
 When implementing a custom Head, ensure you include this script tag to load the HTMX library:
 
 ```html
-<script
-    src="https://unpkg.com/htmx.org@2.0.4"
-    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
-    crossorigin="anonymous"
-></script>
+<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
 ```
 
 ## Nested Components

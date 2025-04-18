@@ -14,12 +14,12 @@
     @apply btn-xl lg:btn-lg;
 }
 
-pre {
-    position: relative;
-}
-
 .gong-outlet {
     @apply w-full h-full;
+}
+
+.code-container {
+    position: relative;
 }
 
 .copy-button {

@@ -24,8 +24,8 @@ func NewParser() Parser {
 		goldmark.WithParserOptions(
 			parser.WithAutoHeadingID(),
 		),
+		goldmark.WithRenderer(NewRenderer()),
 	)
-	md.Renderer()
 	return Parser{
 		renderer: md.Renderer(),
 		parser:   md.Parser(),

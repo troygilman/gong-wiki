@@ -69,7 +69,7 @@ templ initScript() {
 	<script>
 	let addCopyButtons = () => {
         // Add copy buttons to code blocks
-        document.querySelectorAll('pre').forEach(block => {
+        document.querySelectorAll('.code-container').forEach(block => {
             // Create the copy button
             const button = document.createElement('button');
             button.className = 'copy-button';
