@@ -63,7 +63,7 @@ templ MenuItem(props MenuItemProps, active bool) {
 	{{
 		attrs := templ.Attributes{
 			"class": templ.Classes(
-				"hover:bg-primary hover:text-primary-content transition-colors",
+				"hover:bg-primary hover:text-primary-content active:!bg-primary/50 transition-colors",
 				templ.KV("menu-active", active),
 			).String(),
 		}
