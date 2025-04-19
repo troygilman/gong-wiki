@@ -88,9 +88,8 @@ func main() {
 }
 
 func newDocumentRoute(manager document.Manager, path string) gong.RouteBuilder {
-	doc, err := manager.GetByPath(path)
-	if err != nil {
-		panic(err)
-	}
-	return gong.NewRoute(path, ui.NewDocumentComponent(manager, doc))
+	doc := manager.GetByPath(path)
+	prev := manager.GetByPosition(doc.Metadata().Position - 1)
+	next := manager.GetByPosition(doc.Metadata().Position + 1)
+	return gong.NewRoute(path, ui.NewDocumentComponent(doc, prev, next))
 }

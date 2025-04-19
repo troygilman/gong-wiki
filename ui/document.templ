@@ -8,22 +8,24 @@ import (
 )
 
 type DocumentComponent struct {
-	manager document.Manager
-	doc     *document.Document
+	doc  *document.Document
+	prev *document.Document
+	next *document.Document
 }
 
-func NewDocumentComponent(manager document.Manager, doc *document.Document) gong.Component {
+func NewDocumentComponent(
+	doc *document.Document,
+	prev *document.Document,
+	next *document.Document,
+) gong.Component {
 	return gong.NewComponent(DocumentComponent{
-		manager: manager,
-		doc:     doc,
+		doc:  doc,
+		prev: prev,
+		next: next,
 	})
 }
 
 templ (c DocumentComponent) View() {
-	{{
-	prevDoc, prevDocErr := c.manager.GetByPosition(c.doc.Metadata().Position - 1)
-	nextDoc, nextDocErr := c.manager.GetByPosition(c.doc.Metadata().Position + 1)
-	}}
 	<div class="flex flex-row w-full h-full">
 		<div class="flex flex-col gap-4 place-items-center grow min-w-0 w-7xl overflow-y-scroll scroll-smooth px-4 py-4 max-w-7xl">
 			<div class="prose max-w-full w-full pb-4 text-scale">
@@ -34,14 +36,14 @@ templ (c DocumentComponent) View() {
 			</div>
 			<div class="flex flex-row w-full justify-between">
 				<div>
-					if prevDocErr == nil {
-						<div hx-on:click={ templ.JSFuncCall("htmx.trigger", "#"+buildMenuLinkID("/docs"+prevDoc.Path()), "click") }>
+					if c.prev != nil {
+						<div hx-on:click={ templ.JSFuncCall("htmx.trigger", "#"+buildMenuLinkID("/docs"+c.prev.Path()), "click") }>
 							<div class="btn btn-scale btn-soft hover:btn-primary group">
 								@arrowIcon("size-8 fill-base-content group-hover:fill-primary-content rotate-180")
 								<div class="flex flex-col place-items-start">
 									<div class="text-sm">Previous</div>
 									<div class="font-bold">
-										{ prevDoc.Metadata().Label }
+										{ c.prev.Metadata().Label }
 									</div>
 								</div>
 							</div>
@@ -49,13 +51,13 @@ templ (c DocumentComponent) View() {
 					}
 				</div>
 				<div>
-					if nextDocErr == nil {
-						<div hx-on:click={ templ.JSFuncCall("htmx.trigger", "#"+buildMenuLinkID("/docs"+nextDoc.Path()), "click") }>
+					if c.next != nil {
+						<div hx-on:click={ templ.JSFuncCall("htmx.trigger", "#"+buildMenuLinkID("/docs"+c.next.Path()), "click") }>
 							<div class="btn btn-scale btn-soft hover:btn-primary group">
 								<div class="flex flex-col place-items-end">
 									<div class="text-sm">Next</div>
 									<div class="font-bold">
-										{ nextDoc.Metadata().Label }
+										{ c.next.Metadata().Label }
 									</div>
 								</div>
 								@arrowIcon("size-8 fill-base-content group-hover:fill-primary-content")

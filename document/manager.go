@@ -1,7 +1,6 @@
 package document
 
 import (
-	"errors"
 	"io/fs"
 	"path/filepath"
 )
@@ -58,18 +57,18 @@ func (m Manager) AllPaths() []string {
 	return paths
 }
 
-func (m Manager) GetByPosition(position int) (*Document, error) {
+func (m Manager) GetByPosition(position int) *Document {
 	document, ok := m.documentOrder[position]
 	if !ok {
-		return nil, errors.New("document does not exist")
+		return nil
 	}
-	return document, nil
+	return document
 }
 
-func (m Manager) GetByPath(path string) (*Document, error) {
+func (m Manager) GetByPath(path string) *Document {
 	document, ok := m.documents[path]
 	if !ok {
-		return nil, errors.New("document does not exist")
+		return nil
 	}
-	return document, nil
+	return document
 }
