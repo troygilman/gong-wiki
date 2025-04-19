@@ -60,15 +60,22 @@ templ MenuGroup(props MenuGroupProps, path string) {
 }
 
 templ MenuItem(props MenuItemProps, active bool) {
-	@gong.NewLink(props.Link).
-		WithID(buildMenuLinkID(props.Link)).
-		WithSwap(gong.SwapInnerHTML) {
-		<li>
-			<a class={ "hover:bg-primary hover:text-primary-content transition-colors", templ.KV("menu-active", active) }>
-				{ props.Label }
-			</a>
-		</li>
-	}
+	{{
+		attrs := templ.Attributes{
+			"class": templ.Classes(
+				"hover:bg-primary hover:text-primary-content transition-colors",
+				templ.KV("menu-active", active),
+			).String(),
+		}
+	}}
+	<li>
+		@gong.NewLink(props.Link).
+			WithID(buildMenuLinkID(props.Link)).
+			WithSwap(gong.SwapInnerHTML).
+			WithAttrs(attrs) {
+			{ props.Label }
+		}
+	</li>
 }
 
 func buildMenuLinkID(path string) string {
