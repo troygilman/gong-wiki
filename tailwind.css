@@ -30,6 +30,10 @@
     @apply absolute top-2 right-2 btn btn-lg lg:btn-xs btn-soft text-base-content/50 font-medium;
 }
 
+.menu-item {
+    @apply hover:bg-primary hover:text-primary-content active:!bg-primary/50 active:!text-primary-content transition-colors;
+}
+
 h1,
 h2,
 h3,

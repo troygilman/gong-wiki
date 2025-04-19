@@ -91,7 +91,7 @@ templ documentNode(node *document.Node) {
 			class="flex flex-row no-underline group"
 			href={ templ.URL("#" + node.ID()) }
 		>
-			<div class="divider divider-horizontal group-hover:divider-secondary m-0"></div>
+			<div class="divider divider-horizontal group-hover:divider-secondary transition-all m-0"></div>
 			<div class="ml-1 text-current/50 group-hover:text-secondary transition-colors">
 				{ node.Title() }
 			</div>
