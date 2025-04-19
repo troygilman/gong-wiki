@@ -18,10 +18,6 @@
     @apply btn-xl lg:btn-md;
 }
 
-.gong-outlet {
-    @apply w-full h-full;
-}
-
 .code-container {
     position: relative;
 }

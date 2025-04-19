@@ -58,7 +58,7 @@ templ drawerContent() {
 				</a>
 			</div>
 			<div id="outlet-container" class="flex grow w-full max-w-full min-h-0 justify-center">
-				@gong.NewOutlet()
+				@gong.NewOutlet().WithAttrs(templ.Attributes{"class": "w-full h-full"})
 			</div>
 		</div>
 	</div>
