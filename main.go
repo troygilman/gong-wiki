@@ -44,6 +44,10 @@ func main() {
 					Label: "Tutorial",
 					Link:  "/docs/getting-started/tutorial",
 				},
+				{
+					Label: "Examples",
+					Link:  "/docs/getting-started/examples",
+				},
 			},
 		},
 		{

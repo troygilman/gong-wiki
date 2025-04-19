@@ -36,7 +36,7 @@ templ (c DocumentComponent) View() {
 				<div>
 					if prevDocErr == nil {
 						<div hx-on:click={ templ.JSFuncCall("htmx.trigger", "#"+buildMenuLinkID("/docs"+prevDoc.Path()), "click") }>
-							<div class="btn btn-scale btn-outline hover:btn-primary">
+							<div class="btn btn-scale btn-soft hover:btn-primary">
 								<div class="flex flex-col place-items-start">
 									<div class="text-sm">Previous</div>
 									<div class="font-bold">
@@ -50,7 +50,7 @@ templ (c DocumentComponent) View() {
 				<div>
 					if nextDocErr == nil {
 						<div hx-on:click={ templ.JSFuncCall("htmx.trigger", "#"+buildMenuLinkID("/docs"+nextDoc.Path()), "click") }>
-							<div class="btn btn-scale btn-outline hover:btn-primary">
+							<div class="btn btn-scale btn-soft hover:btn-primary">
 								<div class="flex flex-col place-items-end">
 									<div class="text-sm">Next</div>
 									<div class="font-bold">
@@ -63,7 +63,7 @@ templ (c DocumentComponent) View() {
 				</div>
 			</div>
 		</div>
-		<div class="prose text-scale hidden lg:flex max-w-64 min-w-64">
+		<div class="prose text-scale hidden lg:flex max-w-64 min-w-64 overflow-y-scroll">
 			<ul class="list-none list-outside px-2">
 				for _, child := range c.doc.Node().Children()[0].Children() {
 					@documentNode(child)
