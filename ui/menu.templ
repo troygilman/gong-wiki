@@ -64,7 +64,7 @@ templ MenuItem(props MenuItemProps, active bool) {
 		attrs := templ.Attributes{
 			"class": templ.Classes(
 				"menu-item",
-				templ.KV("menu-active !bg-primary/50 !text-primary-content", active),
+				templ.KV("bg-primary/50 text-primary-content", active),
 			).String(),
 		}
 	}}
