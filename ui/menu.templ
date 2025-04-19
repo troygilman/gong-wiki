@@ -49,7 +49,7 @@ templ Menu(props []MenuGroupProps) {
 templ MenuGroup(props MenuGroupProps, path string) {
 	<li>
 		<details open>
-			<summary class="text-nowrap">{ props.Label }</summary>
+			<summary class="text-nowrap hover:bg-primary hover:text-primary-content transition-colors">{ props.Label }</summary>
 			<ul>
 				for _, item := range props.Items {
 					@MenuItem(item, item.Link == path)
@@ -64,7 +64,7 @@ templ MenuItem(props MenuItemProps, active bool) {
 		WithID(buildMenuLinkID(props.Link)).
 		WithSwap(gong.SwapInnerHTML) {
 		<li>
-			<a class={ templ.KV("menu-active", active) }>
+			<a class={ "hover:bg-primary hover:text-primary-content transition-colors", templ.KV("menu-active", active) }>
 				{ props.Label }
 			</a>
 		</li>
