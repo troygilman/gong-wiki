@@ -27,19 +27,7 @@
 }
 
 .copy-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 5px 10px;
-    background: #555;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.copy-button:hover {
-    background: #666;
+    @apply absolute top-2 right-2 btn btn-lg lg:btn-xs btn-soft text-base-content/50 font-medium;
 }
 
 h1,
