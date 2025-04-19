@@ -61,6 +61,10 @@ func main() {
 					Label: "Routing",
 					Link:  "/docs/core-concepts/routing",
 				},
+				{
+					Label: "Data Binding",
+					Link:  "/docs/core-concepts/data-binding",
+				},
 			},
 		},
 	})

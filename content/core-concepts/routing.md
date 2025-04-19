@@ -16,38 +16,12 @@ gong.NewRoute("/", HomeComponent)
 
 This renders the `HomeComponent` when the root path ("/") is accessed.
 
-### Data Binding
+### Dynamic Routing
 
-Gong provides many functions to bind and query data from the current request.
-
-#### PathValue()
-
-Define dynamic route parameters using the `{name}` syntax.
+Define dynamic path parameters using the `{name}` syntax.
 
 ```go
-// Route definition
-gong.NewRoute("user/{name}", userComponent)
-
-// Access parameter in your component
-name := gong.PathValue(ctx, "name")
-```
-
-#### QueryParam()
-
-Use `QueryParam(context.Context, string)` to get a query parameter from the current request.
-
-```go
-// URL: https://my-app.com?name=Joe
-name := gong.QueryParam(ctx, "name")
-```
-
-#### FormValue()
-
-Use `FormValue(context.Context, string)` to get a form value from the current request.
-
-```go
-// Form Data: name=Joe
-name := gong.FormValue(ctx, "name")
+gong.NewRoute("/user/{name}", UserComponent)
 ```
 
 ## Nested Routing
