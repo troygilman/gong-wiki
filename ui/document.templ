@@ -77,12 +77,16 @@ templ documentNode(node *document.Node) {
 	{{
 		children := node.Children()
 	}}
-	<li>
-		<div class="border-l-2 pl-2 text-current/50 hover:text-secondary transition-all">
-			<a class="no-underline text-inherit" href={ templ.URL("#" + node.ID()) }>
+	<li class="p-0">
+		<a
+			class="flex flex-row no-underline  transition-all group"
+			href={ templ.URL("#" + node.ID()) }
+		>
+			<div class="divider divider-horizontal group-hover:divider-secondary m-0"></div>
+			<div class="ml-1 text-current/50 group-hover:text-secondary">
 				{ node.Title() }
-			</a>
-		</div>
+			</div>
+		</a>
 		if len(children) > 0 {
 			<ul class="list-none list-outside">
 				for _, child := range node.Children() {
