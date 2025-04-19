@@ -11,10 +11,10 @@ Gong provides a powerful and flexible routing system that supports both simple a
 Create a basic route using the `NewRoute` function:
 
 ```go
-gong.NewRoute("/", homeComponent)
+gong.NewRoute("/", HomeComponent)
 ```
 
-This renders the `homeComponent` when the root path ("/") is accessed.
+This renders the `HomeComponent` when the root path ("/") is accessed.
 
 ### Data Binding
 
@@ -34,7 +34,7 @@ name := gong.PathValue(ctx, "name")
 
 #### QueryParam()
 
-Use `gong.QueryParam(context.Context, string)` to get a query parameter from the current request.
+Use `QueryParam(context.Context, string)` to get a query parameter from the current request.
 
 ```go
 // URL: https://my-app.com?name=Joe
@@ -43,7 +43,7 @@ name := gong.QueryParam(ctx, "name")
 
 #### FormValue()
 
-Use `gong.FormValue(context.Context, string)` to get a form value from the current request.
+Use `FormValue(context.Context, string)` to get a form value from the current request.
 
 ```go
 // Form Data: name=Joe
@@ -52,7 +52,7 @@ name := gong.FormValue(ctx, "name")
 
 ## Nested Routing
 
-Create hierarchical routes with the `WithRoutes` method:
+Create hierarchical routes with the `WithRoutes(...RouteBuilder)` method:
 
 ```go
 gong.NewRoute("/home", HomeComponent).WithRoutes(
@@ -71,11 +71,9 @@ Outlets define where child route components are rendered.
 - Will render the first child route as a default
 
 ```go
-templ (view HomeComponent) View() {
-    <div>
-        HOME
-        @gong.NewOutlet()
-    </div>
+templ (c HomeComponent) View() {
+    HOME
+    @gong.NewOutlet()
 }
 ```
 
@@ -87,7 +85,7 @@ Use the `Link` component for client-side navigation with partial page updates.
 - Updates only the necessary parts of the page
 
 ```go
-gong.NewLink("/users") {
+@gong.NewLink("/users") {
     Users
 }
 ```
