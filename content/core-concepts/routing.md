@@ -16,78 +16,78 @@ gong.NewRoute("/", homeComponent)
 
 This renders the `homeComponent` when the root path ("/") is accessed.
 
-## Nested Routing
+### Data Binding
 
-Create hierarchical routes with the `WithRoutes` method:
+Gong provides many functions to bind and query data from the current request.
 
-```go
-gong.NewRoute("/", homeComponent).WithRoutes(
-    gong.NewRoute("users", listComponent),
-    gong.NewRoute("user/{name}", userComponent),
-)
-```
+#### PathValue()
 
-In this example:
-
-- The root route ("/") renders the `homeComponent`
-- "/users" renders the `listComponent`
-- "/user/{name}" renders the `userComponent` with a dynamic parameter
-
-### Outlets
-
-Outlets define where child route components are rendered:
-
-```go
-templ (view homeView) View() {
-    <div>
-        HOME
-        <div>
-            @gong.NewLink("/users") {
-                Users
-            }
-        </div>
-        @gong.NewOutlet()
-    </div>
-}
-```
-
-Key features:
-
-- Automatically render child routes based on the current path
-- Can be targeted by links for partial page updates
-
-## Navigation
-
-Use the `Link` component for client-side navigation:
-
-```go
-// Basic link - targets an outlet in the current component
-gong.NewLink("/users") {
-    Users
-}
-
-// Link targeting the closest parent outlet
-gong.NewLink("/users").WithClosestOutlet() {
-    View User
-}
-```
-
-The `Link` component:
-
-- Uses HTMX for client-side navigation
-- By default, looks for an outlet in the current component
-- With `WithClosestOutlet()`, targets the closest parent outlet
-- Maintains browser history
-- Updates only the necessary parts of the page
-
-## Route Parameters
-
-Define dynamic route parameters using the `{param}` syntax:
+Define dynamic route parameters using the `{name}` syntax.
 
 ```go
 // Route definition
 gong.NewRoute("user/{name}", userComponent)
 
 // Access parameter in your component
+name := gong.PathValue(ctx, "name")
+```
+
+#### QueryParam()
+
+Use `gong.QueryParam(context.Context, string)` to get a query parameter from the current request.
+
+```go
+// URL: https://my-app.com?name=Joe
+name := gong.QueryParam(ctx, "name")
+```
+
+#### FormValue()
+
+Use `gong.FormValue(context.Context, string)` to get a form value from the current request.
+
+```go
+// Form Data: name=Joe
 name := gong.FormValue(ctx, "name")
+```
+
+## Nested Routing
+
+Create hierarchical routes with the `WithRoutes` method:
+
+```go
+gong.NewRoute("/home", HomeComponent).WithRoutes(
+    gong.NewRoute("/users", UserListComponent),
+)
+```
+
+In this example, the UserListComponent will be rendered inside the Outlet of the HomeComponent.
+
+### Outlets
+
+Outlets define where child route components are rendered.
+
+- Automatically render child routes based on the current path
+- Can be targeted by links for partial page updates
+- Will render the first child route as a default
+
+```go
+templ (view HomeComponent) View() {
+    <div>
+        HOME
+        @gong.NewOutlet()
+    </div>
+}
+```
+
+## Navigation
+
+Use the `Link` component for client-side navigation with partial page updates.
+
+- Maintains browser history
+- Updates only the necessary parts of the page
+
+```go
+gong.NewLink("/users") {
+    Users
+}
 ```

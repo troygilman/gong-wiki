@@ -89,7 +89,7 @@ func (loader DataLoader) Loader(ctx context.Context) any {
 
 templ (loader DataLoader) View() {
 	<div>
-		gong.LoaderData[string](ctx)
+		{ gong.LoaderData[string](ctx) }
 	</div>
 }
 ```
@@ -162,7 +162,7 @@ func NewParentComponent(child gong.Component) gong.Component {
 
 ### Rendering
 
-To render the child component, simply use it within your templ functions like any other `templ.Component`.
+To render the child component, simply render it within your templ function like any other `templ.Component`.
 
 ```go
 templ (parentComponent ParentComponent) View() {
