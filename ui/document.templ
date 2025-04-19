@@ -78,9 +78,11 @@ templ documentNode(node *document.Node) {
 		children := node.Children()
 	}}
 	<li>
-		<a class="no-underline hover:text-current/60" href={ templ.URL("#" + node.ID()) }>
-			{ node.Title() }
-		</a>
+		<div class="border-l-2 pl-2 text-current/60 hover:text-secondary">
+			<a class="no-underline text-inherit" href={ templ.URL("#" + node.ID()) }>
+				{ node.Title() }
+			</a>
+		</div>
 		if len(children) > 0 {
 			<ul class="list-none list-outside">
 				for _, child := range node.Children() {
