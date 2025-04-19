@@ -9,6 +9,7 @@ import (
 
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/ast"
+	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer"
 	"github.com/yuin/goldmark/text"
@@ -21,9 +22,8 @@ type Parser struct {
 
 func NewParser() Parser {
 	md := goldmark.New(
-		goldmark.WithParserOptions(
-			parser.WithAutoHeadingID(),
-		),
+		goldmark.WithExtensions(extension.Table),
+		goldmark.WithParserOptions(parser.WithAutoHeadingID()),
 		goldmark.WithRenderer(NewRenderer()),
 	)
 	return Parser{
@@ -33,7 +33,7 @@ func NewParser() Parser {
 }
 
 func (p Parser) Parse(path string, source []byte) (*Document, error) {
-	sourceSplit := strings.Split(string(source), "---")
+	sourceSplit := strings.SplitN(string(source), "---", 3)
 
 	var metadata DocumentMetadata
 	if err := json.Unmarshal([]byte(sourceSplit[1]), &metadata); err != nil {

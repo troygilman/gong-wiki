@@ -8,20 +8,20 @@ import (
 )
 
 type NodeRenderer struct {
-	*html.Renderer
+	renderer *html.Renderer
 }
 
 func NewRenderer() renderer.Renderer {
 	nodeRenderer := &NodeRenderer{
-		Renderer: &html.Renderer{
+		renderer: &html.Renderer{
 			Config: html.NewConfig(),
 		},
 	}
-	return renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(nodeRenderer, 1000)))
+	return renderer.NewRenderer(renderer.WithNodeRenderers(util.Prioritized(nodeRenderer, 100)))
 }
 
 func (r *NodeRenderer) RegisterFuncs(reg renderer.NodeRendererFuncRegisterer) {
-	r.Renderer.RegisterFuncs(reg)
+	r.renderer.RegisterFuncs(reg)
 	reg.Register(ast.KindHeading, r.renderHeading)
 	reg.Register(ast.KindFencedCodeBlock, r.renderFencedCodeBlock)
 }
@@ -30,7 +30,7 @@ func (r *NodeRenderer) writeLines(w util.BufWriter, source []byte, n ast.Node) {
 	l := n.Lines().Len()
 	for i := 0; i < l; i++ {
 		line := n.Lines().At(i)
-		r.Writer.RawWrite(w, line.Value(source))
+		r.renderer.Writer.RawWrite(w, line.Value(source))
 	}
 }
 
@@ -67,7 +67,7 @@ func (r *NodeRenderer) renderFencedCodeBlock(
 		language := n.Language(source)
 		if language != nil {
 			_, _ = w.WriteString(" class=\"language-")
-			r.Writer.Write(w, language)
+			r.renderer.Writer.Write(w, language)
 			_, _ = w.WriteString("\"")
 		}
 		_ = w.WriteByte('>')
