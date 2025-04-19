@@ -100,8 +100,8 @@ You can access loader data elsewhere in your component by calling `gong.LoaderDa
 
 The Index interface allows you to:
 
-- define a custom `<head>` element that replaces Gong's default head element
-- define attributes to be attached to the `<html>` element
+- Define a custom `<head>` element that replaces Gong's default head element
+- Define attributes to be attached to the `<html>` element
 
 ```go
 type Index interface {

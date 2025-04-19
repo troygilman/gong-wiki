@@ -62,9 +62,9 @@ gong.NewRoute("/home", HomeComponent).WithRoutes(
 
 In this example, the UserListComponent will be rendered inside the Outlet of the HomeComponent.
 
-### Outlets
+### Outlet
 
-Outlets define where child route components are rendered.
+Use the `Outlet` component to define where child route components are rendered.
 
 - Automatically render child routes based on the current path
 - Can be targeted by links for partial page updates
@@ -77,7 +77,7 @@ templ (c HomeComponent) View() {
 }
 ```
 
-## Navigation
+### Link
 
 Use the `Link` component for client-side navigation with partial page updates.
 
