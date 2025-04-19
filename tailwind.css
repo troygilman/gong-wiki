@@ -38,6 +38,19 @@
     background: #666;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    @apply flex flex-row place-items-center;
+}
+
+.header-link {
+    @apply btn btn-sm btn-secondary btn-soft btn-square text-xl font-bold mr-4;
+}
+
 html {
     height: 100%;
     width: 100%;

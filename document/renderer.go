@@ -22,6 +22,7 @@ func NewRenderer() renderer.Renderer {
 
 func (r *NodeRenderer) RegisterFuncs(reg renderer.NodeRendererFuncRegisterer) {
 	r.Renderer.RegisterFuncs(reg)
+	reg.Register(ast.KindHeading, r.renderHeading)
 	reg.Register(ast.KindFencedCodeBlock, r.renderFencedCodeBlock)
 }
 
@@ -31,6 +32,31 @@ func (r *NodeRenderer) writeLines(w util.BufWriter, source []byte, n ast.Node) {
 		line := n.Lines().At(i)
 		r.Writer.RawWrite(w, line.Value(source))
 	}
+}
+
+func (r *NodeRenderer) renderHeading(
+	w util.BufWriter, source []byte, node ast.Node, entering bool) (ast.WalkStatus, error) {
+	n := node.(*ast.Heading)
+	if entering {
+		_, _ = w.WriteString("<h")
+		_ = w.WriteByte("0123456"[n.Level])
+		if n.Attributes() != nil {
+			html.RenderAttributes(w, node, html.HeadingAttributeFilter)
+		}
+		_ = w.WriteByte('>')
+		idBytes, ok := node.AttributeString("id")
+		if ok && n.Level != 1 {
+			id := string(idBytes.([]byte))
+			_, _ = w.WriteString("<a href=\"#")
+			_, _ = w.WriteString(id)
+			_, _ = w.WriteString("\" class=\"header-link\">#</a>")
+		}
+	} else {
+		_, _ = w.WriteString("</h")
+		_ = w.WriteByte("0123456"[n.Level])
+		_, _ = w.WriteString(">\n")
+	}
+	return ast.WalkContinue, nil
 }
 
 func (r *NodeRenderer) renderFencedCodeBlock(
