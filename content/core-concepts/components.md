@@ -96,17 +96,13 @@ templ (loader DataLoader) View() {
 
 You can access loader data elsewhere in your component by calling `gong.LoaderData[Type](ctx)`. Gong will attempt to cast the data returned by the Loader to the specified `Type` and will panic if the types are incompatible. Never call the Loader function directly from your component.
 
-### Index
+### Head
 
-The Index interface allows you to:
-
-- Define a custom `<head>` element that replaces Gong's default head element
-- Define attributes to be attached to the `<html>` element
+The Head interface allows you to define a custom `<head>` element that replaces Gong's default head element.
 
 ```go
-type Index interface {
+type Head interface {
 	Head() templ.Component
-	HtmlAttrs() templ.Attributes
 }
 ```
 
@@ -115,16 +111,10 @@ type Index interface {
 ```go
 type CustomIndex struct {}
 
-templ (index CustomIndex) Head() {
+templ (head CustomHead) Head() {
 	<head>
 		<title>Custom Page</title>
 	</head>
-}
-
-func (index CustomIndex) HtmlAttrs() templ.Attributes {
-	return templ.Attributes{
-		"data-theme": "light",
-	}
 }
 ```
 
@@ -138,7 +128,7 @@ When implementing a custom Head, ensure you include this script tag to load the 
 ></script>
 ```
 
-The Index will only be used if it is implemented by the Component in the root level Route.
+The Head will only be used if it is implemented by the Component in the root level Route.
 
 ## Nested Components
 

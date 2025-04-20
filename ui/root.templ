@@ -6,12 +6,6 @@ type RootView struct {
 	Menu gong.Component
 }
 
-func (view RootView) HtmlAttrs() templ.Attributes {
-	return templ.Attributes{
-		"data-theme": "dim",
-	}
-}
-
 templ (view RootView) Head() {
 	<head>
 		<meta charset="utf-8"/>
@@ -26,7 +20,7 @@ templ (view RootView) Head() {
 
 templ (view RootView) View() {
 	@initScript()
-	<div class="flex justify-center w-full h-full">
+	<div class="flex justify-center w-full h-full" data-theme="dim">
 		<div class="drawer lg:drawer-open w-fit h-full bg-base-100" x-data>
 			<input id="my-drawer" type="checkbox" class="drawer-toggle"/>
 			@view.drawerSide()
