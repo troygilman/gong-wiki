@@ -48,11 +48,7 @@ templ drawerContent() {
 					</label>
 				</div>
 				<div class="flex gap-4">
-					<label class="swap swap-rotate btn btn-square btn-ghost btn-icon-scale">
-						<input type="checkbox" class="theme-controller" value="light"/>
-						@sunIcon("swap-off w-full h-full fill-current")
-						@moonIcon("swap-on w-full h-full fill-current")
-					</label>
+					@themeController()
 					<a class="btn btn-square btn-ghost btn-icon-scale p-1" href="https://github.com/troygilman/gong">
 						@githubIcon("inline-block w-full h-full fill-current")
 					</a>
@@ -63,6 +59,23 @@ templ drawerContent() {
 			</div>
 		</div>
 	</div>
+}
+
+templ themeController() {
+	<label class="swap swap-rotate btn btn-square btn-ghost btn-icon-scale">
+		<input
+			id="theme-input"
+			type="checkbox"
+			class="theme-controller"
+			value="light"
+			hx-on:click="localStorage.setItem('isLight', JSON.stringify(this.checked))"
+		/>
+		<script>
+			htmx.find("#theme-input").checked = JSON.parse(localStorage.getItem('isLight'));
+		</script>
+		@sunIcon("swap-off w-full h-full fill-current")
+		@moonIcon("swap-on w-full h-full fill-current")
+	</label>
 }
 
 templ initScript() {
