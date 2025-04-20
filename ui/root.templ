@@ -12,7 +12,7 @@ templ (view RootView) Head() {
 		<title>Gong</title>
 		<link href="/public/index.css" rel="stylesheet"/>
 		<link rel="icon" type="image/png" href="/public/icon.png"/>
-		<link href="/public/prism.css" rel="stylesheet"/>
+		<link id="prism-stylesheet" href="/public/prism-dark.css" rel="stylesheet"/>
 		<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
 		<script src="/public/prism.js" data-manual></script>
 	</head>
@@ -68,13 +68,18 @@ templ themeController() {
 			type="checkbox"
 			class="theme-controller"
 			value="light"
-			hx-on:click="localStorage.setItem('isLight', JSON.stringify(this.checked))"
+			hx-on:click="setIsLight(this.checked)"
 		/>
-		<script>
-			htmx.find("#theme-input").checked = JSON.parse(localStorage.getItem('isLight'));
-		</script>
 		@sunIcon("swap-off w-full h-full fill-current")
 		@moonIcon("swap-on w-full h-full fill-current")
+		<script>
+			function setIsLight(isLight) {
+			    htmx.find("#theme-input").checked = isLight;
+				htmx.find("#prism-stylesheet").href = isLight ? "/public/prism-light.css" : "/public/prism-dark.css";
+				localStorage.setItem('isLight', JSON.stringify(isLight));
+			}
+			setIsLight(JSON.parse(localStorage.getItem('isLight')));
+		</script>
 	</label>
 }
 
