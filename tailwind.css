@@ -2,7 +2,9 @@
 @source "./ui/*.templ";
 @plugin "@tailwindcss/typography";
 @plugin "daisyui" {
-    themes: light, cupcake, dim;
+    themes:
+        dim --default,
+        light;
     exclude: rootscrollgutter;
 }
 

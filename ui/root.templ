@@ -20,7 +20,7 @@ templ (view RootView) Head() {
 
 templ (view RootView) View() {
 	@initScript()
-	<div class="flex justify-center w-full h-full" data-theme="dim">
+	<div class="flex justify-center w-full h-full">
 		<div class="drawer lg:drawer-open w-fit h-full bg-base-100" x-data>
 			<input id="my-drawer" type="checkbox" class="drawer-toggle"/>
 			@view.drawerSide()
@@ -44,12 +44,19 @@ templ drawerContent() {
 			<div class="navbar flex justify-between">
 				<div>
 					<label for="my-drawer" class="btn btn-square btn-ghost btn-icon-scale p-1 drawer-button lg:hidden">
-						@sidebarIcon("inline-block w-full h-full fill-base-content")
+						@sidebarIcon("inline-block w-full h-full fill-current")
 					</label>
 				</div>
-				<a class="btn btn-square btn-ghost btn-icon-scale p-1" href="https://github.com/troygilman/gong">
-					@githubIcon("inline-block w-full h-full fill-base-content")
-				</a>
+				<div class="flex gap-4">
+					<label class="swap swap-rotate btn btn-square btn-ghost btn-icon-scale">
+						<input type="checkbox" class="theme-controller" value="light"/>
+						@sunIcon("swap-off w-full h-full fill-current")
+						@moonIcon("swap-on w-full h-full fill-current")
+					</label>
+					<a class="btn btn-square btn-ghost btn-icon-scale p-1" href="https://github.com/troygilman/gong">
+						@githubIcon("inline-block w-full h-full fill-current")
+					</a>
+				</div>
 			</div>
 			<div id="outlet-container" class="flex grow w-full max-w-full min-h-0 justify-center">
 				@gong.NewOutlet().WithAttrs(templ.Attributes{"class": "w-full h-full"})
