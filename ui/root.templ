@@ -20,7 +20,7 @@ templ (view RootView) Head() {
 
 templ (view RootView) View() {
 	@initScript()
-	<div class="flex justify-center w-full h-full">
+	<div class="flex justify-center w-full h-full p-2 lg:p-0">
 		<div class="drawer lg:drawer-open w-fit h-full bg-base-100" x-data>
 			<input id="my-drawer" type="checkbox" class="drawer-toggle"/>
 			@view.drawerSide()
@@ -41,7 +41,7 @@ templ (view RootView) drawerSide() {
 templ drawerContent() {
 	<div class="drawer-content overflow-y-hidden">
 		<div class="flex flex-col w-full h-full">
-			<div class="navbar flex justify-between">
+			<div class="navbar flex justify-between min-h-fit">
 				<div>
 					<label for="my-drawer" class="btn btn-square btn-ghost btn-icon-scale p-1 drawer-button lg:hidden">
 						@sidebarIcon("inline-block w-full h-full fill-current")
