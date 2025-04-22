@@ -83,7 +83,7 @@ func main() {
 	}
 
 	g := gong.New(mux).Routes(
-		gong.NewRoute("/", gong.NewComponent(ui.RedirectComponent("/docs/getting-started/introduction"))),
+		gong.NewRoute("/", gong.NewComponent(ui.LandingPageComponent{})),
 		gong.NewRoute("/docs", rootComponent).WithRoutes(docRoutes...),
 		ui.ExampleRoute(),
 	)

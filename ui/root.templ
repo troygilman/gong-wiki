@@ -7,15 +7,7 @@ type RootView struct {
 }
 
 templ (view RootView) Head() {
-	<head>
-		<meta charset="utf-8"/>
-		<title>Gong</title>
-		<link href="/public/index.css" rel="stylesheet"/>
-		<link rel="icon" type="image/png" href="/public/icon.png"/>
-		<link id="prism-stylesheet" href="/public/prism-dark.css" rel="stylesheet"/>
-		<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
-		<script src="/public/prism.js" data-manual></script>
-	</head>
+	@head()
 }
 
 templ (view RootView) View() {
@@ -38,25 +30,44 @@ templ (view RootView) drawerSide() {
 	</div>
 }
 
+templ head() {
+	<head>
+		<meta charset="utf-8"/>
+		<title>Gong</title>
+		<link href="/public/index.css" rel="stylesheet"/>
+		<link rel="icon" type="image/png" href="/public/icon.png"/>
+		<link id="prism-stylesheet" href="/public/prism-dark.css" rel="stylesheet"/>
+		<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+		<script src="/public/prism.js" data-manual></script>
+	</head>
+}
+
 templ drawerContent() {
 	<div class="drawer-content overflow-y-hidden">
 		<div class="flex flex-col w-full h-full">
-			<div class="navbar flex justify-between min-h-fit">
-				<div>
-					<label for="my-drawer" class="btn btn-square btn-ghost btn-icon-scale p-1 drawer-button lg:hidden">
-						@sidebarIcon("inline-block w-full h-full fill-current")
-					</label>
-				</div>
-				<div class="flex gap-4">
-					@themeController()
-					<a class="btn btn-square btn-ghost btn-icon-scale p-1" href="https://github.com/troygilman/gong">
-						@githubIcon("inline-block w-full h-full fill-current")
-					</a>
-				</div>
-			</div>
+			@navbar()
 			<div id="outlet-container" class="flex grow w-full max-w-full min-h-0 justify-center">
 				@gong.NewOutlet().WithAttrs(templ.Attributes{"class": "w-full h-full"})
 			</div>
+		</div>
+	</div>
+}
+
+templ navbar() {
+	<div class="navbar flex justify-between min-h-fit">
+		<div>
+			<label for="my-drawer" class="btn btn-square btn-ghost btn-icon-scale p-1 drawer-button lg:hidden">
+				@sidebarIcon("inline-block w-full h-full fill-current")
+			</label>
+		</div>
+		<div class="flex gap-4">
+			@gong.NewLink("/docs").WithAttrs(templ.Attributes{"class": "btn btn-icon-scale btn-ghost"}) {
+				Docs
+			}
+			@themeController()
+			<a class="btn btn-square btn-ghost btn-icon-scale p-1" href="https://github.com/troygilman/gong">
+				@githubIcon("inline-block w-full h-full fill-current")
+			</a>
 		</div>
 	</div>
 }

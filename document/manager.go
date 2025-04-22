@@ -50,9 +50,9 @@ func NewManager(fileSystem fs.FS) (Manager, error) {
 }
 
 func (m Manager) AllPaths() []string {
-	paths := make([]string, 0, len(m.documents))
-	for path := range m.documents {
-		paths = append(paths, path)
+	paths := make([]string, len(m.documents))
+	for order, document := range m.documentOrder {
+		paths[order-1] = document.path
 	}
 	return paths
 }
