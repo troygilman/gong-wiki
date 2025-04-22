@@ -37,7 +37,7 @@ templ (c DocumentComponent) View() {
 			<div class="flex flex-row w-full justify-between">
 				<div>
 					if c.prev != nil {
-						<div hx-on:click={ templ.JSFuncCall("htmx.trigger", "#"+buildMenuLinkID("/docs"+c.prev.Path()), "click") }>
+						@gong.NewLink("/docs" + c.prev.Path()) {
 							<div class="btn btn-scale btn-soft hover:btn-primary group">
 								@arrowIcon("size-8 fill-base-content group-hover:fill-primary-content rotate-180")
 								<div class="flex flex-col place-items-start">
@@ -47,12 +47,12 @@ templ (c DocumentComponent) View() {
 									</div>
 								</div>
 							</div>
-						</div>
+						}
 					}
 				</div>
 				<div>
 					if c.next != nil {
-						<div hx-on:click={ templ.JSFuncCall("htmx.trigger", "#"+buildMenuLinkID("/docs"+c.next.Path()), "click") }>
+						@gong.NewLink("/docs" + c.next.Path()) {
 							<div class="btn btn-scale btn-soft hover:btn-primary group">
 								<div class="flex flex-col place-items-end">
 									<div class="text-sm">Next</div>
@@ -62,7 +62,7 @@ templ (c DocumentComponent) View() {
 								</div>
 								@arrowIcon("size-8 fill-base-content group-hover:fill-primary-content")
 							</div>
-						</div>
+						}
 					}
 				</div>
 			</div>

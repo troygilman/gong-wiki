@@ -16,7 +16,7 @@ func NewMenuComponent(props []MenuGroupProps) gong.Component {
 }
 
 templ (c MenuComponent) View() {
-	@gong.NewTarget() {
+	@gong.NewTarget().WithTrigger(gong.TriggerAfterSwapOOB(gong.OutletID(ctx))) {
 		@Menu(c.props)
 	}
 }
@@ -31,7 +31,7 @@ templ Menu(props []MenuGroupProps) {
 	}}
 	<div class="flex flex-col">
 		<div class="navbar px-4">
-			@gong.NewLink("/").WithSwap(gong.SwapInnerHTML) {
+			@gong.NewLink("/") {
 				<div class="flex flex-row place-items-center gap-2 cursor-pointer">
 					<image src="/public/icon.png" class="size-18 lg:size-14"></image>
 					<div class="text-4xl lg:text-2xl font-bold">Gong</div>
@@ -71,7 +71,6 @@ templ MenuItem(props MenuItemProps, active bool) {
 	<li>
 		@gong.NewLink(props.Link).
 			WithID(buildMenuLinkID(props.Link)).
-			WithSwap(gong.SwapInnerHTML).
 			WithAttrs(attrs) {
 			{ props.Label }
 		}
