@@ -41,7 +41,7 @@ templ (c DocumentComponent) View() {
 							<div class="btn btn-scale btn-soft hover:btn-primary group">
 								@arrowIcon("size-8 fill-base-content group-hover:fill-primary-content rotate-180")
 								<div class="flex flex-col place-items-start">
-									<div class="text-sm">Previous</div>
+									<div class="text-sm lg:text-xs">Previous</div>
 									<div class="font-bold">
 										{ c.prev.Metadata().Label }
 									</div>
@@ -55,7 +55,7 @@ templ (c DocumentComponent) View() {
 						@gong.NewLink("/docs" + c.next.Path()) {
 							<div class="btn btn-scale btn-soft hover:btn-primary group">
 								<div class="flex flex-col place-items-end">
-									<div class="text-sm">Next</div>
+									<div class="text-sm lg:text-xs">Next</div>
 									<div class="font-bold">
 										{ c.next.Metadata().Label }
 									</div>
