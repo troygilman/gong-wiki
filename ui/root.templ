@@ -61,9 +61,9 @@ templ navbar() {
 			</label>
 		</div>
 		<div class="flex gap-4">
-			@gong.NewLink("/docs").WithAttrs(templ.Attributes{"class": "btn btn-icon-scale btn-ghost"}) {
+			<a href="/docs" class="btn btn-icon-scale btn-ghost">
 				Docs
-			}
+			</a>
 			@themeController()
 			<a class="btn btn-square btn-ghost btn-icon-scale p-1" href="https://github.com/troygilman/gong">
 				@githubIcon("inline-block w-full h-full fill-current")
@@ -96,9 +96,9 @@ templ themeController() {
 
 templ initScript() {
 	<script>
-	let addCopyButtons = () => {
+	let addCopyButtons = (html) => {
         // Add copy buttons to code blocks
-        document.querySelectorAll('.code-container').forEach(block => {
+        html.querySelectorAll('.code-container').forEach(block => {
             // Create the copy button
             const button = document.createElement('button');
             button.className = 'copy-button';
@@ -123,16 +123,13 @@ templ initScript() {
 	}
 	document.addEventListener('DOMContentLoaded', function() {
         Prism.highlightAll();
-        addCopyButtons();
+        addCopyButtons(document);
     });
-    document.body.addEventListener('htmx:afterSwap', function(event) {
-        Prism.highlightAllUnder(event.detail.target);
-        addCopyButtons();
-        document.getElementById("outlet-container").scrollTop = 0;
+    document.body.addEventListener('htmx:oobBeforeSwap', function(event) {
+        Prism.highlightAllUnder(event.detail.fragment);
+        addCopyButtons(event.detail.fragment);
     });
     document.body.addEventListener('htmx:oobAfterSwap', function(event) {
-        Prism.highlightAllUnder(document.body);
-        addCopyButtons();
         document.getElementById("outlet-container").scrollTop = 0;
     });
     </script>

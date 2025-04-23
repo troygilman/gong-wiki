@@ -1,7 +1,5 @@
 package ui
 
-import "github.com/troygilman/gong"
-
 type LandingPageComponent struct{}
 
 templ (c LandingPageComponent) Head() {
@@ -21,9 +19,9 @@ templ (c LandingPageComponent) View() {
 						a lightweight web framework harnessing the power of go, templ, and htmx
 					</div>
 				</div>
-				@gong.NewLink("/docs").WithAttrs(templ.Attributes{"class": "btn btn-wide"}) {
+				<a href="/docs" class="btn btn-wide">
 					Get Started
-				}
+				</a>
 			</div>
 			// <div class="flex h-1/2 place-items-center">
 			// 	<div class="grid grid-cols-3 gap-12 px-12">
