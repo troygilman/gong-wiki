@@ -12,7 +12,7 @@ templ (c LandingPageComponent) View() {
 	<div class="flex flex-col w-screen h-screen">
 		@navbar()
 		<div class="flex flex-col grow min-h-0 w-full">
-			<div class="flex flex-col place-items-center justify-end h-1/2 w-full gap-12">
+			<div class="flex flex-col place-items-center justify-center w-full h-full gap-12">
 				<div class="flex flex-row gap-6">
 					<div class="flex text-8xl font-bold">
 						Gong
@@ -25,13 +25,13 @@ templ (c LandingPageComponent) View() {
 					Get Started
 				}
 			</div>
-			<div class="flex h-1/2 place-items-center">
-				<div class="grid grid-cols-3 gap-12 px-12">
-					@card("Component-Based Architecture", "Build reusable UI elements for better maintainability and testing")
-					@card("Client-Side Routing", "Enable smooth transitions while preserving browser history")
-					@card("Server-Side Rendering", "Deliver optimized performance and SEO with SSR")
-				</div>
-			</div>
+			// <div class="flex h-1/2 place-items-center">
+			// 	<div class="grid grid-cols-3 gap-12 px-12">
+			// 		@card("Component-Based Architecture", "Build reusable UI elements for better maintainability and testing")
+			// 		@card("Client-Side Routing", "Enable smooth transitions while preserving browser history")
+			// 		@card("Server-Side Rendering", "Deliver optimized performance and SEO with SSR")
+			// 	</div>
+			// </div>
 		</div>
 	</div>
 }
