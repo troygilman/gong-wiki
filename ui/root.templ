@@ -10,6 +10,18 @@ templ (view RootView) Head() {
 	@head()
 }
 
+templ head() {
+	<head>
+		<meta charset="utf-8"/>
+		<title>Gong</title>
+		<link href="/public/index.css" rel="stylesheet"/>
+		<link rel="icon" type="image/png" href="/public/icon.png"/>
+		<link id="prism-stylesheet" href="/public/prism-dark.css" rel="stylesheet"/>
+		<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+		<script src="/public/prism.js"></script>
+	</head>
+}
+
 templ (view RootView) View() {
 	@initScript()
 	<div class="flex justify-center w-full h-full p-2 lg:p-0">
@@ -30,18 +42,6 @@ templ (view RootView) drawerSide() {
 	</div>
 }
 
-templ head() {
-	<head>
-		<meta charset="utf-8"/>
-		<title>Gong</title>
-		<link href="/public/index.css" rel="stylesheet"/>
-		<link rel="icon" type="image/png" href="/public/icon.png"/>
-		<link id="prism-stylesheet" href="/public/prism-dark.css" rel="stylesheet"/>
-		<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
-		<script src="/public/prism.js" data-manual></script>
-	</head>
-}
-
 templ drawerContent() {
 	<div class="drawer-content overflow-y-hidden">
 		<div class="flex flex-col w-full h-full">
@@ -54,7 +54,7 @@ templ drawerContent() {
 }
 
 templ navbar() {
-	<div class="navbar flex justify-between min-h-fit">
+	<div class="navbar flex justify-between min-h-18 px-4">
 		<div>
 			<label for="my-drawer" class="btn btn-square btn-ghost btn-icon-scale p-1 drawer-button lg:hidden">
 				@sidebarIcon("inline-block w-full h-full fill-current")
