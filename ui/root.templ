@@ -19,11 +19,11 @@ templ head() {
 		<link id="prism-stylesheet" href="/public/prism-dark.css" rel="stylesheet"/>
 		<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
 		<script src="/public/prism.js"></script>
+		@initScript()
 	</head>
 }
 
 templ (view RootView) View() {
-	@initScript()
 	<div class="flex justify-center w-full h-full p-2 lg:p-0">
 		<div class="drawer lg:drawer-open w-fit h-full bg-base-100" x-data>
 			<input id="my-drawer" type="checkbox" class="drawer-toggle"/>
@@ -61,9 +61,9 @@ templ navbar() {
 			</label>
 		</div>
 		<div class="flex gap-4">
-			<a href="/docs" class="btn btn-icon-scale btn-ghost">
+			@gong.NewLink("/docs").WithAttrs(templ.Attributes{"class": "btn btn-icon-scale btn-ghost"}) {
 				Docs
-			</a>
+			}
 			@themeController()
 			<a class="btn btn-square btn-ghost btn-icon-scale p-1" href="https://github.com/troygilman/gong">
 				@githubIcon("inline-block w-full h-full fill-current")
@@ -125,11 +125,11 @@ templ initScript() {
         Prism.highlightAll();
         addCopyButtons(document);
     });
-    document.body.addEventListener('htmx:oobBeforeSwap', function(event) {
+    document.addEventListener('htmx:oobBeforeSwap', function(event) {
         Prism.highlightAllUnder(event.detail.fragment);
         addCopyButtons(event.detail.fragment);
     });
-    document.body.addEventListener('htmx:oobAfterSwap', function(event) {
+    document.addEventListener('htmx:oobAfterSwap', function(event) {
         document.getElementById("outlet-container").scrollTop = 0;
     });
     </script>

@@ -12,3 +12,4 @@ You can copy and paste them and then adjust them for your needs.
 | ---------------------------------------- | --------------------------------------------------------------- |
 | [Click To Edit](/example/click-to-edit/) | Demonstrates inline editing of a data object                    |
 | [Tabs](/example/tabs/)                   | Demonstrates how to display and select tabs using nested routes |
+| [Bulk Update](/example/bulk-update/)     | Demonstrates how to update multiple entities in a list          |
