@@ -13,8 +13,8 @@ templ (c NavbarComponent) View() {
 				@sidebarIcon("inline-block w-full h-full fill-current")
 			</label>
 		</div>
-		@c.SearchComponent
 		<div class="flex gap-4">
+			@c.SearchComponent
 			@gong.NewLink("/docs").WithAttrs(templ.Attributes{"class": "btn btn-icon-scale btn-ghost"}) {
 				Docs
 			}

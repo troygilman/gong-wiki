@@ -1,6 +1,36 @@
 package ui
 
+import "github.com/troygilman/gong"
+
 type SearchComponent struct{}
 
 templ (c SearchComponent) View() {
+	<div class="dropdown">
+		@gong.NewForm() {
+			<label id="search-label" for="search-input" class="input input-sm !outline-none">
+				@searchIcon("size-4 fill-none stroke-current/50")
+				<input
+					id="search-input"
+					type="search"
+					name="search"
+					placeholder="Search"
+					autocomplete="off"
+					aria-autocomplete="list"
+					aria-controls="search-listbox"
+					aria-labelledby="search-label"
+					class="w-14 focus:w-48 transition-all"
+				/>
+			</label>
+		}
+		<ul
+			id="search-listbox"
+			role="listbox"
+			aria-labelledby="search-label"
+			class="menu dropdown-content bg-base-100 w-full rounded-box shadow"
+		>
+			<li role="option">
+				<a>Test 1</a>
+			</li>
+		</ul>
+	</div>
 }
