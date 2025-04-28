@@ -1,18 +1,22 @@
 package ui
 
 import "github.com/troygilman/gong"
+import "net/http"
 
 type SearchComponent struct{}
 
 templ (c SearchComponent) View() {
 	<div class="dropdown">
-		@gong.NewForm() {
+		@gong.NewForm().
+			WithMethod(http.MethodGet).
+			WithSwap(gong.SwapInnerHTML).
+			WithTrigger("input changed delay:200ms") {
 			<label id="search-label" for="search-input" class="input input-sm !outline-none">
 				@searchIcon("size-4 fill-none stroke-current/50")
 				<input
 					id="search-input"
 					type="search"
-					name="search"
+					name="q"
 					placeholder="Search"
 					autocomplete="off"
 					aria-autocomplete="list"
@@ -22,15 +26,46 @@ templ (c SearchComponent) View() {
 				/>
 			</label>
 		}
+		@gong.NewTarget() {
+			@c.searchOptions([]SearchOption{})
+		}
+	</div>
+}
+
+templ (c SearchComponent) Action() {
+	{{
+		options := []SearchOption{}
+		query := gong.QueryParam(ctx, "q")
+		if query != "" {
+			options = append(options, SearchOption{
+				Label: "Introduction",
+				Link:  "/docs/getting-started/introduction",
+			})
+		}
+	}}
+	@c.searchOptions(options)
+}
+
+templ (c SearchComponent) searchOptions(options []SearchOption) {
+	if len(options) > 0 {
 		<ul
 			id="search-listbox"
 			role="listbox"
 			aria-labelledby="search-label"
 			class="menu dropdown-content bg-base-100 w-full rounded-box shadow"
 		>
-			<li role="option">
-				<a>Test 1</a>
-			</li>
+			for _, option := range options {
+				<li role="option">
+					@gong.NewLink(option.Link) {
+						{ option.Label }
+					}
+				</li>
+			}
 		</ul>
-	</div>
+	}
+}
+
+type SearchOption struct {
+	Label string
+	Link  string
 }
