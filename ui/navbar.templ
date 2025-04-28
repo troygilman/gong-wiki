@@ -1,0 +1,27 @@
+package ui
+
+import "github.com/troygilman/gong"
+
+type NavbarComponent struct {
+	SearchComponent gong.Component
+}
+
+templ (c NavbarComponent) View() {
+	<div class="navbar flex justify-between min-h-18 px-4">
+		<div>
+			<label for="my-drawer" class="btn btn-square btn-ghost btn-icon-scale p-1 drawer-button lg:hidden">
+				@sidebarIcon("inline-block w-full h-full fill-current")
+			</label>
+		</div>
+		@c.SearchComponent
+		<div class="flex gap-4">
+			@gong.NewLink("/docs").WithAttrs(templ.Attributes{"class": "btn btn-icon-scale btn-ghost"}) {
+				Docs
+			}
+			@themeController()
+			<a class="btn btn-square btn-ghost btn-icon-scale p-1" href="https://github.com/troygilman/gong">
+				@githubIcon("inline-block w-full h-full fill-current")
+			</a>
+		</div>
+	</div>
+}

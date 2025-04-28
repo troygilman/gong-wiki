@@ -6,23 +6,17 @@ import (
 )
 
 type MenuComponent struct {
-	props []MenuGroupProps
-}
-
-func NewMenuComponent(props []MenuGroupProps) gong.Component {
-	return gong.NewComponent(MenuComponent{
-		props: props,
-	})
+	Props []MenuGroupProps
 }
 
 templ (c MenuComponent) View() {
 	@gong.NewTarget().WithTrigger(gong.TriggerAfterSwapOOB(gong.OutletID(ctx))) {
-		@Menu(c.props)
+		@Menu(c.Props)
 	}
 }
 
 templ (c MenuComponent) Action() {
-	@Menu(c.props)
+	@Menu(c.Props)
 }
 
 templ Menu(props []MenuGroupProps) {

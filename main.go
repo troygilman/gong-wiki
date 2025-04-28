@@ -28,48 +28,56 @@ func main() {
 	}
 
 	// COMPONENTS
-	menuComponent := ui.NewMenuComponent([]ui.MenuGroupProps{
-		{
-			Label: "Getting Started",
-			Items: []ui.MenuItemProps{
-				{
-					Label: "Introduction",
-					Link:  "/docs/getting-started/introduction",
-				},
-				{
-					Label: "Installation",
-					Link:  "/docs/getting-started/installation",
-				},
-				{
-					Label: "Tutorial",
-					Link:  "/docs/getting-started/tutorial",
-				},
-				{
-					Label: "Examples",
-					Link:  "/docs/getting-started/examples",
+	navbarComponent := gong.NewComponent(ui.NavbarComponent{
+		SearchComponent: gong.NewComponent(ui.SearchComponent{}),
+	})
+
+	menuComponent := gong.NewComponent(ui.MenuComponent{
+		Props: []ui.MenuGroupProps{
+			{
+				Label: "Getting Started",
+				Items: []ui.MenuItemProps{
+					{
+						Label: "Introduction",
+						Link:  "/docs/getting-started/introduction",
+					},
+					{
+						Label: "Installation",
+						Link:  "/docs/getting-started/installation",
+					},
+					{
+						Label: "Tutorial",
+						Link:  "/docs/getting-started/tutorial",
+					},
+					{
+						Label: "Examples",
+						Link:  "/docs/getting-started/examples",
+					},
 				},
 			},
-		},
-		{
-			Label: "Core Concepts",
-			Items: []ui.MenuItemProps{
-				{
-					Label: "Components",
-					Link:  "/docs/core-concepts/components",
-				},
-				{
-					Label: "Routing",
-					Link:  "/docs/core-concepts/routing",
-				},
-				{
-					Label: "Data Binding",
-					Link:  "/docs/core-concepts/data-binding",
+			{
+				Label: "Core Concepts",
+				Items: []ui.MenuItemProps{
+					{
+						Label: "Components",
+						Link:  "/docs/core-concepts/components",
+					},
+					{
+						Label: "Routing",
+						Link:  "/docs/core-concepts/routing",
+					},
+					{
+						Label: "Data Binding",
+						Link:  "/docs/core-concepts/data-binding",
+					},
 				},
 			},
 		},
 	})
+
 	rootComponent := gong.NewComponent(ui.RootView{
-		Menu: menuComponent,
+		Menu:   menuComponent,
+		Navbar: navbarComponent,
 	})
 
 	// ROUTES
@@ -83,7 +91,9 @@ func main() {
 	}
 
 	g := gong.New(mux).Routes(
-		gong.NewRoute("/", gong.NewComponent(ui.LandingPageComponent{})),
+		gong.NewRoute("/", gong.NewComponent(ui.LandingPageComponent{
+			Navbar: navbarComponent,
+		})),
 		gong.NewRoute("/docs", rootComponent).WithRoutes(docRoutes...),
 		ui.ExampleRoute(),
 	)
