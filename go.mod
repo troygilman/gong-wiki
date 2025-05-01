@@ -10,3 +10,5 @@ require github.com/troygilman/gong v0.1.35
 require github.com/a-h/templ v0.3.856
 
 require github.com/yuin/goldmark v1.7.8
+
+require github.com/mattn/go-sqlite3 v1.14.28

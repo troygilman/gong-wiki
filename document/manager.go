@@ -3,17 +3,21 @@ package document
 import (
 	"io/fs"
 	"path/filepath"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type Manager struct {
 	documents     map[string]*Document
 	documentOrder map[int]*Document
+	repository    Repository
 }
 
 func NewManager(fileSystem fs.FS) (Manager, error) {
 	dm := Manager{
 		documents:     make(map[string]*Document),
 		documentOrder: make(map[int]*Document),
+		repository:    NewRepository(),
 	}
 
 	parser := NewParser()
@@ -44,6 +48,12 @@ func NewManager(fileSystem fs.FS) (Manager, error) {
 		return nil
 	}); err != nil {
 		return dm, err
+	}
+
+	for _, doc := range dm.documents {
+		if err := dm.repository.AddDocument(doc); err != nil {
+			return dm, err
+		}
 	}
 
 	return dm, nil
