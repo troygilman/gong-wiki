@@ -1,37 +1,53 @@
 package ui
 
-import "github.com/troygilman/gong"
-import "net/http"
-import "github.com/troygilman/gong-wiki/document"
+import (
+	"fmt"
+	"github.com/troygilman/gong"
+	"github.com/troygilman/gong-wiki/document"
+	"net/http"
+	"strconv"
+)
 
 type SearchComponent struct {
 	DocumentRepository document.Repository
 }
 
 templ (c SearchComponent) View() {
-	@gong.NewForm().
-		WithMethod(http.MethodGet).
-		WithSwap(gong.SwapInnerHTML).
-		WithTrigger("input changed delay:200ms").
-		WithAttrs(templ.Attributes{"class": "dropdown group"}) {
-		<label id="search-label" for="search-input" class="input input-sm !outline-none">
-			@searchIcon("size-4 fill-none stroke-current/50")
-			<input
-				id="search-input"
-				type="search"
-				name="q"
-				placeholder="Search"
-				autocomplete="off"
-				aria-autocomplete="list"
-				aria-controls="search-listbox"
-				aria-labelledby="search-label"
-				class="w-14 group-focus-within:w-48 transition-all"
-			/>
-		</label>
-		@gong.NewTarget() {
-			@c.searchOptions(nil)
+	<div
+		x-data="{ option: 0 }"
+		x-on:keydown.prevent.up="option = Math.max(option-1, 0)"
+		x-on:keydown.prevent.down="option = Math.max(Math.min(option+1, $el.querySelectorAll('li').length-1), 0)"
+		x-on:submit.prevent="$el.querySelector('#search-option-' + option).click()"
+	>
+		@gong.NewForm().
+			WithMethod(http.MethodGet).
+			WithSwap(gong.SwapInnerHTML).
+			WithTrigger("input changed delay:200ms").
+			WithAttrs(templ.Attributes{"class": "dropdown group"}) {
+			<label
+				id="search-label"
+				for="search-input"
+				class="input input-sm !outline-none"
+			>
+				@searchIcon("size-4 fill-none stroke-current/50")
+				<input
+					id="search-input"
+					type="search"
+					name="q"
+					placeholder="Search"
+					autocomplete="off"
+					aria-autocomplete="list"
+					aria-controls="search-listbox"
+					aria-labelledby="search-label"
+					class="w-14 group-focus-within:w-48 transition-all"
+					x-on:focus="option = 0"
+				/>
+			</label>
+			@gong.NewTarget() {
+				@c.searchOptions(nil)
+			}
 		}
-	}
+	</div>
 }
 
 templ (c SearchComponent) Action() {
@@ -59,9 +75,14 @@ templ (c SearchComponent) searchOptions(chunks []document.DocumentChunk) {
 			aria-labelledby="search-label"
 			class="menu dropdown-content bg-base-100 w-full rounded-box shadow"
 		>
-			for _, option := range chunks {
+			for index, option := range chunks {
+				{{
+				attrs := templ.Attributes{
+					":class": fmt.Sprintf("{ 'menu-focus': option == %d }", index),
+				}
+				}}
 				<li role="option">
-					@gong.NewLink("/docs" + option.ID) {
+					@gong.NewLink("/docs" + option.ID).WithAttrs(attrs).WithID("search-option-" + strconv.Itoa(index)) {
 						{ option.Name }
 					}
 				</li>

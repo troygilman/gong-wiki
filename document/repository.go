@@ -2,7 +2,6 @@ package document
 
 import (
 	"database/sql"
-	"log"
 )
 
 type Repository struct {
@@ -76,7 +75,6 @@ func (repository Repository) SearchDocumentChunk(query string) (chunks []Documen
 		}
 		chunks = append(chunks, chunk)
 	}
-	log.Println(chunks)
 
 	return chunks, nil
 }
