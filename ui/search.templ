@@ -14,10 +14,9 @@ type SearchComponent struct {
 
 templ (c SearchComponent) View() {
 	<div
-		x-data="{ option: 0 }"
-		x-on:keydown.prevent.up="option = Math.max(option-1, 0)"
-		x-on:keydown.prevent.down="option = Math.max(Math.min(option+1, $el.querySelectorAll('li').length-1), 0)"
-		x-on:submit.prevent="$el.querySelector('#search-option-' + option).click()"
+		x-on:keydown.prevent.up="$dispatch('search-up')"
+		x-on:keydown.prevent.down="$dispatch('search-down')"
+		x-on:submit.prevent="$dispatch('search-submit')"
 	>
 		@gong.NewForm().
 			WithMethod(http.MethodGet).
@@ -40,7 +39,6 @@ templ (c SearchComponent) View() {
 					aria-controls="search-listbox"
 					aria-labelledby="search-label"
 					class="w-14 group-focus-within:w-48 transition-all"
-					x-on:focus="option = 0"
 				/>
 			</label>
 			@gong.NewTarget() {
@@ -74,11 +72,16 @@ templ (c SearchComponent) searchOptions(chunks []document.DocumentChunk) {
 			role="listbox"
 			aria-labelledby="search-label"
 			class="menu dropdown-content bg-base-100 w-full rounded-box shadow"
+			x-data="{ option: -1, getOption() { return this.option }, reset() { this.option = 0 } }"
+			x-on:search-up.window="option = Math.max(option-1, 0); console.log(option)"
+			x-on:search-down.window="option = Math.max(Math.min(option+1, $el.querySelectorAll('li').length-1), 0); console.log(option)"
+			x-on:search-submit.window="$el.querySelector('#search-option-' + option).click()"
 		>
 			for index, option := range chunks {
 				{{
 				attrs := templ.Attributes{
-					":class": fmt.Sprintf("{ 'menu-focus': option == %d }", index),
+					"x-init":       "console.log('option loaded')",
+					"x-bind:class": fmt.Sprintf("getOption() == %d && 'menu-focus'", index),
 				}
 				}}
 				<li role="option">
