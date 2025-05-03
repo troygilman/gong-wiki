@@ -8,6 +8,7 @@ type Repository struct {
 
 func NewRepository() Repository {
 	db, err := sql.Open("sqlite3", ":memory:")
+	// db, err := sql.Open("sqlite3", "file:./tmp/application.db")
 	if err != nil {
 		panic(err)
 	}
@@ -24,7 +25,7 @@ func NewRepository() Repository {
 }
 
 func (repository Repository) Migrate() error {
-	_, err := repository.db.Exec(`create table document (name text not null, id text not null, html text not null, PRIMARY KEY(name, id));`)
+	_, err := repository.db.Exec(`create table document (name text not null, id text not null, content text not null, PRIMARY KEY(name, id));`)
 	return err
 }
 
@@ -34,7 +35,7 @@ func (repository Repository) AddDocument(doc *Document) error {
 		return err
 	}
 
-	stmt, err := tx.Prepare("insert into document(name, id, html) values(?, ?, ?)")
+	stmt, err := tx.Prepare("insert into document(name, id, content) values(?, ?, ?)")
 	if err != nil {
 		return err
 	}
@@ -54,6 +55,6 @@ func (repository Repository) addNode(stmt *sql.Stmt, node *Node, doc *Document) 
 		}
 	}
 
-	_, err := stmt.Exec(doc.path, node.id, node.title)
+	_, err := stmt.Exec(doc.Path(), node.ID(), node.html)
 	return err
 }

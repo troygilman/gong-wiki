@@ -32,6 +32,7 @@ type Node struct {
 	title    string
 	id       string
 	level    int
+	html     string
 	parent   *Node
 	children []*Node
 }

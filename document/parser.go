@@ -60,6 +60,7 @@ func (p Parser) parseMarkdown(source []byte) (html string, node *Node, err error
 
 	root := &Node{}
 	currentNode := root
+	var contentBuff bytes.Buffer
 	ast.Walk(astNode, func(astNode ast.Node, entering bool) (ast.WalkStatus, error) {
 		if !entering {
 			return ast.WalkContinue, nil
@@ -92,6 +93,10 @@ func (p Parser) parseMarkdown(source []byte) (html string, node *Node, err error
 				id:    id,
 			}
 
+			// Set content on current node
+			currentNode.html = contentBuff.String()
+			contentBuff.Reset()
+
 			// Find the right parent for this node based on its level
 			for currentNode != root && currentNode.level >= headingLevel {
 				currentNode = currentNode.parent
@@ -103,6 +108,11 @@ func (p Parser) parseMarkdown(source []byte) (html string, node *Node, err error
 
 			// Make this node the current node
 			currentNode = newNode
+		}
+
+		if text, ok := astNode.(*ast.Text); ok {
+			contentBuff.Write(text.Segment.Value(reader.Source()))
+			contentBuff.WriteRune('\n')
 		}
 
 		return ast.WalkContinue, nil
