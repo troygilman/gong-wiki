@@ -28,12 +28,18 @@ type DocumentMetadata struct {
 	Position int    `json:"position"`
 }
 
+type DocumentChunk struct {
+	DocumentName string
+	ChunkID      string
+	Content      string
+}
+
 type Node struct {
 	title    string
 	id       string
 	level    int
-	html     string
 	parent   *Node
+	content  string
 	children []*Node
 }
 

@@ -10,14 +10,14 @@ import (
 type Manager struct {
 	documents     map[string]*Document
 	documentOrder map[int]*Document
-	repository    Repository
+	Repository    Repository
 }
 
 func NewManager(fileSystem fs.FS) (Manager, error) {
 	dm := Manager{
 		documents:     make(map[string]*Document),
 		documentOrder: make(map[int]*Document),
-		repository:    NewRepository(),
+		Repository:    NewRepository(),
 	}
 
 	parser := NewParser()
@@ -51,7 +51,7 @@ func NewManager(fileSystem fs.FS) (Manager, error) {
 	}
 
 	for _, doc := range dm.documents {
-		if err := dm.repository.AddDocument(doc); err != nil {
+		if err := dm.Repository.AddDocument(doc); err != nil {
 			return dm, err
 		}
 	}

@@ -2,8 +2,11 @@ package ui
 
 import "github.com/troygilman/gong"
 import "net/http"
+import "github.com/troygilman/gong-wiki/document"
 
-type SearchComponent struct{}
+type SearchComponent struct {
+	DocumentRepository document.Repository
+}
 
 templ (c SearchComponent) View() {
 	@gong.NewForm().
@@ -41,6 +44,11 @@ templ (c SearchComponent) Action() {
 				Link:  "/docs/getting-started/introduction",
 			})
 		}
+		chunk, err := c.DocumentRepository.SearchDocumentChunk(query)
+		if err != nil {
+			panic(err)
+		}
+		_ = chunk
 	}}
 	@c.searchOptions(options)
 }

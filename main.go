@@ -29,7 +29,9 @@ func main() {
 
 	// COMPONENTS
 	navbarComponent := gong.NewComponent(ui.NavbarComponent{
-		SearchComponent: gong.NewComponent(ui.SearchComponent{}),
+		SearchComponent: gong.NewComponent(ui.SearchComponent{
+			DocumentRepository: docManager.Repository,
+		}),
 	})
 
 	menuComponent := gong.NewComponent(ui.MenuComponent{

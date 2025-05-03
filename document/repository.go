@@ -1,13 +1,16 @@
 package document
 
-import "database/sql"
+import (
+	"database/sql"
+	"log"
+)
 
 type Repository struct {
 	db *sql.DB
 }
 
 func NewRepository() Repository {
-	db, err := sql.Open("sqlite3", ":memory:")
+	db, err := sql.Open("sqlite3", "file:application.db?mode=memory")
 	// db, err := sql.Open("sqlite3", "file:./tmp/application.db")
 	if err != nil {
 		panic(err)
@@ -25,7 +28,7 @@ func NewRepository() Repository {
 }
 
 func (repository Repository) Migrate() error {
-	_, err := repository.db.Exec(`create table document (name text not null, id text not null, content text not null, PRIMARY KEY(name, id));`)
+	_, err := repository.db.Exec("CREATE VIRTUAL TABLE IF NOT EXISTS document_chunk USING fts5(name, id, content)")
 	return err
 }
 
@@ -35,7 +38,7 @@ func (repository Repository) AddDocument(doc *Document) error {
 		return err
 	}
 
-	stmt, err := tx.Prepare("insert into document(name, id, content) values(?, ?, ?)")
+	stmt, err := tx.Prepare("INSERT INTO document_chunk (name, id, content) VALUES (?, ?, ?)")
 	if err != nil {
 		return err
 	}
@@ -55,6 +58,17 @@ func (repository Repository) addNode(stmt *sql.Stmt, node *Node, doc *Document) 
 		}
 	}
 
-	_, err := stmt.Exec(doc.Path(), node.ID(), node.html)
+	_, err := stmt.Exec(doc.Path(), node.ID(), node.content)
 	return err
+}
+
+func (repository Repository) SearchDocumentChunk(query string) (c DocumentChunk, err error) {
+	rows, err := repository.db.Query("SELECT * FROM document_chunk WHERE content MATCH ?", query)
+	if err != nil {
+		return c, err
+	}
+	defer rows.Close()
+
+	log.Println(rows)
+	return c, nil
 }

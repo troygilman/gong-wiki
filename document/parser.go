@@ -94,7 +94,7 @@ func (p Parser) parseMarkdown(source []byte) (html string, node *Node, err error
 			}
 
 			// Set content on current node
-			currentNode.html = contentBuff.String()
+			currentNode.content = contentBuff.String()
 			contentBuff.Reset()
 
 			// Find the right parent for this node based on its level
