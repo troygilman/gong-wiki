@@ -18,7 +18,7 @@ RUN go mod download && go mod verify
 RUN go install github.com/a-h/templ/cmd/templ@v0.3.856
 RUN templ generate
 
-RUN go build -v -o /run-app .
+RUN go build -v -tags 'fts5' -o /run-app .
 
 FROM debian:bookworm
 
