@@ -63,7 +63,7 @@ func (repository Repository) addNode(stmt *sql.Stmt, node *Node, doc *Document) 
 }
 
 func (repository Repository) SearchDocumentChunk(query string) (chunks []DocumentChunk, err error) {
-	rows, err := repository.db.Query("SELECT name, id FROM document_chunk WHERE content MATCH ?", query)
+	rows, err := repository.db.Query("SELECT name, id FROM document_chunk WHERE content MATCH ? ORDER BY rank", query)
 	if err != nil {
 		return nil, err
 	}
