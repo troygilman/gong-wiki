@@ -61,8 +61,8 @@ templ (c SearchComponent) searchOptions(chunks []document.DocumentChunk) {
 		>
 			for _, option := range chunks {
 				<li role="option">
-					@gong.NewLink("/docs" + option.DocumentName + "#" + option.ChunkID) {
-						{ option.ChunkID }
+					@gong.NewLink("/docs" + option.ID) {
+						{ option.Name }
 					}
 				</li>
 			}

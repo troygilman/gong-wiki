@@ -29,9 +29,9 @@ type DocumentMetadata struct {
 }
 
 type DocumentChunk struct {
-	DocumentName string
-	ChunkID      string
-	Content      string
+	ID      string
+	Name    string
+	Content string
 }
 
 type Node struct {

@@ -28,7 +28,7 @@ func NewRepository() Repository {
 }
 
 func (repository Repository) Migrate() error {
-	_, err := repository.db.Exec("CREATE VIRTUAL TABLE IF NOT EXISTS document_chunk USING fts5(name, id, content)")
+	_, err := repository.db.Exec("CREATE VIRTUAL TABLE IF NOT EXISTS document_chunk USING fts5(id, name, content)")
 	return err
 }
 
@@ -38,7 +38,7 @@ func (repository Repository) AddDocument(doc *Document) error {
 		return err
 	}
 
-	stmt, err := tx.Prepare("INSERT INTO document_chunk (name, id, content) VALUES (?, ?, ?)")
+	stmt, err := tx.Prepare("INSERT INTO document_chunk (id, name, content) VALUES (?, ?, ?)")
 	if err != nil {
 		return err
 	}
@@ -58,12 +58,12 @@ func (repository Repository) addNode(stmt *sql.Stmt, node *Node, doc *Document) 
 		}
 	}
 
-	_, err := stmt.Exec(doc.Path(), node.ID(), node.content)
+	_, err := stmt.Exec(doc.Path()+"#"+node.ID(), node.title, node.content)
 	return err
 }
 
 func (repository Repository) SearchDocumentChunk(query string) (chunks []DocumentChunk, err error) {
-	rows, err := repository.db.Query("SELECT name, id FROM document_chunk WHERE content MATCH ? ORDER BY rank", query)
+	rows, err := repository.db.Query("SELECT id, name FROM document_chunk WHERE content MATCH ? ORDER BY rank", query)
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +71,7 @@ func (repository Repository) SearchDocumentChunk(query string) (chunks []Documen
 
 	var chunk DocumentChunk
 	for rows.Next() {
-		if err := rows.Scan(&chunk.DocumentName, &chunk.ChunkID); err != nil {
+		if err := rows.Scan(&chunk.ID, &chunk.Name); err != nil {
 			return nil, err
 		}
 		chunks = append(chunks, chunk)
