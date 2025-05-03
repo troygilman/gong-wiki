@@ -62,13 +62,21 @@ func (repository Repository) addNode(stmt *sql.Stmt, node *Node, doc *Document) 
 	return err
 }
 
-func (repository Repository) SearchDocumentChunk(query string) (c DocumentChunk, err error) {
-	rows, err := repository.db.Query("SELECT * FROM document_chunk WHERE content MATCH ?", query)
+func (repository Repository) SearchDocumentChunk(query string) (chunks []DocumentChunk, err error) {
+	rows, err := repository.db.Query("SELECT name, id FROM document_chunk WHERE content MATCH ?", query)
 	if err != nil {
-		return c, err
+		return nil, err
 	}
 	defer rows.Close()
 
-	log.Println(rows)
-	return c, nil
+	var chunk DocumentChunk
+	for rows.Next() {
+		if err := rows.Scan(&chunk.DocumentName, &chunk.ChunkID); err != nil {
+			return nil, err
+		}
+		chunks = append(chunks, chunk)
+	}
+	log.Println(chunks)
+
+	return chunks, nil
 }

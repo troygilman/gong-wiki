@@ -111,8 +111,5 @@ templ initScript() {
         Prism.highlightAllUnder(event.detail.fragment);
         addCopyButtons(event.detail.fragment);
     });
-    document.addEventListener('htmx:oobAfterSwap', function(event) {
-        document.getElementById("outlet-container").scrollTop = 0;
-    });
     </script>
 }

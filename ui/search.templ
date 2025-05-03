@@ -29,50 +29,43 @@ templ (c SearchComponent) View() {
 			/>
 		</label>
 		@gong.NewTarget() {
-			@c.searchOptions([]SearchOption{})
+			@c.searchOptions(nil)
 		}
 	}
 }
 
 templ (c SearchComponent) Action() {
 	{{
-		options := []SearchOption{}
 		query := gong.QueryParam(ctx, "q")
-		if query != "" {
-			options = append(options, SearchOption{
-				Label: "Introduction",
-				Link:  "/docs/getting-started/introduction",
-			})
-		}
-		chunk, err := c.DocumentRepository.SearchDocumentChunk(query)
-		if err != nil {
-			panic(err)
-		}
-		_ = chunk
+		chunks := func() []document.DocumentChunk {
+			if query == "" {
+				return nil
+			}
+			chunks, err := c.DocumentRepository.SearchDocumentChunk(query)
+			if err != nil {
+				panic(err)
+			}
+			return chunks
+		}()
 	}}
-	@c.searchOptions(options)
+	@c.searchOptions(chunks)
 }
 
-templ (c SearchComponent) searchOptions(options []SearchOption) {
-	if len(options) > 0 {
+templ (c SearchComponent) searchOptions(chunks []document.DocumentChunk) {
+	if len(chunks) > 0 {
 		<ul
 			id="search-listbox"
 			role="listbox"
 			aria-labelledby="search-label"
 			class="menu dropdown-content bg-base-100 w-full rounded-box shadow"
 		>
-			for _, option := range options {
+			for _, option := range chunks {
 				<li role="option">
-					@gong.NewLink(option.Link) {
-						{ option.Label }
+					@gong.NewLink("/docs" + option.DocumentName + "#" + option.ChunkID) {
+						{ option.ChunkID }
 					}
 				</li>
 			}
 		</ul>
 	}
-}
-
-type SearchOption struct {
-	Label string
-	Link  string
 }
