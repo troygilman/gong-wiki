@@ -72,7 +72,7 @@ templ (c SearchComponent) searchOptions(chunks []document.DocumentChunk) {
 			role="listbox"
 			aria-labelledby="search-label"
 			class="menu dropdown-content bg-base-100 w-full rounded-box shadow"
-			x-data="{ option: -1, getOption() { return this.option }, reset() { this.option = 0 } }"
+			x-data="{ option: 0, reset() { this.option = 0 } }"
 			x-on:search-up.window="option = Math.max(option-1, 0); console.log(option)"
 			x-on:search-down.window="option = Math.max(Math.min(option+1, $el.querySelectorAll('li').length-1), 0); console.log(option)"
 			x-on:search-submit.window="$el.querySelector('#search-option-' + option).click()"
@@ -80,11 +80,10 @@ templ (c SearchComponent) searchOptions(chunks []document.DocumentChunk) {
 			for index, option := range chunks {
 				{{
 				attrs := templ.Attributes{
-					"x-init":       "console.log('option loaded')",
-					"x-bind:class": fmt.Sprintf("getOption() == %d && 'menu-focus'", index),
+					"x-bind:class": "active && 'menu-focus'",
 				}
 				}}
-				<li role="option">
+				<li role="option" x-data="{ active: false }" x-effect={ fmt.Sprintf("active = option === %d; console.log(active)", index) }>
 					@gong.NewLink("/docs" + option.ID).WithAttrs(attrs).WithID("search-option-" + strconv.Itoa(index)) {
 						{ option.Name }
 					}

@@ -112,5 +112,11 @@ templ initScript() {
         Prism.highlightAllUnder(event.detail.fragment);
         addCopyButtons(event.detail.fragment);
     });
+    document.addEventListener('htmx:afterSwap', function(event) {
+        if (window.Alpine) {
+            console.log('initializing alpine tree')
+            Alpine.initTree(event.detail.elt);
+        }
+      });
     </script>
 }
