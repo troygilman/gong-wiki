@@ -74,10 +74,11 @@ templ (c SearchComponent) searchOptions(chunks []document.DocumentChunk) {
 			for index, option := range chunks {
 				{{
 					attrs := templ.Attributes{
-						":class": fmt.Sprintf("option == %d && 'menu-focus'", index),
+						"x-bind:class": fmt.Sprintf("option === %d && 'menu-focus'", index),
+						"x-on:click":   fmt.Sprintf("option = %d; document.activeElement.blur()", index),
 					}
 				}}
-				<li role="option">
+				<li>
 					@gong.NewLink("/docs" + option.ID).WithAttrs(attrs) {
 						{ option.Name }
 					}
