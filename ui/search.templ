@@ -5,7 +5,6 @@ import (
 	"github.com/troygilman/gong"
 	"github.com/troygilman/gong-wiki/document"
 	"net/http"
-	"strconv"
 )
 
 type SearchComponent struct {
@@ -72,19 +71,19 @@ templ (c SearchComponent) searchOptions(chunks []document.DocumentChunk) {
 			role="listbox"
 			aria-labelledby="search-label"
 			class="menu dropdown-content bg-base-100 w-full rounded-box shadow"
-			x-data="{ option: 0, reset() { this.option = 0 } }"
-			x-on:search-up.window="option = Math.max(option-1, 0); console.log(option)"
-			x-on:search-down.window="option = Math.max(Math.min(option+1, $el.querySelectorAll('li').length-1), 0); console.log(option)"
-			x-on:search-submit.window="$el.querySelector('#search-option-' + option).click()"
+			x-data="{ option: 0 }"
+			x-on:search-up.window="option = Math.max(option-1, 0)"
+			x-on:search-down.window="option = Math.min(option+1, htmx.findAll($el, 'li').length-1)"
+			x-on:search-submit.window="htmx.findAll($el, 'a')[option].click()"
 		>
 			for index, option := range chunks {
 				{{
-				attrs := templ.Attributes{
-					"x-bind:class": "active && 'menu-focus'",
-				}
+					attrs := templ.Attributes{
+						":class": fmt.Sprintf("option == %d && 'menu-focus'", index),
+					}
 				}}
-				<li role="option" x-data="{ active: false }" x-effect={ fmt.Sprintf("active = option === %d; console.log(active)", index) }>
-					@gong.NewLink("/docs" + option.ID).WithAttrs(attrs).WithID("search-option-" + strconv.Itoa(index)) {
+				<li role="option">
+					@gong.NewLink("/docs" + option.ID).WithAttrs(attrs) {
 						{ option.Name }
 					}
 				</li>
