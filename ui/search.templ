@@ -35,9 +35,6 @@ templ (c SearchComponent) View() {
 					name="q"
 					placeholder="Search"
 					autocomplete="off"
-					aria-autocomplete="list"
-					aria-controls="search-listbox"
-					aria-labelledby="search-label"
 					class="w-14 group-focus-within:w-48 transition-all"
 				/>
 			</label>
@@ -68,9 +65,6 @@ templ (c SearchComponent) Action() {
 templ (c SearchComponent) searchOptions(chunks []document.DocumentChunk) {
 	if len(chunks) > 0 {
 		<ul
-			id="search-listbox"
-			role="listbox"
-			aria-labelledby="search-label"
 			class="menu dropdown-content bg-base-100 w-full rounded-box shadow"
 			x-data="{ option: 0 }"
 			x-on:search-up.window="option = Math.max(option-1, 0)"
