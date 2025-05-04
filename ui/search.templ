@@ -13,9 +13,10 @@ type SearchComponent struct {
 
 templ (c SearchComponent) View() {
 	<div
-		x-on:keydown.prevent.up="$dispatch('search-up')"
-		x-on:keydown.prevent.down="$dispatch('search-down')"
-		x-on:submit.prevent="$dispatch('search-submit')"
+		x-init
+		x-on:keydown.prevent.up="$dispatch('search-up'); console.log('search-up')"
+		x-on:keydown.prevent.down="$dispatch('search-down'); console.log('search-down')"
+		x-on:submit.prevent="$dispatch('search-submit'); console.log('search-submit')"
 	>
 		@gong.NewForm().
 			WithMethod(http.MethodGet).
