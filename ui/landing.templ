@@ -1,6 +1,9 @@
 package ui
 
-import "github.com/troygilman/gong"
+import (
+	"github.com/troygilman/gong"
+	"github.com/troygilman/gong/link"
+)
 
 type LandingPageComponent struct {
 	Navbar gong.Component
@@ -24,7 +27,7 @@ templ (c LandingPageComponent) View() {
 				<div class="flex text-xl w-80 text-wrap text-current/50 place-items-center">
 					a lightweight web framework harnessing the power of go, templ, and htmx
 				</div>
-				@gong.NewLink("/docs").WithAttrs(templ.Attributes{"class": "btn btn-neutral btn-wide"}) {
+				@link.New("/docs").WithAttrs(templ.Attributes{"class": "btn btn-neutral btn-wide"}) {
 					Get started
 				}
 			</div>

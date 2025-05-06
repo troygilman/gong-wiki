@@ -1,10 +1,10 @@
 package ui
 
-import "github.com/troygilman/gong"
+import "github.com/troygilman/gong/outlet"
 
 type OutletComponent struct {
 }
 
 templ (c OutletComponent) View() {
-	@gong.NewOutlet()
+	@outlet.New()
 }

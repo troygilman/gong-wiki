@@ -4,6 +4,10 @@ import (
 	"fmt"
 	"github.com/troygilman/gong"
 	"github.com/troygilman/gong-wiki/document"
+	"github.com/troygilman/gong/form"
+	"github.com/troygilman/gong/hooks"
+	"github.com/troygilman/gong/link"
+	"github.com/troygilman/gong/target"
 	"net/http"
 )
 
@@ -18,7 +22,7 @@ templ (c SearchComponent) View() {
 		x-on:keydown.prevent.down="$dispatch('search-down'); console.log('search-down')"
 		x-on:submit.prevent="$dispatch('search-submit'); console.log('search-submit')"
 	>
-		@gong.NewForm().
+		@form.New().
 			WithMethod(http.MethodGet).
 			WithSwap(gong.SwapInnerHTML).
 			WithTrigger("input changed delay:200ms").
@@ -38,7 +42,7 @@ templ (c SearchComponent) View() {
 					class="w-14 group-focus-within:w-48 transition-all"
 				/>
 			</label>
-			@gong.NewTarget() {
+			@target.New() {
 				@c.searchOptions(nil)
 			}
 		}
@@ -47,7 +51,7 @@ templ (c SearchComponent) View() {
 
 templ (c SearchComponent) Action() {
 	{{
-		query := gong.QueryParam(ctx, "q")
+		query := hooks.QueryParam(ctx, "q")
 		chunks := func() []document.DocumentChunk {
 			if query == "" {
 				return nil
@@ -79,7 +83,7 @@ templ (c SearchComponent) searchOptions(chunks []document.DocumentChunk) {
 					}
 				}}
 				<li>
-					@gong.NewLink("/docs" + option.ID).WithAttrs(attrs) {
+					@link.New("/docs" + option.ID).WithAttrs(attrs) {
 						<div class="flex flex-col">
 							<div>
 								{ option.Name }
