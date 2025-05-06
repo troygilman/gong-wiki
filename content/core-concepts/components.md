@@ -31,9 +31,9 @@ type View interface {
 **Example:**
 
 ```go
-type SimpleView struct {}
+type SimpleViewComponent struct {}
 
-templ (view SimpleView) View() {
+templ (c SimpleViewComponent) View() {
 	<div>
 		Hello, Gong!
 	</div>
@@ -53,16 +53,20 @@ type Action interface {
 **Example:**
 
 ```go
+import (
+	"github.com/troygilman/gong/button"
+)
+
 type ButtonComponent struct {}
 
-templ (component ButtonComponent) Action() {
+templ (c ButtonComponent) Action() {
 	{{
 		fmt.Println("Button clicked!")
 	}}
 }
 
-templ (component ButtonComponent) View() {
-	@gong.NewButton() {
+templ (c ButtonComponent) View() {
+	@button.New() {
 		Click Me
 	}
 }
@@ -81,20 +85,24 @@ type Loader interface {
 **Example:**
 
 ```go
-type DataLoader struct {}
+import (
+	"github.com/troygilman/gong/hooks"
+)
 
-func (loader DataLoader) Loader(ctx context.Context) any {
+type DataLoaderComponent struct {}
+
+func (c DataLoaderComponent) Loader(ctx context.Context) any {
 	return fetchNameFromDB(ctx)
 }
 
-templ (loader DataLoader) View() {
+templ (c DataLoaderComponent) View() {
 	<div>
-		{ gong.LoaderData[string](ctx) }
+		{ hooks.LoaderData[string](ctx) }
 	</div>
 }
 ```
 
-You can access loader data elsewhere in your component by calling `gong.LoaderData[Type](ctx)`. Gong will attempt to cast the data returned by the Loader to the specified `Type` and will panic if the types are incompatible. Never call the Loader function directly from your component.
+You can access loader data elsewhere in your component by calling `hooks.LoaderData[Type](ctx)`. Gong will attempt to cast the data returned by the Loader to the specified `Type` and will panic if the types are incompatible. Never call the Loader function directly from your component.
 
 ### Head
 
@@ -109,9 +117,11 @@ type Head interface {
 **Example:**
 
 ```go
-type CustomIndex struct {}
+type CustomIndexComponent struct {}
 
-templ (head CustomHead) Head() {
+templ (c CustomIndexComponent) View() {}
+
+templ (c CustomIndexComponent) Head() {
 	<head>
 		<title>Custom Page</title>
 	</head>
@@ -139,13 +149,18 @@ Components can be nested within other components to create complex UI hierarchie
 In order to properly configure a nested component, the child component must be set as a publicly accessable field within the parent component.
 
 ```go
+import (
+	"github.com/troygilman/gong"
+	"github.com/troygilman/gong/component"
+)
+
 type ParentComponent struct {
-	ChildComponent gong.Component
+	Child gong.Component
 }
 
 func NewParentComponent(child gong.Component) gong.Component {
-	return gong.NewComponent(ParentComponent{
-		ChildComponent: child,
+	return component.New(ParentComponent{
+		Child: child,
 	})
 }
 ```
@@ -155,10 +170,10 @@ func NewParentComponent(child gong.Component) gong.Component {
 To render the child component, simply render it within your templ function like any other `templ.Component`.
 
 ```go
-templ (parentComponent ParentComponent) View() {
+templ (c ParentComponent) View() {
 	<div>
-		Parent Component
-		@parentComponent.ChildComponent
+		This is the parent!
+		@c.Child
 	</div>
 }
 ```
@@ -166,13 +181,13 @@ templ (parentComponent ParentComponent) View() {
 #### WithLoaderData()
 
 To render a child component with data from the parent, use the `WithLoaderData(any)` function.
-If the child component uses `gong.LoaderData[Type](ctx)` then the parent defined data will be used.
+If the child component uses `hooks.LoaderData[Type](ctx)` then the parent defined data will be used.
 
 ```go
-templ (parentComponent ParentComponent) View() {
+templ (c ParentComponent) View() {
 	<div>
-		Parent Component
-		@parentComponent.ChildComponent.WithLoaderData("Hello Child")
+		This is the parent!
+		@c.Child.WithLoaderData("Hello Child")
 	</div>
 }
 ```
@@ -180,13 +195,13 @@ templ (parentComponent ParentComponent) View() {
 #### WithLoaderFunc()
 
 To render a child component with a loader function from the parent, use the `WithLoaderFunc(LoaderFunc)` function.
-If the child component uses `gong.LoaderData[Type](ctx)` then the parent defined loader will be used.
+If the child component uses `hooks.LoaderData[Type](ctx)` then the parent defined loader will be used.
 
 ```go
-templ (parentComponent ParentComponent) View() {
+templ (c ParentComponent) View() {
 	<div>
-		Parent Component
-		@parentComponent.ChildComponent.WithLoaderFunc(func(ctx context.Context) any {
+		This is the parent!
+		@c.Child.WithLoaderFunc(func(ctx context.Context) any {
 			return "Hello Child"
 		})
 	</div>

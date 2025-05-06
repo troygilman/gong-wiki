@@ -8,10 +8,12 @@ Gong provides a powerful and flexible routing system that supports both simple a
 
 ## Basic Routing
 
-Create a basic route using the `NewRoute` function:
+Create a basic route using the `route.New()` function:
 
 ```go
-gong.NewRoute("/", HomeComponent)
+import "github.com/troygilman/gong/route"
+
+route.New("/", HomeComponent)
 ```
 
 This renders the `HomeComponent` when the root path ("/") is accessed.
@@ -21,16 +23,18 @@ This renders the `HomeComponent` when the root path ("/") is accessed.
 Define dynamic path parameters using the `{name}` syntax.
 
 ```go
-gong.NewRoute("/user/{name}", UserComponent)
+route.New("/user/{name}", UserComponent)
 ```
 
 ## Nested Routing
 
-Create hierarchical routes with the `WithRoutes(...RouteBuilder)` method:
+Create hierarchical routes with the `route.WithChildren(...Route)` functional option:
 
 ```go
-gong.NewRoute("/home", HomeComponent).WithRoutes(
-    gong.NewRoute("/users", UserListComponent),
+route.New("/home", HomeComponent,
+	route.WithChildren(
+		route.New("/users", UserListComponent),
+	),
 )
 ```
 
@@ -45,9 +49,11 @@ Use the `Outlet` component to define where child route components are rendered.
 - Will render the first child route as a default
 
 ```go
+import "github.com/troygilman/gong/outlet"
+
 templ (c HomeComponent) View() {
     HOME
-    @gong.NewOutlet()
+    @outlet.New()
 }
 ```
 
@@ -59,7 +65,11 @@ Use the `Link` component for client-side navigation with partial page updates.
 - Updates only the necessary parts of the page
 
 ```go
-@gong.NewLink("/users") {
-    Users
+import "github.com/troygilman/gong/link"
+
+templ (c HomeComponent) View() {
+	@link.New("/users") {
+    	Users
+	}
 }
 ```

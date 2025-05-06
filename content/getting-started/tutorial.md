@@ -15,7 +15,7 @@ Create a file named `simple.templ` and add the following templ code:
 ```go
 type SimpleComponent struct {}
 
-templ (component SimpleComponent) View() {
+templ (c SimpleComponent) View() {
 	<div>
 		Hello World
 	</div>
@@ -35,23 +35,24 @@ Now define a Route that uses your `SimpleComponent`. A Route requires a path and
 ```go
 import (
 	"net/http"
-	"github.com/troygilman/gong"
+	"github.com/troygilman/gong/component"
+	"github.com/troygilman/gong/server"
+	"github.com/troygilman/gong/route"
 )
 
 func main() {
-	simpleComponent := gong.NewComponent(SimpleComponent{})
+	simpleComponent := component.New(SimpleComponent{})
 
-	g := gong.New(http.NewServeMux()).Routes(
-		gong.NewRoute("/", simpleComponent),
-	)
+	svr := server.New()
+	svr.Route(route.New("/", simpleComponent))
 
-	if err := http.ListenAndServe(":8080", g); err != nil {
+	if err := svr.Run(":8080"); err != nil {
 		panic(err)
 	}
 }
 ```
 
-This main function sets up an HTTP server on port `8080` that serves all requests using your `SimpleComponent`. Run the server:
+This main function sets up an Gong HTTP server on port `8080` that routes all requests to your `SimpleComponent`. Run the server:
 
 ```bash
 go run .
@@ -66,9 +67,13 @@ Let's add interactivity by allowing users to submit a request that prints "Hello
 Add a `Form` with a button to your component:
 
 ```go
-templ (component SimpleComponent) View() {
+import (
+	"github.com/troygilman/gong/form"
+)
+
+templ (c SimpleComponent) View() {
 	Hello World
-	@gong.NewForm() {
+	@form.New() {
 		<button>
 			Submit
 		</button>
@@ -79,7 +84,7 @@ templ (component SimpleComponent) View() {
 Next, implement the `Action` interface on your SimpleComponent:
 
 ```go
-templ (component SimpleComponent) Action() {
+templ (c SimpleComponent) Action() {
 	{{
 		fmt.Println("Hello Universe")
 	}}
@@ -99,11 +104,17 @@ Now, let's make the text change from "Hello World" to "Hello Universe" when the 
 Wrap your text with a `Target` and configure the `Form` with a swap behavior:
 
 ```go
-templ (component SimpleComponent) View() {
-	@gong.NewTarget() {
+import (
+	"github.com/troygilman/gong"
+	"github.com/troygilman/gong/form"
+	"github.com/troygilman/gong/target"
+)
+
+templ (c SimpleComponent) View() {
+	@target.New() {
 		Hello World
 	}
-	@gong.NewForm().WithSwap(gong.SwapInnerHTML) {
+	@form.New().WithSwap(gong.SwapInnerHTML) {
 		<button>
 			Submit
 		</button>
@@ -114,7 +125,7 @@ templ (component SimpleComponent) View() {
 Update the `Action` to render the new text:
 
 ```go
-templ (component SimpleComponent) Action() {
+templ (c SimpleComponent) Action() {
 	{{
 		fmt.Println("Hello Universe")
 	}}

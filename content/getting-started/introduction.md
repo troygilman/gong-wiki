@@ -17,16 +17,16 @@ type UsersComponent struct {
 	db       UserDatabase
 }
 
-templ (component UsersComponent) View() {
+templ (c UsersComponent) View() {
 	{{
-		users := component.db.ReadAll()
+		users := c.db.ReadAll()
 	}}
 	<div>
-		@gong.NewForm().WithSwap(gong.SwapBeforeEnd) {
+		@form.New().WithSwap(gong.SwapBeforeEnd) {
 			<input name="name" type="text"/>
 			<button type="submit">Add</button>
 		}
-		@gong.NewTarget() {
+		@target.New() {
 			for _, name := range users {
 				<div>{ name }</div>
 			}
@@ -34,10 +34,10 @@ templ (component UsersComponent) View() {
 	</div>
 }
 
-templ (component UsersComponent) Action() {
+templ (c UsersComponent) Action() {
 	{{
-	name := gong.FormValue(ctx, "name")
-	component.db.Create(name)
+		name := hooks.FormValue(ctx, "name")
+		c.db.Create(name)
 	}}
 	<div>{ name }</div>
 }
