@@ -2,6 +2,9 @@ package ui
 
 import (
 	"github.com/troygilman/gong"
+	"github.com/troygilman/gong/hooks"
+	"github.com/troygilman/gong/link"
+	"github.com/troygilman/gong/target"
 	"strings"
 )
 
@@ -10,7 +13,7 @@ type MenuComponent struct {
 }
 
 templ (c MenuComponent) View() {
-	@gong.NewTarget().WithTrigger(gong.TriggerAfterSwapOOB(gong.OutletID(ctx))) {
+	@target.New().WithTrigger(gong.TriggerAfterSwapOOB(hooks.OutletID(ctx))) {
 		@Menu(c.Props)
 	}
 }
@@ -21,11 +24,11 @@ templ (c MenuComponent) Action() {
 
 templ Menu(props []MenuGroupProps) {
 	{{
-		path := gong.ChildRoute(ctx).FullPath()
+		path := hooks.ChildRoute(ctx).Path()
 	}}
 	<div class="flex flex-col">
 		<div class="navbar px-4">
-			@gong.NewLink("/").WithAttrs(templ.Attributes{"class": "flex flex-row place-items-center gap-2 cursor-pointer"}) {
+			@link.New("/").WithAttrs(templ.Attributes{"class": "flex flex-row place-items-center gap-2 cursor-pointer"}) {
 				@logoIcon("size-8 fill-current")
 				<div class="text-4xl lg:text-2xl font-bold">Gong</div>
 			}
@@ -44,7 +47,7 @@ templ MenuGroup(props MenuGroupProps, path string) {
 			<summary class="menu-item">{ props.Label }</summary>
 			<ul>
 				for _, item := range props.Items {
-					@MenuItem(item, item.Link == path)
+					@MenuItem(item, strings.HasSuffix(item.Link, path))
 				}
 			</ul>
 		</details>
@@ -61,7 +64,7 @@ templ MenuItem(props MenuItemProps, active bool) {
 		}
 	}}
 	<li>
-		@gong.NewLink(props.Link).
+		@link.New(props.Link).
 			WithID(buildMenuLinkID(props.Link)).
 			WithAttrs(attrs) {
 			{ props.Label }

@@ -2,14 +2,16 @@ package ui
 
 import (
 	"github.com/troygilman/gong"
+	"github.com/troygilman/gong/component"
 	"github.com/troygilman/gong/example/bulk_update"
 	"github.com/troygilman/gong/example/click_to_edit"
 	"github.com/troygilman/gong/example/tabs"
+	"github.com/troygilman/gong/route"
 )
 
 type Example struct {
 	path  string
-	route gong.RouteBuilder
+	route gong.Route
 }
 
 var examples = []Example{
@@ -27,12 +29,12 @@ var examples = []Example{
 	},
 }
 
-func ExampleRoute() gong.RouteBuilder {
-	routes := []gong.RouteBuilder{}
+func ExampleRoute() gong.Route {
+	routes := []gong.Route{}
 
 	for _, example := range examples {
-		routes = append(routes, gong.NewRoute(example.path, gong.NewComponent(OutletComponent{})).WithRoutes(example.route))
+		routes = append(routes, route.New(example.path, component.New(OutletComponent{}), route.WithChildren(example.route)))
 	}
 
-	return gong.NewRoute("/example", gong.NewComponent(OutletComponent{})).WithRoutes(routes...)
+	return route.New("/example", component.New(OutletComponent{}), route.WithChildren(routes...))
 }

@@ -1,6 +1,9 @@
 package ui
 
-import "github.com/troygilman/gong"
+import (
+	"github.com/troygilman/gong"
+	"github.com/troygilman/gong/outlet"
+)
 
 type RootView struct {
 	Menu   gong.Component
@@ -49,7 +52,7 @@ templ (view RootView) drawerContent() {
 		<div class="flex flex-col w-full h-full">
 			@view.Navbar
 			<div id="outlet-container" class="flex grow w-full max-w-full min-h-0 justify-center">
-				@gong.NewOutlet().WithAttrs(templ.Attributes{"class": "w-full h-full"})
+				@outlet.New().WithAttrs(templ.Attributes{"class": "w-full h-full"})
 			</div>
 		</div>
 	</div>
