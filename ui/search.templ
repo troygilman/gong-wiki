@@ -68,7 +68,7 @@ templ (c SearchComponent) Action() {
 
 templ (c SearchComponent) searchOptions(chunks []document.DocumentChunk) {
 	if len(chunks) > 0 {
-		<div class="dropdown-content bg-base-200 rounded-box shadow w-full max-h-64 overflow-y-scroll">
+		<div class="dropdown-content bg-base-100 rounded-box shadow w-full max-h-64 overflow-y-scroll">
 			<ul
 				class="menu w-full"
 				x-data="{ option: 0 }"
@@ -80,7 +80,7 @@ templ (c SearchComponent) searchOptions(chunks []document.DocumentChunk) {
 				for index, option := range chunks {
 					{{
 					attrs := templ.Attributes{
-						"x-bind:class": fmt.Sprintf("option === %d && 'menu-focus'", index),
+						"x-bind:class": fmt.Sprintf("option === %d && 'menu-active'", index),
 						"x-on:click":   fmt.Sprintf("option = %d; document.activeElement.blur()", index),
 					}
 					}}
