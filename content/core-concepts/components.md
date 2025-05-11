@@ -140,6 +140,17 @@ When implementing a custom Head, ensure you include this script tag to load the 
 
 The Head will only be used if it is implemented by the Component in the root level Route.
 
+## Error Handling
+
+Errors can be captured and handled through a centralized error handler in your Gong application.
+
+```go
+svr := server.New(server.WithErrorHandler(func(ctx context.Context, err error) {
+	log.Println(err)
+	// Additional error handling can be implemented here
+}))
+```
+
 ## Nested Components
 
 Components can be nested within other components to create complex UI hierarchies. This approach promotes code reuse and maintainable architecture.
