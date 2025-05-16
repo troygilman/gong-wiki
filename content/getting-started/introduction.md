@@ -13,32 +13,29 @@ Gong is a lightweight framework for building responsive web applications using G
 - **Server-Side Rendering**: Deliver optimized performance and SEO with SSR
 
 ```go
-type UsersComponent struct {
-	db       UserDatabase
+type CounterComponent struct {}
+
+templ (c CounterComponent) View() {
+	@target.New() {
+		@counter(0)
+	}
 }
 
-templ (c UsersComponent) View() {
-	{{
-		users := c.db.ReadAll()
-	}}
-	<div>
-		@form.New().WithSwap(gong.SwapBeforeEnd) {
-			<input name="name" type="text"/>
-			<button type="submit">Add</button>
-		}
-		@target.New() {
-			for _, name := range users {
-				<div>{ name }</div>
-			}
-		}
-	</div>
+templ (c CounterComponent) Action() {
+    {{
+     	count, err := strconv.Atoi(hooks.FormValue(ctx, "count"))
+      	if err != nil {
+       		return err
+       	}
+    }}
+    @counter(count+1)
 }
 
-templ (c UsersComponent) Action() {
-	{{
-		name := hooks.FormValue(ctx, "name")
-		c.db.Create(name)
-	}}
-	<div>{ name }</div>
+templ counter(count int) {
+	<p>Count: { strconv.Itoa(count) }</p>
+	@button.New() {
+		Increment
+ 		<input type="hidden" name="count" value={ strconv.Itoa(count) }/>
+   }
 }
 ```

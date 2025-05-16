@@ -64,19 +64,17 @@ You should now see "Hello World" when you navigate to `localhost:8080`.
 
 Let's add interactivity by allowing users to submit a request that prints "Hello Universe" to the server's console output.
 
-Add a `Form` with a button to your component:
+Add a `Button` to your component:
 
 ```go
 import (
-	"github.com/troygilman/gong/form"
+	"github.com/troygilman/gong/button"
 )
 
 templ (c SimpleComponent) View() {
 	Hello World
-	@form.New() {
-		<button>
-			Submit
-		</button>
+	@button.New() {
+		Submit
 	}
 }
 ```
@@ -95,18 +93,18 @@ After compiling and running your app, clicking the button will print "Hello Univ
 
 ### How Actions Work
 
-When a user clicks the button, the `Form` sends an AJAX request to the server, and Gong routes this request to the SimpleComponent's `Action` method. A request issued by a component's `Form` is always received by that same component's `Action`.
+When a user clicks the button, an AJAX request is sent to the server, and Gong routes this request to the SimpleComponent's `Action` method. A request issued by a component's `Button` is always received by that same component's `Action`.
 
 ## Dynamic Content Swapping
 
 Now, let's make the text change from "Hello World" to "Hello Universe" when the user clicks the button.
 
-Wrap your text with a `Target` and configure the `Form` with a swap behavior:
+Wrap your text with a `Target`:
 
 ```go
 import (
 	"github.com/troygilman/gong"
-	"github.com/troygilman/gong/form"
+	"github.com/troygilman/gong/button"
 	"github.com/troygilman/gong/target"
 )
 
@@ -114,10 +112,8 @@ templ (c SimpleComponent) View() {
 	@target.New() {
 		Hello World
 	}
-	@form.New().WithSwap(gong.SwapInnerHTML) {
-		<button>
-			Submit
-		</button>
+	@button.New() {
+		Submit
 	}
 }
 ```
@@ -135,4 +131,4 @@ templ (c SimpleComponent) Action() {
 
 Now when the user clicks the button, the server responds with "Hello Universe", and the client swaps this content into the `Target` element.
 
-This completes the basics of building reactive web apps with Gong. Using this pattern of Components, Routes, Forms, and Targets, you can create dynamic, interactive web applications.
+This completes the basics of building reactive web apps with Gong. Using this pattern of Components, Routes, Buttons, Forms, and Targets, you can create dynamic, interactive web applications.
