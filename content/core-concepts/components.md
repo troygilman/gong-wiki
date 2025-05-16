@@ -53,10 +53,6 @@ type Action interface {
 **Example:**
 
 ```go
-import (
-	"github.com/troygilman/gong/button"
-)
-
 type ButtonComponent struct {}
 
 templ (c ButtonComponent) Action() {
@@ -66,7 +62,7 @@ templ (c ButtonComponent) Action() {
 }
 
 templ (c ButtonComponent) View() {
-	@button.New() {
+	@gong.Button() {
 		Click Me
 	}
 }
@@ -85,10 +81,6 @@ type Loader interface {
 **Example:**
 
 ```go
-import (
-	"github.com/troygilman/gong/hooks"
-)
-
 type DataLoaderComponent struct {}
 
 func (c DataLoaderComponent) Loader(ctx context.Context) any {
@@ -97,12 +89,12 @@ func (c DataLoaderComponent) Loader(ctx context.Context) any {
 
 templ (c DataLoaderComponent) View() {
 	<div>
-		{ hooks.LoaderData[string](ctx) }
+		{ gong.LoaderData[string](ctx) }
 	</div>
 }
 ```
 
-You can access loader data elsewhere in your component by calling `hooks.LoaderData[Type](ctx)`. Gong will attempt to cast the data returned by the Loader to the specified `Type` and will panic if the types are incompatible. Never call the Loader function directly from your component.
+You can access loader data elsewhere in your component by calling `gong.LoaderData[Type](ctx)`. Gong will attempt to cast the data returned by the Loader to the specified `Type` and will panic if the types are incompatible. Never call the Loader function directly from your component.
 
 ### Head
 
@@ -145,7 +137,7 @@ The Head will only be used if it is implemented by the Component in the root lev
 Errors can be captured and handled through a centralized error handler in your Gong application.
 
 ```go
-svr := server.New(server.WithErrorHandler(func(ctx context.Context, err error) {
+svr := gong.NewServer(gong.ServerWithErrorHandler(func(ctx context.Context, err error) {
 	log.Println(err)
 	// Additional error handling can be implemented here
 }))
@@ -160,17 +152,12 @@ Components can be nested within other components to create complex UI hierarchie
 In order to properly configure a nested component, the child component must be set as a publicly accessable field within the parent component.
 
 ```go
-import (
-	"github.com/troygilman/gong"
-	"github.com/troygilman/gong/component"
-)
-
 type ParentComponent struct {
 	Child gong.Component
 }
 
 func NewParentComponent(child gong.Component) gong.Component {
-	return component.New(ParentComponent{
+	return gong.NewComponent(ParentComponent{
 		Child: child,
 	})
 }
@@ -192,7 +179,7 @@ templ (c ParentComponent) View() {
 #### WithLoaderData()
 
 To render a child component with data from the parent, use the `WithLoaderData(any)` function.
-If the child component uses `hooks.LoaderData[Type](ctx)` then the parent defined data will be used.
+If the child component uses `gong.LoaderData[Type](ctx)` then the parent defined data will be used.
 
 ```go
 templ (c ParentComponent) View() {
@@ -206,7 +193,7 @@ templ (c ParentComponent) View() {
 #### WithLoaderFunc()
 
 To render a child component with a loader function from the parent, use the `WithLoaderFunc(LoaderFunc)` function.
-If the child component uses `hooks.LoaderData[Type](ctx)` then the parent defined loader will be used.
+If the child component uses `gong.LoaderData[Type](ctx)` then the parent defined loader will be used.
 
 ```go
 templ (c ParentComponent) View() {

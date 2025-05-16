@@ -8,30 +8,30 @@ Gong provides many functions to bind and query data from the current request.
 
 ## PathParam()
 
-Use `hooks.PathParam(context.Context, string)` to get a dynamic path paramteter from the current request.
+Use `gong.PathParam(context.Context, string)` to get a dynamic path paramteter from the current request.
 
 ```go
 // Route definition
-route.New("/user/{name}", UserComponent)
+gong.NewRoute("/user/{name}", UserComponent)
 
 // Access parameter in your component
-name := hooks.PathParam(ctx, "name")
+name := gong.PathParam(ctx, "name")
 ```
 
 ## QueryParam()
 
-Use `hooks.QueryParam(context.Context, string)` to get a query parameter from the current request.
+Use `gong.QueryParam(context.Context, string)` to get a query parameter from the current request.
 
 ```go
 // URL: https://my-app.com?name=Joe
-name := hooks.QueryParam(ctx, "name")
+name := gong.QueryParam(ctx, "name")
 ```
 
 ## FormValue()
 
-Use `hooks.FormValue(context.Context, string)` to get a form value from the current request.
+Use `gong.FormValue(context.Context, string)` to get a form value from the current request.
 
 ```go
 // Form Data: name=Joe
-name := hooks.FormValue(ctx, "name")
+name := gong.FormValue(ctx, "name")
 ```

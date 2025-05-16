@@ -33,18 +33,11 @@ This generates a file named `simple_templ.go` in the same directory as your temp
 Now define a Route that uses your `SimpleComponent`. A Route requires a path and a View. At a minimum, components must implement the View interface, though additional Gong interfaces can be implemented for more dynamic behavior.
 
 ```go
-import (
-	"net/http"
-	"github.com/troygilman/gong/component"
-	"github.com/troygilman/gong/server"
-	"github.com/troygilman/gong/route"
-)
-
 func main() {
-	simpleComponent := component.New(SimpleComponent{})
+	simpleComponent := gong.NewComponent(SimpleComponent{})
 
-	svr := server.New()
-	svr.Route(route.New("/", simpleComponent))
+	svr := gong.NewServer()
+	svr.Route(gong.NewRoute("/", simpleComponent))
 
 	if err := svr.Run(":8080"); err != nil {
 		panic(err)
@@ -67,13 +60,9 @@ Let's add interactivity by allowing users to submit a request that prints "Hello
 Add a `Button` to your component:
 
 ```go
-import (
-	"github.com/troygilman/gong/button"
-)
-
 templ (c SimpleComponent) View() {
 	Hello World
-	@button.New() {
+	@gong.Button() {
 		Submit
 	}
 }
@@ -102,17 +91,11 @@ Now, let's make the text change from "Hello World" to "Hello Universe" when the 
 Wrap your text with a `Target`:
 
 ```go
-import (
-	"github.com/troygilman/gong"
-	"github.com/troygilman/gong/button"
-	"github.com/troygilman/gong/target"
-)
-
 templ (c SimpleComponent) View() {
-	@target.New() {
+	@gong.Target() {
 		Hello World
 	}
-	@button.New() {
+	@gong.Button() {
 		Submit
 	}
 }
