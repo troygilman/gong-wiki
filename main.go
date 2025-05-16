@@ -93,7 +93,7 @@ func main() {
 	svr := gong.NewServer()
 
 	svr.Route(gong.NewRoute("/", landingPageComponent))
-	svr.Route(gong.NewRoute("/docs", rootComponent, gong.RouteWithChildren(docRoutes...)))
+	svr.Route(gong.NewRoute("/docs", rootComponent, gong.WithChildren(docRoutes...)))
 	svr.Route(ui.ExampleRoute())
 
 	svr.Handle("/public/", http.StripPrefix("/", http.FileServer(http.FS(publicFS))))

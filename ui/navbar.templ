@@ -15,7 +15,7 @@ templ (c NavbarComponent) View() {
 		</div>
 		<div class="flex gap-4">
 			@c.SearchComponent
-			@gong.Link("/docs", gong.LinkWithClasses("btn btn-icon-scale btn-ghost")) {
+			@gong.Link("/docs", gong.WithClasses("btn btn-icon-scale btn-ghost")) {
 				Docs
 			}
 			@themeController()

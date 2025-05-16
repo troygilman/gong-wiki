@@ -32,9 +32,9 @@ func ExampleRoute() gong.Route {
 
 	for _, example := range examples {
 		routes = append(routes,
-			gong.NewRoute(example.path, gong.NewComponent(OutletComponent{}), gong.RouteWithChildren(example.route)),
+			gong.NewRoute(example.path, gong.NewComponent(OutletComponent{}), gong.WithChildren(example.route)),
 		)
 	}
 
-	return gong.NewRoute("/example", gong.NewComponent(OutletComponent{}), gong.RouteWithChildren(routes...))
+	return gong.NewRoute("/example", gong.NewComponent(OutletComponent{}), gong.WithChildren(routes...))
 }

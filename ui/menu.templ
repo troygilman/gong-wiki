@@ -10,7 +10,7 @@ type MenuComponent struct {
 }
 
 templ (c MenuComponent) View() {
-	@gong.Target(gong.TargetWithTrigger(gong.TriggerAfterSwapOOB(gong.OutletID(ctx)))) {
+	@gong.Target(gong.WithTrigger(gong.TriggerAfterSwapOOB(gong.OutletID(ctx)))) {
 		@Menu(c.Props)
 	}
 }
@@ -25,7 +25,7 @@ templ Menu(props []MenuGroupProps) {
 	}}
 	<div class="flex flex-col">
 		<div class="navbar px-4">
-			@gong.Link("/", gong.LinkWithClasses("flex flex-row place-items-center gap-2 cursor-pointer")) {
+			@gong.Link("/", gong.WithClasses("flex flex-row place-items-center gap-2 cursor-pointer")) {
 				@logoIcon("size-8 fill-current")
 				<div class="text-4xl lg:text-2xl font-bold">Gong</div>
 			}
@@ -55,8 +55,8 @@ templ MenuItem(props MenuItemProps, active bool) {
 	<li>
 		@gong.Link(
 			props.Link,
-			gong.LinkWithID(buildMenuLinkID(props.Link)),
-			gong.LinkWithClasses("menu-item", templ.KV("bg-primary/50 text-primary-content", active)),
+			gong.WithID(buildMenuLinkID(props.Link)),
+			gong.WithClasses("menu-item", templ.KV("bg-primary/50 text-primary-content", active)),
 		) {
 			{ props.Label }
 		}

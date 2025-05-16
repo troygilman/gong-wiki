@@ -19,9 +19,9 @@ templ (c SearchComponent) View() {
 		x-on:submit.prevent="$dispatch('search-submit'); console.log('search-submit')"
 	>
 		@gong.Form(
-			gong.FormWithMethod(http.MethodGet),
-			gong.FormWithTrigger("input changed delay:100ms"),
-			gong.FormWithClasses("dropdown group"),
+			gong.WithMethod(http.MethodGet),
+			gong.WithTrigger("input changed delay:100ms"),
+			gong.WithClasses("dropdown group"),
 		) {
 			<label
 				id="search-label"
@@ -81,7 +81,7 @@ templ (c SearchComponent) searchOptions(chunks []document.DocumentChunk) {
 					}
 					}}
 					<li>
-						@gong.Link("/docs"+option.ID, gong.LinkWithAttrs(attrs)) {
+						@gong.Link("/docs"+option.ID, gong.WithAttrs(attrs)) {
 							<div class="flex flex-col">
 								<div>
 									{ option.Name }

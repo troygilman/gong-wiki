@@ -30,7 +30,7 @@ Create hierarchical routes with the `gong.RouteWithChildren(...Route)` functiona
 
 ```go
 gong.NewRoute("/home", HomeComponent,
-	gong.RouteWithChildren(
+	gong.WithChildren(
 		gong.NewRoute("/users", UserListComponent),
 	),
 )
