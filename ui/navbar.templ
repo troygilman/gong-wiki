@@ -18,7 +18,7 @@ templ (c NavbarComponent) View() {
 		</div>
 		<div class="flex gap-4">
 			@c.SearchComponent
-			@link.New("/docs").WithAttrs(templ.Attributes{"class": "btn btn-icon-scale btn-ghost"}) {
+			@link.New("/docs", link.WithClasses("btn btn-icon-scale btn-ghost")) {
 				Docs
 			}
 			@themeController()

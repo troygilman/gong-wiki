@@ -2,7 +2,6 @@ package ui
 
 import (
 	"fmt"
-	"github.com/troygilman/gong"
 	"github.com/troygilman/gong-wiki/document"
 	"github.com/troygilman/gong/form"
 	"github.com/troygilman/gong/hooks"
@@ -22,11 +21,11 @@ templ (c SearchComponent) View() {
 		x-on:keydown.prevent.down="$dispatch('search-down'); console.log('search-down')"
 		x-on:submit.prevent="$dispatch('search-submit'); console.log('search-submit')"
 	>
-		@form.New().
-			WithMethod(http.MethodGet).
-			WithSwap(gong.SwapInnerHTML).
-			WithTrigger("input changed delay:200ms").
-			WithAttrs(templ.Attributes{"class": "dropdown group"}) {
+		@form.New(
+			form.WithMethod(http.MethodGet),
+			form.WithTrigger("input changed delay:100ms"),
+			form.WithClasses("dropdown group"),
+		) {
 			<label
 				id="search-label"
 				for="search-input"
@@ -85,7 +84,7 @@ templ (c SearchComponent) searchOptions(chunks []document.DocumentChunk) {
 					}
 					}}
 					<li>
-						@link.New("/docs" + option.ID).WithAttrs(attrs) {
+						@link.New("/docs"+option.ID, link.WithAttrs(attrs)) {
 							<div class="flex flex-col">
 								<div>
 									{ option.Name }
