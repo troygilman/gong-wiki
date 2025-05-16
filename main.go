@@ -8,9 +8,6 @@ import (
 	"github.com/troygilman/gong"
 	"github.com/troygilman/gong-wiki/document"
 	"github.com/troygilman/gong-wiki/ui"
-	"github.com/troygilman/gong/component"
-	"github.com/troygilman/gong/route"
-	"github.com/troygilman/gong/server"
 )
 
 //go:embed public
@@ -31,13 +28,13 @@ func main() {
 	}
 
 	// COMPONENTS
-	navbarComponent := component.New(ui.NavbarComponent{
-		SearchComponent: component.New(ui.SearchComponent{
+	navbarComponent := gong.NewComponent(ui.NavbarComponent{
+		SearchComponent: gong.NewComponent(ui.SearchComponent{
 			DocumentRepository: docManager.Repository,
 		}),
 	})
 
-	menuComponent := component.New(ui.MenuComponent{
+	menuComponent := gong.NewComponent(ui.MenuComponent{
 		Props: []ui.MenuGroupProps{
 			{
 				Label: "Getting Started",
@@ -80,12 +77,12 @@ func main() {
 		},
 	})
 
-	rootComponent := component.New(ui.RootView{
+	rootComponent := gong.NewComponent(ui.RootView{
 		Menu:   menuComponent,
 		Navbar: navbarComponent,
 	})
 
-	landingPageComponent := component.New(ui.LandingPageComponent{Navbar: navbarComponent})
+	landingPageComponent := gong.NewComponent(ui.LandingPageComponent{Navbar: navbarComponent})
 
 	// ROUTES
 	docRoutes := []gong.Route{}
@@ -93,10 +90,10 @@ func main() {
 		docRoutes = append(docRoutes, newDocumentRoute(docManager, path))
 	}
 
-	svr := server.New()
+	svr := gong.NewServer()
 
-	svr.Route(route.New("/", landingPageComponent))
-	svr.Route(route.New("/docs", rootComponent, route.WithChildren(docRoutes...)))
+	svr.Route(gong.NewRoute("/", landingPageComponent))
+	svr.Route(gong.NewRoute("/docs", rootComponent, gong.RouteWithChildren(docRoutes...)))
 	svr.Route(ui.ExampleRoute())
 
 	svr.Handle("/public/", http.StripPrefix("/", http.FileServer(http.FS(publicFS))))
@@ -110,5 +107,5 @@ func newDocumentRoute(manager document.Manager, path string) gong.Route {
 	doc := manager.GetByPath(path)
 	prev := manager.GetByPosition(doc.Metadata().Position - 1)
 	next := manager.GetByPosition(doc.Metadata().Position + 1)
-	return route.New(path, ui.NewDocumentComponent(doc, prev, next))
+	return gong.NewRoute(path, ui.NewDocumentComponent(doc, prev, next))
 }

@@ -2,9 +2,6 @@ package ui
 
 import (
 	"github.com/troygilman/gong"
-	"github.com/troygilman/gong/hooks"
-	"github.com/troygilman/gong/link"
-	"github.com/troygilman/gong/target"
 	"strings"
 )
 
@@ -13,7 +10,7 @@ type MenuComponent struct {
 }
 
 templ (c MenuComponent) View() {
-	@target.New(target.WithTrigger(gong.TriggerAfterSwapOOB(hooks.OutletID(ctx)))) {
+	@gong.Target(gong.TargetWithTrigger(gong.TriggerAfterSwapOOB(gong.OutletID(ctx)))) {
 		@Menu(c.Props)
 	}
 }
@@ -24,11 +21,11 @@ templ (c MenuComponent) Action() {
 
 templ Menu(props []MenuGroupProps) {
 	{{
-		path := hooks.ChildRoute(ctx).Path()
+		path := gong.ChildRoute(ctx).Path()
 	}}
 	<div class="flex flex-col">
 		<div class="navbar px-4">
-			@link.New("/", link.WithClasses("flex flex-row place-items-center gap-2 cursor-pointer")) {
+			@gong.Link("/", gong.LinkWithClasses("flex flex-row place-items-center gap-2 cursor-pointer")) {
 				@logoIcon("size-8 fill-current")
 				<div class="text-4xl lg:text-2xl font-bold">Gong</div>
 			}
@@ -56,10 +53,10 @@ templ MenuGroup(props MenuGroupProps, path string) {
 
 templ MenuItem(props MenuItemProps, active bool) {
 	<li>
-		@link.New(
+		@gong.Link(
 			props.Link,
-			link.WithID(buildMenuLinkID(props.Link)),
-			link.WithClasses("menu-item", templ.KV("bg-primary/50 text-primary-content", active)),
+			gong.LinkWithID(buildMenuLinkID(props.Link)),
+			gong.LinkWithClasses("menu-item", templ.KV("bg-primary/50 text-primary-content", active)),
 		) {
 			{ props.Label }
 		}

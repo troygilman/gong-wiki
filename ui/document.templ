@@ -4,8 +4,6 @@ import (
 	"context"
 	"github.com/troygilman/gong"
 	"github.com/troygilman/gong-wiki/document"
-	"github.com/troygilman/gong/component"
-	"github.com/troygilman/gong/link"
 	"io"
 )
 
@@ -20,7 +18,7 @@ func NewDocumentComponent(
 	prev *document.Document,
 	next *document.Document,
 ) gong.Component {
-	return component.New(DocumentComponent{
+	return gong.NewComponent(DocumentComponent{
 		doc:  doc,
 		prev: prev,
 		next: next,
@@ -39,7 +37,7 @@ templ (c DocumentComponent) View() {
 			<div class="flex flex-row w-full justify-between">
 				<div>
 					if c.prev != nil {
-						@link.New("/docs" + c.prev.Path()) {
+						@gong.Link("/docs" + c.prev.Path()) {
 							<div class="btn btn-scale btn-soft hover:btn-primary group">
 								@arrowIcon("size-8 fill-base-content group-hover:fill-primary-content rotate-180")
 								<div class="flex flex-col place-items-start">
@@ -54,7 +52,7 @@ templ (c DocumentComponent) View() {
 				</div>
 				<div>
 					if c.next != nil {
-						@link.New("/docs" + c.next.Path()) {
+						@gong.Link("/docs" + c.next.Path()) {
 							<div class="btn btn-scale btn-soft hover:btn-primary group">
 								<div class="flex flex-col place-items-end">
 									<div class="text-sm lg:text-xs">Next</div>
